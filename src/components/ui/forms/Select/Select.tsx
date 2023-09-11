@@ -1,19 +1,24 @@
 import React, { useState, useRef, useEffect, FC } from 'react';
 import IconRenderer from '../../IconRenderer/IconRenderer';
+import './Select.scss';
 
-const Select: FC = () => {
-    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+interface ISelect {
+    className?: string;
+    arr: Array<string>;
+    placeholder: string;
+}
 
+const Select: FC<ISelect> = ({ className = '', placeholder = 'choose your category', arr = ['Soul', 'Mind', 'Body'] }) => {
     const rootRef = useRef<HTMLDivElement | null>(null);
 
-    const [value, setValue] = useState<string | number>();
-    const [open, setOpen] = useState<boolean>(true);
+    const [value, setValue] = useState<string | number>(placeholder);
+    const [open, setOpen] = useState<boolean>(false);
 
-    const onElementClick = (str: string | number) => {
+    const onElementClickHandler = (str: string | number) => {
         setValue(str);
     };
 
-    const onButtonClick = () => {
+    const onRootClickHandler = () => {
         setOpen((prev) => !prev);
     };
 
@@ -27,18 +32,25 @@ const Select: FC = () => {
 
         window.addEventListener('click', handleClick);
 
-        return () => window.removeEventListener('click', handleClick);
+        return () => {
+            window.removeEventListener('click', handleClick);
+        };
     }, []);
 
     return (
-        <div onClick={() => onButtonClick()} ref={rootRef}>
-            <p>{value}</p>
-            {open &&
-                arr.map((el) => (
-                    <li onClick={(e) => onElementClick(el)} key={el}>
-                        {el}
-                    </li>
-                ))}
+        <div className={`select ${className}`} onClick={() => onRootClickHandler()} ref={rootRef}>
+            <div className='select__title__wr'>
+                <p className='select__title'>{value}</p>
+                <IconRenderer id='arrow_down' className={`arrow_down ${open ? ' active' : ''}`} />
+            </div>
+            <ul>
+                {open &&
+                    arr.map((el) => (
+                        <li onClick={(e) => onElementClickHandler(el)} key={el} className='select__li'>
+                            {el}
+                        </li>
+                    ))}
+            </ul>
         </div>
     );
 };

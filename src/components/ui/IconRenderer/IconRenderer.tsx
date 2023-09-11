@@ -5,6 +5,7 @@ import './icons.scss';
 interface IIConRenderer {
     id: string;
     onClick?: () => void;
+    className?: string;
 }
 
 const IconRenderer: FC<IIConRenderer> = ({ id, ...props }) => {

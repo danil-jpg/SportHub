@@ -4,6 +4,7 @@ import Button from './components/ui/button/Button';
 import InputPassword from './components/ui/Forms/InputPassword/InputPassword';
 import InputContainer from './components/ui/Forms/InputContainer/InputContainer';
 import Select from './components/ui/Forms/Select/Select';
+import SelectContainer from './components/ui/Forms/SelectContainer/SelectContainer';
 
 const App: FC = () => {
     return (
@@ -12,7 +13,8 @@ const App: FC = () => {
             {/* <Input placeholder='xxxx' type='password' /> */}
             {/* <InputPassword /> */}
             {/* <InputContainer text='Email'></InputContainer> */}
-            <Select></Select>
+            {/* <Select></Select> */}
+            {/* <SelectContainer title='text'></SelectContainer> */}
         </div>
     );
 };
