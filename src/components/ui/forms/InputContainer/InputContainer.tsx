@@ -10,7 +10,7 @@ interface IInputContainer {
     text: string;
 }
 
-const InputContainer: FC<IInputContainer> = ({ placeholder = '', value, onChange, className = '', text = 'hey' }) => {
+const InputContainer: FC<IInputContainer> = ({ placeholder = '', value, onChange, className = '', text = 'def' }) => {
     return (
         <div className='input__wr'>
             <p className='input__text'>{text}</p>
