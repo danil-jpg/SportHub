@@ -1,0 +1,18 @@
+import React, { FC } from 'react';
+import sprites from './sprites.svg';
+import './icons.scss';
+
+interface IIConRenderer {
+    id: string;
+    onClick?: () => void;
+}
+
+const IconRenderer: FC<IIConRenderer> = ({ id, ...props }) => {
+    return (
+        <svg {...props}>
+            <use href={`${sprites}#${id}`} />
+        </svg>
+    );
+};
+
+export default IconRenderer;
