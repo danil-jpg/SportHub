@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import InputPassword from './InputPassword';
+import InputContainer from './InputContainer';
 
 export default {
-    title: 'UI/Forms/Input/Password',
-    component: InputPassword,
+    title: 'UI/Forms/Input/InputContainer',
+    component: InputContainer,
     argTypes: {
         placeholder: {
             description: 'placeholder',
@@ -17,8 +17,11 @@ export default {
             options: ['text', 'password'],
             control: { type: 'radio' },
         },
+        text: {
+            type: 'string',
+        },
     },
 };
 
-export const Primary: StoryFn = (args) => <InputPassword {...args} />;
+export const Primary: StoryFn = (args) => <InputContainer {...args} />;
 Primary.args = {};

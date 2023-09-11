@@ -2,14 +2,14 @@ import React, { FC, useState } from 'react';
 import './InputPassword.scss';
 import IconRenderer from '../../IconRenderer/IconRenderer';
 
-interface IInput {
+interface IInputPassword {
     placeholder?: string;
     value?: string | number;
     onChange?: () => void;
     className?: string;
 }
 
-const InputPassword: FC<IInput> = ({ placeholder = '', value, onChange, className = '' }) => {
+const InputPassword: FC<IInputPassword> = ({ placeholder = 'Your password', value, onChange, className = '' }) => {
     const [isShown, setIsShown] = useState<boolean>(false);
     return (
         <div className='input__wr'>
