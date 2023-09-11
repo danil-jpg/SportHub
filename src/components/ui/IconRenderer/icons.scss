@@ -4,3 +4,10 @@
         fill: grey;
     }
 }
+.arrow_down {
+    fill: #fff;
+    transition: 0.3s;
+    &.active {
+        transform: translate(180deg);
+    }
+}

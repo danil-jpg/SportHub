@@ -1,0 +1,20 @@
+.select__wr {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 16px;
+    border-radius: 8px;
+    background: #222;
+    transition: 0.3s;
+    color: #999;
+    &:focus {
+        color: #fff;
+    }
+    svg {
+        width: 8px;
+        height: 14px;
+    }
+}
+.select {
+}
