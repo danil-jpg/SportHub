@@ -46,7 +46,7 @@ const Select: FC<ISelect> = ({ className = '', placeholder = 'choose your catego
             <ul>
                 {open &&
                     arr.map((el) => (
-                        <li onClick={(e) => onElementClickHandler(el)} key={el} className='select__li'>
+                        <li onClick={() => onElementClickHandler(el)} key={el} className='select__li'>
                             {el}
                         </li>
                     ))}
