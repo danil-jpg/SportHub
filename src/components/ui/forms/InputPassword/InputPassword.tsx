@@ -14,7 +14,7 @@ const InputPassword: FC<IInputPassword> = ({ placeholder = 'Your password', valu
     return (
         <div className='input__wr'>
             <input className={`${className} input`} placeholder={placeholder} value={value} onChange={onChange} type={isShown ? 'text' : 'password'} />
-            <IconRenderer id={'eye'} onClick={() => setIsShown(!isShown)} />
+            <IconRenderer id={'eye'} className={`${isShown ? 'active' : ''}`} onClick={() => setIsShown(!isShown)} />
         </div>
     );
 };
