@@ -1,21 +1,15 @@
 import React, { FC } from 'react';
 import './components/styles/index.scss';
-import Button from './components/ui/button/Button';
-import InputPassword from './components/ui/Forms/InputPassword/InputPassword';
-import InputContainer from './components/ui/Forms/InputContainer/InputContainer';
-import Select from './components/ui/Forms/Select/Select';
-import SelectContainer from './components/ui/Forms/SelectContainer/SelectContainer';
+import { Routes, Route } from 'react-router-dom';
+
+const Registration = React.lazy(() => import('./components/pages/Registration/Registration'));
 
 const App: FC = () => {
     return (
-        <div>
-            {/* <Button type='unsubscribe'>Unsubscribe</Button> */}
-            {/* <Input placeholder='xxxx' type='password' /> */}
-            {/* <InputPassword /> */}
-            {/* <InputContainer text='Email'></InputContainer> */}
-            {/* <Select></Select> */}
-            {/* <SelectContainer title='text'></SelectContainer> */}
-        </div>
+        <Routes>
+            {/* Header */}
+            <Route path='/registration/*' element={<Registration />} />
+        </Routes>
     );
 };
 

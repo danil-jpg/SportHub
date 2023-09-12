@@ -3,11 +3,12 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    padding: 16px;
+    padding: 14px;
     border-radius: 8px;
     background: #222;
     transition: 0.3s;
     color: #999;
+    width: 100%;
     &:focus {
         color: #fff;
     }

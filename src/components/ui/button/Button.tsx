@@ -10,7 +10,7 @@ interface IButton {
 
 const Button: FC<IButton> = ({ className = '', type = 'def', children = 'default', onClick }) => {
     return (
-        <button onClick={onClick} className={`${type === 'def' ? 'button_def' : 'button_unsubscribe'}${className} button`}>
+        <button onClick={onClick} className={`${type === 'def' ? 'button_def' : 'button_unsubscribe'} ${className} button`}>
             {children}
         </button>
     );

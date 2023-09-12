@@ -1,0 +1,65 @@
+.reg-form {
+    background: grey;
+    width: 580px;
+    &__wr {
+        padding: 24px 80px;
+        width: 580px;
+    }
+    &__logo-wr {
+        margin-top: 0;
+        .logo-wr {
+            margin-left: -13px;
+        }
+    }
+}
+
+.form {
+    margin-top: 67px;
+
+    &__title {
+        color: #fff;
+        font-family: Uto;
+        font-size: 36px;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 47px;
+    }
+    .input__wr {
+        margin-bottom: 27px;
+    }
+
+    &__btn {
+        margin: 40px auto 0;
+        display: block;
+        width: 180px;
+        margin-bottom: 42px;
+    }
+    &__etc {
+        text-align: center;
+        color: #999;
+        font-family: Uto;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 22px;
+
+        span {
+            /* margin-left: 46px; */
+            color: #ad7955;
+            line-height: 22px; /* 137.5% */
+            text-decoration-line: underline;
+            margin-left: 10px;
+        }
+    }
+
+    &__terms {
+        color: #777;
+        font-family: Uto;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 22px;
+        text-align: center;
+        margin-top: 54px;
+    }
+}
