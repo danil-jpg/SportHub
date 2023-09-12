@@ -4,13 +4,13 @@ import './Button.scss';
 interface IButton {
     className?: string;
     children?: string;
-    onClick?: () => void;
+    onClickHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     type?: string;
 }
 
-const Button: FC<IButton> = ({ className = '', type = 'def', children = 'default', onClick }) => {
+const Button: FC<IButton> = ({ className = '', type = 'def', children = 'default', onClickHandler }) => {
     return (
-        <button onClick={onClick} className={`${type === 'def' ? 'button_def' : 'button_unsubscribe'} ${className} button`}>
+        <button onClick={onClickHandler} className={`${type === 'def' ? 'button_def' : 'button_unsubscribe'} ${className} button`}>
             {children}
         </button>
     );

@@ -1,17 +1,17 @@
-import React, { FC } from 'react';
+import React, { FC, Dispatch, SetStateAction, ChangeEventHandler } from 'react';
 import './Input.scss';
 
 interface IInput {
     placeholder?: string;
     value?: string | number;
-    onChange?: () => void;
+    onChangeHandler?: ChangeEventHandler<HTMLInputElement>;
     className?: string;
 }
 
-const Input: FC<IInput> = ({ placeholder = '', value, onChange, className = '' }) => {
+const Input: FC<IInput> = ({ placeholder = '', value, onChangeHandler, className = '' }) => {
     return (
         <div>
-            <input className={`${className} input`} placeholder={placeholder} value={value} onChange={onChange} type={'text'} />
+            <input className={`${className} input`} placeholder={placeholder} value={value} onChange={onChangeHandler} type={'text'} />
         </div>
     );
 };

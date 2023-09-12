@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, useState } from 'react';
 import '../SignInUp.scss';
 import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import InputPasswordContainer from '../../../ui/Forms/InputPasswordContainer/InputPasswordContainer';
@@ -8,7 +8,21 @@ import { auth } from '../../../../config/firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
 
-const SignUp = () => {
+const SignIn: FC = () => {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+
+    const onButtonClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    console.log(auth.currentUser?.email);
+
     return (
         <div className='registration-container'>
             <RegistrationCouch />
@@ -17,14 +31,14 @@ const SignUp = () => {
                     <Logo />
                 </div>
                 <form className='reg-form__form form'>
-                    <p className='form__title'>Sign up</p>
-                    <InputContainer placeholder='Your First Name' text='First Name' />
-                    <InputContainer placeholder='Your Last Name' text='Last Name' />
-                    <InputContainer placeholder='Your Email' text='Email' />
-                    <InputPasswordContainer placeholder='Your password' text='Password' />
-                    <Button className='form__btn'>Sign in</Button>
+                    <p className='form__title'>Sign in</p>
+                    <InputContainer placeholder='Email' text='Email' value={email} onChangeHandler={(e) => setEmail(e.target.value)} />
+                    <InputPasswordContainer placeholder='Your password' text='Password' value={password} onChangeHandler={(e) => setPassword(e.target.value)} />
+                    <Button className='form__btn' onClickHandler={onButtonClickHandler}>
+                        Sign in
+                    </Button>
                     <div className='form__etc'>
-                        Already have an account?<span>Sign in</span>
+                        Don’t have an account?<span>Sign up</span>
                     </div>
                     <div className='form__terms'>
                         <p>
@@ -37,4 +51,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default SignIn;
