@@ -26,7 +26,6 @@ const SignUp: FC = () => {
 
     return (
         <div className='registration-container'>
-            <Loading />
             <RegistrationCouch />
             <div className='reg-form__wr'>
                 <div className='reg-form__logo-wr'>
