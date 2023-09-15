@@ -1,7 +1,7 @@
 import React, { FC, Suspense } from 'react';
 import './components/styles/index.scss';
 import { Routes, Route } from 'react-router-dom';
-import Loading from 'react-loading';
+import Loading from './components/common/Loading/Loading';
 
 const Registration = React.lazy(() => import('./components/pages/Registration/Registration'));
 
