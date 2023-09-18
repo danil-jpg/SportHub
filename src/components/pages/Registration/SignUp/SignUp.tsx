@@ -8,6 +8,7 @@ import { auth } from '../../../../config/firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
 import Loading from '../../../common/Loading/Loading';
+import Header from '../../../common/Header/Header';
 
 const SignUp: FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -25,30 +26,33 @@ const SignUp: FC = () => {
     console.log(auth.currentUser?.email);
 
     return (
-        <div className='registration-container'>
-            <RegistrationCouch />
-            <div className='reg-form__wr'>
-                <div className='reg-form__logo-wr'>
-                    <Logo />
+        <div>
+            <Header state='xxx'></Header>
+            <div className='registration-container'>
+                {/* <RegistrationCouch /> */}
+                <div className='reg-form__wr'>
+                    <div className='reg-form__logo-wr'>
+                        <Logo />
+                    </div>
+                    <form className='reg-form__form form'>
+                        <p className='form__title'>Sign up</p>
+                        <InputContainer placeholder='Your First Name' text='First Name' />
+                        <InputContainer placeholder='Your Last Name' text='Last Name' />
+                        <InputContainer value={email} onChangeHandler={(e) => setEmail(e.target.value)} placeholder='Your Email' text='Email' />
+                        <InputPasswordContainer onChangeHandler={(e) => setPassword(e.target.value)} placeholder='Your password' text='Password' />
+                        <Button className='form__btn' onClickHandler={onButtonClickHandler}>
+                            Sign up
+                        </Button>
+                        <div className='form__etc'>
+                            Already have an account?<span>Sign in</span>
+                        </div>
+                        <div className='form__terms'>
+                            <p>
+                                By proceeding, you agree to our <span>Terms of Use</span> and <span>Privacy Policy</span>
+                            </p>
+                        </div>
+                    </form>
                 </div>
-                <form className='reg-form__form form'>
-                    <p className='form__title'>Sign up</p>
-                    <InputContainer placeholder='Your First Name' text='First Name' />
-                    <InputContainer placeholder='Your Last Name' text='Last Name' />
-                    <InputContainer value={email} onChangeHandler={(e) => setEmail(e.target.value)} placeholder='Your Email' text='Email' />
-                    <InputPasswordContainer onChangeHandler={(e) => setPassword(e.target.value)} placeholder='Your password' text='Password' />
-                    <Button className='form__btn' onClickHandler={onButtonClickHandler}>
-                        Sign up
-                    </Button>
-                    <div className='form__etc'>
-                        Already have an account?<span>Sign in</span>
-                    </div>
-                    <div className='form__terms'>
-                        <p>
-                            By proceeding, you agree to our <span>Terms of Use</span> and <span>Privacy Policy</span>
-                        </p>
-                    </div>
-                </form>
             </div>
         </div>
     );

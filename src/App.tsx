@@ -9,7 +9,6 @@ const App: FC = () => {
     return (
         <Suspense fallback={<Loading />}>
             <Routes>
-                {/* Header */}
                 <Route path='/registration/*' element={<Registration />} />
             </Routes>
         </Suspense>

@@ -10,7 +10,7 @@ interface IIConRenderer {
 
 const IconRenderer: FC<IIConRenderer> = ({ id, ...props }) => {
     return (
-        <svg {...props}>
+        <svg {...props} className={id}>
             <use href={`${sprites}#${id}`} />
         </svg>
     );
