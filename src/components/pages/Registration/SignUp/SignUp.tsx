@@ -29,7 +29,7 @@ const SignUp: FC = () => {
         <div>
             <Header state='xxx'></Header>
             <div className='registration-container'>
-                {/* <RegistrationCouch /> */}
+                <RegistrationCouch />
                 <div className='reg-form__wr'>
                     <div className='reg-form__logo-wr'>
                         <Logo />
