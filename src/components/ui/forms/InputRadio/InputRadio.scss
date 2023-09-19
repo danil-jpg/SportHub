@@ -30,3 +30,10 @@
 .radiobutton-input:checked + .custom-radiobutton {
     border: 7px solid rgba(173, 121, 85, 1);
 }
+
+@media screen and (max-width: 576px) {
+    .radiobutton-label {
+        padding: 8px 0px;
+        width: 105px;
+    }
+}

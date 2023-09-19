@@ -5,7 +5,7 @@ interface IRadio {
     id: string;
     text: string;
     name?: string;
-    onChange: () => void;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     checked: boolean;
     value: string;
 }
