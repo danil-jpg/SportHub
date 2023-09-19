@@ -10,7 +10,7 @@ const Registration: FC = () => {
     return (
         <Routes>
             <Route element={<SignUp />} path='signUp' />
-            <Route element={<PersonalInfo />} path='PersonalInfo' />
+            <Route element={<PersonalInfo />} path='personalInfo' />
             <Route element={<SignIn />} path='signIn' />
             <Route element={<CRUD />} path='crud' />
         </Routes>

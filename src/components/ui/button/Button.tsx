@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import './Button.scss';
 
 interface IButton {
     className?: string;
-    children?: string;
+    children?: string | ReactNode;
     onClickHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     type?: string;
 }

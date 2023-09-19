@@ -6,9 +6,22 @@ import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import Button from '../../../ui/Button/Button';
 import './PersonalInfo.scss';
 import AddPhoto from '../../../common/AddPhoto/AddPhoto';
+import { useAppSelector } from '../../../hooks/redux';
+import { useNavigate } from 'react-router-dom';
 
 const PersonalInfo: FC = () => {
     const [radio, setRadio] = useState<string>('');
+
+    const [photo, setPhoto] = useState();
+
+    const [gender, setGender] = useState();
+
+    const [birthday, setBirthday] = useState();
+
+    const navigate = useNavigate();
+
+    const selector = useAppSelector((state) => state.regSlice);
+    console.log(selector);
 
     const onInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRadio(e.target.value);
@@ -30,8 +43,10 @@ const PersonalInfo: FC = () => {
             </div>
             <InputContainer text='Date of birthday' className='info__date' placeholder='MM.DD.YYYY' />
             <div className='info__bottom-buttons'>
-                <Button type='transparent'>Back</Button>
-                <Button>Next</Button>
+                <Button type='transparent' onClickHandler={() => navigate(-1)}>
+                    Back
+                </Button>
+                <Button>Sign Up</Button>
             </div>
         </div>
     );

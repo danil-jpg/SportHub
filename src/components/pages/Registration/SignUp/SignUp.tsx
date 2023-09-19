@@ -9,8 +9,8 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
 import Loading from '../../../common/Loading/Loading';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { useDispatch } from 'react-redux';
 import { setRegData } from '../../../store/slices/registration';
+import { Link } from 'react-router-dom';
 
 const SignUp: FC = () => {
     const [fname, setFname] = useState<string>('');
@@ -18,29 +18,33 @@ const SignUp: FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const onButtonClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const dispatch = useAppDispatch();
+
+    const onButtonClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        dispatch(
+            setRegData({
+                fname: fname,
+                lname: lname,
+                email: email,
+                password: password,
+            }),
+        );
+        console.log(selector);
+
         // try {
-        //     await createUserWithEmailAndPassword(auth, email, password);
+        //     // await createUserWithEmailAndPassword(auth, email, password);
         // } catch (err) {
         //     console.log(err);
         // }
     };
 
-    const dispatch = useAppDispatch();
-
-    dispatch(
-        setRegData({
-            fname: 'xxx',
-            lname: 'yyy',
-        }),
-    );
+    useEffect(() => {}, [fname, lname]);
 
     const selector = useAppSelector((state) => state.regSlice);
     console.log(selector);
 
     // console.log(auth.currentUser?.email);
-
     return (
         <div>
             <div className='registration-container'>
@@ -51,12 +55,12 @@ const SignUp: FC = () => {
                     </div>
                     <form className='reg-form__form form'>
                         <p className='form__title'>Sign up</p>
-                        <InputContainer placeholder='Your First Name' text='First Name' />
-                        <InputContainer placeholder='Your Last Name' text='Last Name' />
+                        <InputContainer placeholder='Your First Name' text='First Name' onChangeHandler={(e) => setFname(e.target.value)} value={fname} />
+                        <InputContainer placeholder='Your Last Name' text='Last Name' onChangeHandler={(e) => setLname(e.target.value)} value={lname} />
                         <InputContainer value={email} onChangeHandler={(e) => setEmail(e.target.value)} placeholder='Your Email' text='Email' />
-                        <InputPasswordContainer onChangeHandler={(e) => setPassword(e.target.value)} placeholder='Your password' text='Password' />
+                        <InputPasswordContainer onChangeHandler={(e) => setPassword(e.target.value)} placeholder='Your password' text='Password' value={password} />
                         <Button className='form__btn' onClickHandler={onButtonClickHandler}>
-                            Sign up
+                            <Link to={'../personalInfo'}>Sign up</Link>
                         </Button>
                         <div className='form__etc'>
                             Already have an account?<span>Sign in</span>

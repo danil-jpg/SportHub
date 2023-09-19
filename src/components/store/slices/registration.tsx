@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../store';
 
 interface IReg {
     regData: {
         fname: string;
         lname: string;
+        email: string;
+        password: string;
     };
 }
 
@@ -13,6 +14,8 @@ const initialState: IReg = {
     regData: {
         fname: 'string',
         lname: 'string',
+        email: 'email',
+        password: 'password',
     },
 };
 
