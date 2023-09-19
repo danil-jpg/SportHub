@@ -11,28 +11,30 @@ import Loading from '../../../common/Loading/Loading';
 import Header from '../../../common/Header/Header';
 
 const SignUp: FC = () => {
+    const [fname, setFname] = useState<string>('');
+    const [lname, setLname] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
     const onButtonClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        try {
-            await createUserWithEmailAndPassword(auth, email, password);
-        } catch (err) {
-            console.log(err);
-        }
+        // try {
+        //     await createUserWithEmailAndPassword(auth, email, password);
+        // } catch (err) {
+        //     console.log(err);
+        // }
     };
 
     console.log(auth.currentUser?.email);
 
     return (
         <div>
-            <Header state='xxx'></Header>
+            {/* <Header state='xxx'></Header> */}
             <div className='registration-container'>
                 <RegistrationCouch />
                 <div className='reg-form__wr'>
                     <div className='reg-form__logo-wr'>
-                        <Logo />
+                        <Logo isReg={false} />
                     </div>
                     <form className='reg-form__form form'>
                         <p className='form__title'>Sign up</p>
