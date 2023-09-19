@@ -21,7 +21,7 @@ const RegistrationCouch = () => {
     const getCouchs = async () => {
         const couchPhotos = [];
 
-        for (let i = 1; i < 11; i++) {
+        for (let i = 1; i < 8; i++) {
             try {
                 let photo = await getDownloadURL(ref(storage, `Couch/${i}.png`));
                 couchPhotos.push(photo);

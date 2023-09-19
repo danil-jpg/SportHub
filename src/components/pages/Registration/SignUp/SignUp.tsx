@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import '../SignInUp.scss';
 import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import InputPasswordContainer from '../../../ui/Forms/InputPasswordContainer/InputPasswordContainer';
@@ -8,7 +8,9 @@ import { auth } from '../../../../config/firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
 import Loading from '../../../common/Loading/Loading';
-import Header from '../../../common/Header/Header';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { useDispatch } from 'react-redux';
+import { setRegData } from '../../../store/slices/registration';
 
 const SignUp: FC = () => {
     const [fname, setFname] = useState<string>('');
@@ -25,11 +27,22 @@ const SignUp: FC = () => {
         // }
     };
 
-    console.log(auth.currentUser?.email);
+    const dispatch = useAppDispatch();
+
+    dispatch(
+        setRegData({
+            fname: 'xxx',
+            lname: 'yyy',
+        }),
+    );
+
+    const selector = useAppSelector((state) => state.regSlice);
+    console.log(selector);
+
+    // console.log(auth.currentUser?.email);
 
     return (
         <div>
-            {/* <Header state='xxx'></Header> */}
             <div className='registration-container'>
                 <RegistrationCouch />
                 <div className='reg-form__wr'>
