@@ -16,14 +16,14 @@ const SignIn: FC = () => {
     const [email, setEmail] = useState<string>('' || selector.regData.email);
     const [password, setPassword] = useState<string>('' || selector.regData.password);
 
-    const onButtonClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const onButtonClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((res) => console.log(res))
             .catch((e) => sweetAlert(e.message));
     };
 
-    console.log(auth.currentUser?.email);
+    // console.log(auth.currentUser?.email);
 
     return (
         <div className='registration-container'>
@@ -35,6 +35,9 @@ const SignIn: FC = () => {
                 <form className='reg-form__form form'>
                     <p className='form__title'>Sign in</p>
                     <InputContainer placeholder='Email' text='Email' value={email} onChangeHandler={(e) => setEmail(e.target.value)} />
+                    <Link to={'../ResetPassword'} className='reset-password'>
+                        Forgot password?
+                    </Link>
                     <InputPasswordContainer placeholder='Your password' text='Password' value={password} onChangeHandler={(e) => setPassword(e.target.value)} />
                     <Button className='form__btn' onClickHandler={onButtonClickHandler}>
                         Sign in

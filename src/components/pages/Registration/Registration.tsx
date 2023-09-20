@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import CRUD from './CRUD';
-import PersonalInfo from './Personalnfo/PersonalInfo';
 
 const SignUp = React.lazy(() => import('./SignUp/SignUp'));
 const SignIn = React.lazy(() => import('./SignIn/SignIn'));
+const PersonalInfo = React.lazy(() => import('./Personalnfo/PersonalInfo'));
+const ResetPassword = React.lazy(() => import('./ResetPassword/ResetPassword'));
 
 const Registration: FC = () => {
     return (
@@ -12,7 +13,8 @@ const Registration: FC = () => {
             <Route element={<SignUp />} path='signUp' />
             <Route element={<PersonalInfo />} path='personalInfo' />
             <Route element={<SignIn />} path='signIn' />
-            <Route element={<CRUD />} path='crud' />
+            <Route element={<ResetPassword />} path='resetPassword' />
+            {/* <Route element={<CRUD />} path='crud' /> */}
         </Routes>
     );
 };

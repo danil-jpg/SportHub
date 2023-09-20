@@ -1,6 +1,7 @@
 .reg-form {
     background: grey;
     width: 580px;
+
     &__wr {
         // padding: 24px 80px;
         display: flex;
@@ -17,7 +18,16 @@
     }
 }
 
+.reset-password {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    color: #ad7955;
+    z-index: 1;
+}
+
 .form {
+    position: relative;
     margin-top: 67px;
 
     &__title {
