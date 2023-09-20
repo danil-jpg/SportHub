@@ -9,12 +9,14 @@ import AddPhoto from '../../../common/AddPhoto/AddPhoto';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { setRegData } from '../../../store/slices/registration';
-
+import { ref, uploadBytes } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
-import { DB } from '../../../../config/firebase-config';
+import { DB, storage } from '../../../../config/firebase-config';
 import { v1 } from 'uuid';
 
 const PersonalInfo: FC = () => {
+    const [file, setFile] = useState<File | null>(null);
+
     const [radio, setRadio] = useState<string>('');
 
     const [type, setType] = useState<string>('');
@@ -26,6 +28,19 @@ const PersonalInfo: FC = () => {
     const dispatch = useAppDispatch();
 
     const selector = useAppSelector((state) => state.regSlice);
+
+    const uploadFile = async () => {
+        if (!file) {
+            return;
+        }
+        console.log(file);
+        const filesFolderRef = ref(storage, `users/${selector.regData.email}`);
+        try {
+            await uploadBytes(filesFolderRef, file);
+        } catch (e) {
+            alert(e);
+        }
+    };
 
     const onInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRadio(e.target.value);
@@ -48,6 +63,7 @@ const PersonalInfo: FC = () => {
             await setDoc(doc(DB, 'users', v1()), {
                 ...selector.regData,
             });
+            await uploadFile();
             navigate('../signIn');
         } catch (e) {
             alert(e);
@@ -57,7 +73,7 @@ const PersonalInfo: FC = () => {
     return (
         <div className=' info'>
             <p className='info__title'>Personal Information</p>
-            <AddPhoto classname='info__addPhoto' />
+            <AddPhoto file={file} setFile={setFile} classname='info__addPhoto' />
             <div className='info__radio-wr'>
                 <p className='info__radio_text'>Gender</p>
                 <div className='info__radio-line'>

@@ -2,7 +2,11 @@
     background: grey;
     width: 580px;
     &__wr {
-        padding: 24px 80px;
+        // padding: 24px 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
         width: 580px;
     }
     &__logo-wr {

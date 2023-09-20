@@ -7,6 +7,7 @@ interface IReg {
         lname: string;
         email: string;
         password: string;
+        file?: File;
     };
 }
 

@@ -12,8 +12,11 @@ import { setRegData } from '../../../store/slices/registration';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 
 const SignUp: FC = () => {
+    const selector = useAppSelector((state) => state.regSlice);
+
     const [fname, setFname] = useState<string>('');
     const [lname, setLname] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -22,8 +25,6 @@ const SignUp: FC = () => {
     const dispatch = useAppDispatch();
 
     const navigate = useNavigate();
-
-    const selector = useAppSelector((state) => state.regSlice);
 
     useEffect(() => {
         dispatch(
@@ -64,7 +65,10 @@ const SignUp: FC = () => {
                             Sign up
                         </Button>
                         <div className='form__etc'>
-                            Already have an account?<span>Sign in</span>
+                            Already have an account?
+                            <span>
+                                <Link to={'../signIn'}>Sign in</Link>
+                            </span>
                         </div>
                         <div className='form__terms'>
                             <p>

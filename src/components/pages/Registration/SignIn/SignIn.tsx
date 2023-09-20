@@ -8,10 +8,13 @@ import { auth } from '../../../../config/firebase-config';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../../hooks/redux';
 
 const SignIn: FC = () => {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const selector = useAppSelector((state) => state.regSlice);
+
+    const [email, setEmail] = useState<string>('' || selector.regData.email);
+    const [password, setPassword] = useState<string>('' || selector.regData.password);
 
     const onButtonClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();

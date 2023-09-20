@@ -6,10 +6,12 @@ import { setRegData } from '../../store/slices/registration';
 
 interface IAddPhoto {
     classname: string;
+    file: File | Blob | null;
+    setFile: React.Dispatch<React.SetStateAction<File | null>>;
 }
 
-const AddPhoto: FC<IAddPhoto> = ({ classname = '' }) => {
-    const [file, setFile] = useState<FileList | string | null>(null);
+const AddPhoto: FC<IAddPhoto> = ({ file, setFile, classname = '' }) => {
+    // const [file, setFile] = useState<File | string | null>(null);
 
     const dispatch = useAppDispatch();
 
@@ -17,7 +19,7 @@ const AddPhoto: FC<IAddPhoto> = ({ classname = '' }) => {
         if (file) {
             dispatch(
                 setRegData({
-                    file: file,
+                    file: URL.createObjectURL(file),
                 }),
             );
         }
@@ -29,12 +31,12 @@ const AddPhoto: FC<IAddPhoto> = ({ classname = '' }) => {
                 type='file'
                 className='info__input-file'
                 onChange={(e) => {
-                    if (!e.target.files) return;
-                    setFile(URL.createObjectURL(e.target.files[0]));
-                    console.log(file);
+                    if (!e.target.files || e.target.files[0] === null) return;
+                    // setFile(URL.createObjectURL(e.target.files[0]));
+                    setFile(e.target.files[0]);
                 }}
             />
-            <img className='info__img' src={`${!file ? picW : file}`} />
+            <img className='info__img' src={`${!file ? picW : URL.createObjectURL(file)}`} />
             <div className='info__img_texts'>
                 <p className='info__img_title'>Information about adding photo</p>
                 <p className='info__img_descr'>
