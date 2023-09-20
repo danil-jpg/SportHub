@@ -25,8 +25,7 @@ const SignUp: FC = () => {
 
     const selector = useAppSelector((state) => state.regSlice);
 
-    const onButtonClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    useEffect(() => {
         dispatch(
             setRegData({
                 fname: fname,
@@ -35,8 +34,13 @@ const SignUp: FC = () => {
                 password: password,
             }),
         );
+    }, [fname, lname, email, password]);
+
+    const onButtonClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
         const auth = getAuth();
-        createUserWithEmailAndPassword(auth, email, password)
+        createUserWithEmailAndPassword(auth, selector.regData.email, selector.regData.password)
             .then(() => navigate('../personalInfo'))
             .catch((e) => swal(e.message));
     };
