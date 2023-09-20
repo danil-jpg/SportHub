@@ -24,7 +24,7 @@ export const regSlice = createSlice({
     initialState,
     reducers: {
         setRegData: (state, action: PayloadAction<any>) => {
-            state.regData = action.payload;
+            state.regData = { ...state.regData, ...action.payload };
         },
     },
 });

@@ -70,6 +70,10 @@ input[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none; // Yeah, yeah everybody write about it
 }
 
+a:visited {
+    color: $colorBase;
+}
+
 input[type='number'],
 input[type='number']:hover,
 input[type='number']:focus {
