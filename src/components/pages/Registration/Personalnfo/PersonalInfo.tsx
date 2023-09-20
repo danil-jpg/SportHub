@@ -10,29 +10,48 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { setRegData } from '../../../store/slices/registration';
 
+import { doc, setDoc } from 'firebase/firestore';
+import { DB } from '../../../../config/firebase-config';
+import { v1 } from 'uuid';
+
 const PersonalInfo: FC = () => {
     const [radio, setRadio] = useState<string>('');
 
-    const [birthday, setBirthday] = useState('');
+    const [type, setType] = useState<string>('');
+
+    const [birthday, setBirthday] = useState<string>('');
 
     const navigate = useNavigate();
 
-    const selector = useAppSelector((state) => state.regSlice);
-    console.log(selector);
-
     const dispatch = useAppDispatch();
+
+    const selector = useAppSelector((state) => state.regSlice);
 
     const onInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRadio(e.target.value);
     };
 
-    const onButtonSignUpClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const onInputTypeChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setType(e.target.value);
+    };
+
+    const onButtonSignUpClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
         dispatch(
             setRegData({
                 gender: radio,
                 birthday,
+                type,
             }),
         );
+
+        try {
+            await setDoc(doc(DB, 'users', v1()), {
+                ...selector.regData,
+            });
+            navigate('../signIn');
+        } catch (e) {
+            alert(e);
+        }
     };
 
     return (
@@ -46,6 +65,15 @@ const PersonalInfo: FC = () => {
                         <InputRadio checked={radio === 'Male'} value={'Male'} onChange={onInputChangeHandler} text='Male' name='Male' id='Male'></InputRadio>
                         <InputRadio checked={radio === 'Female'} value={'Female'} onChange={onInputChangeHandler} text='Female' name='Female' id='Female'></InputRadio>
                         <InputRadio checked={radio === 'None'} value={'None'} onChange={onInputChangeHandler} text='None' name='None' id='None'></InputRadio>
+                    </form>
+                </div>
+            </div>
+            <div className='info__radio-wr info__radio_type'>
+                <p className='info__radio_text'>Gender</p>
+                <div className='info__radio-line'>
+                    <form>
+                        <InputRadio checked={type === 'User'} value={'User'} onChange={onInputTypeChangeHandler} text='User' name='User' id='User'></InputRadio>
+                        <InputRadio checked={type === 'Creator'} value={'Creator'} onChange={onInputTypeChangeHandler} text='Creator' name='Creator' id='Creator'></InputRadio>
                     </form>
                 </div>
             </div>

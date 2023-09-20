@@ -5,12 +5,13 @@ import InputPasswordContainer from '../../../ui/Forms/InputPasswordContainer/Inp
 import Button from '../../../ui/Button/Button';
 import Logo from '../../../common/Logo/Logo';
 import { auth } from '../../../../config/firebase-config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
 import Loading from '../../../common/Loading/Loading';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { setRegData } from '../../../store/slices/registration';
-import { Link } from 'react-router-dom';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const SignUp: FC = () => {
     const [fname, setFname] = useState<string>('');
@@ -19,6 +20,10 @@ const SignUp: FC = () => {
     const [password, setPassword] = useState<string>('');
 
     const dispatch = useAppDispatch();
+
+    const navigate = useNavigate();
+
+    const selector = useAppSelector((state) => state.regSlice);
 
     const onButtonClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -30,19 +35,11 @@ const SignUp: FC = () => {
                 password: password,
             }),
         );
-        console.log(selector);
-
-        // try {
-        //     // await createUserWithEmailAndPassword(auth, email, password);
-        // } catch (err) {
-        //     console.log(err);
-        // }
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(() => navigate('../personalInfo'))
+            .catch((e) => swal(e.message));
     };
-
-    useEffect(() => {}, [fname, lname]);
-
-    const selector = useAppSelector((state) => state.regSlice);
-    console.log(selector);
 
     // console.log(auth.currentUser?.email);
     return (
@@ -60,7 +57,7 @@ const SignUp: FC = () => {
                         <InputContainer value={email} onChangeHandler={(e) => setEmail(e.target.value)} placeholder='Your Email' text='Email' />
                         <InputPasswordContainer onChangeHandler={(e) => setPassword(e.target.value)} placeholder='Your password' text='Password' value={password} />
                         <Button className='form__btn' onClickHandler={onButtonClickHandler}>
-                            <Link to={'../personalInfo'}>Sign up</Link>
+                            Sign up
                         </Button>
                         <div className='form__etc'>
                             Already have an account?<span>Sign in</span>

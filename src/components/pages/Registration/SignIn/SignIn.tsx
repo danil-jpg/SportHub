@@ -5,8 +5,9 @@ import InputPasswordContainer from '../../../ui/Forms/InputPasswordContainer/Inp
 import Button from '../../../ui/Button/Button';
 import Logo from '../../../common/Logo/Logo';
 import { auth } from '../../../../config/firebase-config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
+import { Link } from 'react-router-dom';
 
 const SignIn: FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -14,11 +15,9 @@ const SignIn: FC = () => {
 
     const onButtonClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        try {
-            await createUserWithEmailAndPassword(auth, email, password);
-        } catch (err) {
-            console.log(err);
-        }
+        signInWithEmailAndPassword(auth, email, password)
+            .then((res) => console.log(res))
+            .catch((e) => sweetAlert(e.message));
     };
 
     console.log(auth.currentUser?.email);
@@ -28,7 +27,7 @@ const SignIn: FC = () => {
             <RegistrationCouch />
             <div className='reg-form__wr'>
                 <div className='reg-form__logo-wr'>
-                    <Logo />
+                    <Logo isReg={true} />
                 </div>
                 <form className='reg-form__form form'>
                     <p className='form__title'>Sign in</p>
@@ -38,7 +37,10 @@ const SignIn: FC = () => {
                         Sign in
                     </Button>
                     <div className='form__etc'>
-                        Don’t have an account?<span>Sign up</span>
+                        Don’t have an account?
+                        <span>
+                            <Link to={'../signUp'}>Sign up</Link>
+                        </span>
                     </div>
                     <div className='form__terms'>
                         <p>
