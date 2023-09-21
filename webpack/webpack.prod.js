@@ -113,7 +113,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         exclude: /\.module\.scss$/,
         use: [
           'style-loader',
