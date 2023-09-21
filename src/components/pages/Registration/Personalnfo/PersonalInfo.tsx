@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import pic from '../../../../assets/img/registration/pic.png';
 import picW from '../../../../assets/img/registration/pic.png?as=webp';
 import InputRadio from '../../../ui/Forms/InputRadio/InputRadio';
@@ -9,7 +9,7 @@ import AddPhoto from '../../../common/AddPhoto/AddPhoto';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { setRegData } from '../../../store/slices/registration';
-import { ref, uploadBytes } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, connectStorageEmulator } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
 import { DB, storage } from '../../../../config/firebase-config';
 import { v1 } from 'uuid';
@@ -23,20 +23,31 @@ const PersonalInfo: FC = () => {
 
     const [birthday, setBirthday] = useState<string>('');
 
+    const [photoUrl, setPhotoUrl] = useState<string>('');
+
     const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
 
     const selector = useAppSelector((state) => state.regSlice);
 
+    useEffect(() => {
+        dispatch(
+            setRegData({
+                photoUrl,
+            }),
+        );
+        console.log(photoUrl);
+    }, [photoUrl]);
+
     const uploadFile = async () => {
         if (!file) {
             return;
         }
-        console.log(file);
         const filesFolderRef = ref(storage, `users/${selector.regData.email}`);
         try {
             await uploadBytes(filesFolderRef, file);
+            // setPhotoUrl(res);
         } catch (e) {
             alert(e);
         }
@@ -51,20 +62,22 @@ const PersonalInfo: FC = () => {
     };
 
     const onButtonSignUpClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        dispatch(
-            setRegData({
-                gender: radio,
-                birthday,
-                type,
-            }),
-        );
-
         try {
-            await setDoc(doc(DB, 'users', v1()), {
-                ...selector.regData,
-            });
             await uploadFile();
-            navigate('../signIn');
+            const res = await getDownloadURL(ref(storage, `users/${selector.regData.email}`));
+
+            dispatch(
+                setRegData({
+                    gender: radio,
+                    birthday,
+                    type,
+                    photoUrl: res,
+                }),
+            );
+            await setDoc(doc(DB, 'users', selector.regData.email), {
+                ...selector.regData,
+                photoUrl: res,
+            });
         } catch (e) {
             alert(e);
         }
