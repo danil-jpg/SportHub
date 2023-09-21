@@ -6,9 +6,11 @@
         // padding: 24px 80px;
         display: flex;
         justify-content: center;
-        align-items: center;
+        // align-items: center;
         flex-direction: column;
         width: 580px;
+
+        padding: 0 80px;
     }
     &__logo-wr {
         margin-top: 0;
