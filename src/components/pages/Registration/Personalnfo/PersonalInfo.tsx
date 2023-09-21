@@ -37,7 +37,6 @@ const PersonalInfo: FC = () => {
                 photoUrl,
             }),
         );
-        console.log(photoUrl);
     }, [photoUrl]);
 
     const uploadFile = async () => {
@@ -47,7 +46,6 @@ const PersonalInfo: FC = () => {
         const filesFolderRef = ref(storage, `users/${selector.regData.email}`);
         try {
             await uploadBytes(filesFolderRef, file);
-            // setPhotoUrl(res);
         } catch (e) {
             alert(e);
         }
@@ -65,7 +63,7 @@ const PersonalInfo: FC = () => {
         try {
             await uploadFile();
             const res = await getDownloadURL(ref(storage, `users/${selector.regData.email}`));
-
+            setPhotoUrl(res);
             dispatch(
                 setRegData({
                     gender: radio,
@@ -78,6 +76,7 @@ const PersonalInfo: FC = () => {
                 ...selector.regData,
                 photoUrl: res,
             });
+            navigate('../signIn');
         } catch (e) {
             alert(e);
         }
