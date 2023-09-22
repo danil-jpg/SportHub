@@ -4,12 +4,25 @@ import RegistrationCouch from '../../../../common/RegistrationCouch/Registration
 import Logo from '../../../../common/Logo/Logo';
 import InputPasswordContainer from '../../../../ui/Forms/InputPasswordContainer/InputPasswordContainer';
 import Button from '../../../../ui/Button/Button';
+import { confirmPasswordReset } from 'firebase/auth';
+import { auth } from '../../../../../config/firebase-config';
 
 const ResetChangePassword: FC = () => {
     const [newPassword, setNewPassword] = useState<string>('');
     const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
 
-    const onButtonClickHandler = () => {};
+    const urlParams = new URLSearchParams(window.location.search);
+    let oobCode: string | null = urlParams.get('oobCode');
+
+    const onButtonClickHandler = async () => {
+        if (newPassword === confirmNewPassword && confirmNewPassword.length > 5) {
+            try {
+                oobCode ? await confirmPasswordReset(auth, oobCode, newPassword) : null;
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    };
     return (
         <div className='registration-container'>
             <RegistrationCouch />
