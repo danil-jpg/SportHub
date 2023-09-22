@@ -8,7 +8,9 @@ import { auth } from '../../../../config/firebase-config';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import swal from 'sweetalert';
+import { setRegData } from '../../../store/slices/registration';
 
 const SignIn: FC = () => {
     const selector = useAppSelector((state) => state.regSlice);
@@ -16,11 +18,22 @@ const SignIn: FC = () => {
     const [email, setEmail] = useState<string>('' || selector.regData.email);
     const [password, setPassword] = useState<string>('' || selector.regData.password);
 
+    const dispatch = useAppDispatch();
+
     const onButtonClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+
         signInWithEmailAndPassword(auth, email, password)
-            .then((res) => console.log(res))
-            .catch((e) => sweetAlert(e.message));
+            .then((res) => {
+                console.log(res);
+                dispatch(
+                    setRegData({
+                        email,
+                        password,
+                    }),
+                );
+            })
+            .catch((e) => swal(e.message));
     };
 
     // console.log(auth.currentUser?.email);

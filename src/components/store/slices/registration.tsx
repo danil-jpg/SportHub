@@ -13,10 +13,10 @@ interface IReg {
 
 const initialState: IReg = {
     regData: {
-        fname: 'string',
-        lname: 'string',
-        email: 'email',
-        password: 'password',
+        fname: '',
+        lname: '',
+        email: '',
+        password: '',
     },
 };
 

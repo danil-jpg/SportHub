@@ -11,10 +11,11 @@ interface IInputPassword {
 
 const InputPassword: FC<IInputPassword> = ({ placeholder = 'Your password', value, onChangeHandler, className = '' }) => {
     const [isShown, setIsShown] = useState<boolean>(false);
+
     return (
         <div className='input__wr'>
             <input className={`${className} input`} placeholder={placeholder} value={value} onChange={onChangeHandler} type={isShown ? 'text' : 'password'} />
-            <IconRenderer id={'eye'} className={`${isShown ? 'active' : ''}`} onClick={() => setIsShown(!isShown)} />
+            <IconRenderer id={'eye'} className={`${isShown ? 'active' : 'not-active'}`} onClick={() => setIsShown(!isShown)} />
         </div>
     );
 };

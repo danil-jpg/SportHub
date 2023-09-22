@@ -6,7 +6,7 @@ const SignUp = React.lazy(() => import('./SignUp/SignUp'));
 const SignIn = React.lazy(() => import('./SignIn/SignIn'));
 const PersonalInfo = React.lazy(() => import('./Personalnfo/PersonalInfo'));
 const ResetPassword = React.lazy(() => import('./ResetPassword/ResetPassword'));
-const ChangePassword = React.lazy(() => import('./ResetPassword/ChangePassword/ChangePassword'));
+const ChangePassword = React.lazy(() => import('./ChangePassword/ChangePassword'));
 
 const Registration: FC = () => {
     return (

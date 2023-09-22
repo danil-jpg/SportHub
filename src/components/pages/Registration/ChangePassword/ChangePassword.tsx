@@ -1,25 +1,33 @@
-import React, { FC, useState } from 'react';
-import { useAppSelector } from '../../../../hooks/redux';
-import RegistrationCouch from '../../../../common/RegistrationCouch/RegistrationCouch';
-import Logo from '../../../../common/Logo/Logo';
-import InputPasswordContainer from '../../../../ui/Forms/InputPasswordContainer/InputPasswordContainer';
-import Button from '../../../../ui/Button/Button';
-import { confirmPasswordReset } from 'firebase/auth';
-import { auth } from '../../../../../config/firebase-config';
+import React, { FC, useEffect, useState } from 'react';
+import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
+import Logo from '../../../common/Logo/Logo';
+import InputPasswordContainer from '../../../ui/Forms/InputPasswordContainer/InputPasswordContainer';
+import Button from '../../../ui/Button/Button';
+import { confirmPasswordReset, getAuth } from 'firebase/auth';
+import { auth } from '../../../../config/firebase-config';
+import '../../Registration/SignInUp.scss';
+import swal from 'sweetalert';
+import { useSearchParams } from 'react-router-dom';
 
 const ResetChangePassword: FC = () => {
     const [newPassword, setNewPassword] = useState<string>('');
     const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
 
-    const urlParams = new URLSearchParams(window.location.search);
-    let oobCode: string | null = urlParams.get('oobCode');
+    const [searchParams] = useSearchParams();
 
-    const onButtonClickHandler = async () => {
+    let oobCode: string | null = searchParams.get('oobCode');
+
+    const onButtonClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         if (newPassword === confirmNewPassword && confirmNewPassword.length > 5) {
             try {
-                oobCode ? await confirmPasswordReset(auth, oobCode, newPassword) : null;
-            } catch (e) {
-                console.error(e);
+                console.log(oobCode);
+                if (oobCode) {
+                    await confirmPasswordReset(auth, oobCode, newPassword);
+                }
+                swal('PasswordChanged');
+            } catch (e: any) {
+                swal(e);
             }
         }
     };
