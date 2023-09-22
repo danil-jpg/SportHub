@@ -3,11 +3,14 @@ import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCou
 import Logo from '../../../common/Logo/Logo';
 import InputPasswordContainer from '../../../ui/Forms/InputPasswordContainer/InputPasswordContainer';
 import Button from '../../../ui/Button/Button';
-import { confirmPasswordReset, getAuth } from 'firebase/auth';
+import { confirmPasswordReset } from 'firebase/auth';
 import { auth } from '../../../../config/firebase-config';
 import '../../Registration/SignInUp.scss';
 import swal from 'sweetalert';
 import { useSearchParams } from 'react-router-dom';
+import { updateDoc, doc } from 'firebase/firestore';
+import { DB } from '../../../../config/firebase-config';
+import { useAppSelector } from '../../../hooks/redux';
 
 const ResetChangePassword: FC = () => {
     const [newPassword, setNewPassword] = useState<string>('');
@@ -17,14 +20,19 @@ const ResetChangePassword: FC = () => {
 
     let oobCode: string | null = searchParams.get('oobCode');
 
+    const selector = useAppSelector((state) => state.regSlice.regData);
+
     const onButtonClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (newPassword === confirmNewPassword && confirmNewPassword.length > 5) {
             try {
-                console.log(oobCode);
                 if (oobCode) {
                     await confirmPasswordReset(auth, oobCode, newPassword);
+                    const res = await updateDoc(doc(DB, 'users', selector.email), {
+                        password: newPassword,
+                    });
                 }
+
                 swal('PasswordChanged');
             } catch (e: any) {
                 swal(e);

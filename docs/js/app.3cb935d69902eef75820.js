@@ -6245,10 +6245,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 
 var initialState = {
   regData: {
-    fname: 'string',
-    lname: 'string',
-    email: 'email',
-    password: 'password'
+    fname: '',
+    lname: '',
+    email: '',
+    password: ''
   }
 };
 var regSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
@@ -52545,7 +52545,7 @@ function n(n){for(var r=arguments.length,t=Array(r>1?r-1:0),e=1;e<r;e++)t[e-1]=a
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("4bb10634657b13a64420")
+/******/ 		__webpack_require__.h = () => ("3cb935d69902eef75820")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
@@ -52776,4 +52776,4 @@ root.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)
 
 /******/ })()
 ;
-//# sourceMappingURL=app.4bb10634657b13a64420.js.map
+//# sourceMappingURL=app.3cb935d69902eef75820.js.map

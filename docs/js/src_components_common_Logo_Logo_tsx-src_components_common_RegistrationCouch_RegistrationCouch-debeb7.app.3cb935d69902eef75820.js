@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunksporthub"] = self["webpackChunksporthub"] || []).push([["src_components_common_Logo_Logo_tsx-src_components_common_RegistrationCouch_RegistrationCouch-8ced80"],{
+(self["webpackChunksporthub"] = self["webpackChunksporthub"] || []).push([["src_components_common_Logo_Logo_tsx-src_components_common_RegistrationCouch_RegistrationCouch-debeb7"],{
 
 /***/ "./src/components/common/Logo/Logo.tsx":
 /*!*********************************************!*\
@@ -256,6 +256,25 @@ var RegistrationCouch = function RegistrationCouch() {
 
 /***/ }),
 
+/***/ "./src/components/hooks/redux.tsx":
+/*!****************************************!*\
+  !*** ./src/components/hooks/redux.tsx ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useAppDispatch: () => (/* binding */ useAppDispatch),
+/* harmony export */   useAppSelector: () => (/* binding */ useAppSelector)
+/* harmony export */ });
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+var useAppDispatch = react_redux__WEBPACK_IMPORTED_MODULE_0__.useDispatch;
+var useAppSelector = react_redux__WEBPACK_IMPORTED_MODULE_0__.useSelector;
+
+/***/ }),
+
 /***/ "./src/components/ui/Button/Button.tsx":
 /*!*********************************************!*\
   !*** ./src/components/ui/Button/Button.tsx ***!
@@ -310,7 +329,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
-var _excluded = ["id"];
+var _excluded = ["id", "className"];
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 
@@ -319,9 +338,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 
 var IconRenderer = function IconRenderer(_ref) {
   var id = _ref.id,
+    className = _ref.className,
     props = (0,_babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, _excluded);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", _objectSpread(_objectSpread({}, props), {}, {
-    className: id,
+    className: "".concat(id, " ").concat(className),
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("use", {
       href: "".concat(_sprites_svg__WEBPACK_IMPORTED_MODULE_3__, "#").concat(id)
     })
@@ -1144,4 +1164,4 @@ module.exports = __webpack_require__.p + "assets/icons/50f57e5191240646b295.svg"
 /***/ })
 
 }]);
-//# sourceMappingURL=src_components_common_Logo_Logo_tsx-src_components_common_RegistrationCouch_RegistrationCouch-8ced80.app.4bb10634657b13a64420.js.map
+//# sourceMappingURL=src_components_common_Logo_Logo_tsx-src_components_common_RegistrationCouch_RegistrationCouch-debeb7.app.3cb935d69902eef75820.js.map

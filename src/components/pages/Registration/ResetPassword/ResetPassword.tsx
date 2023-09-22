@@ -6,9 +6,11 @@ import { Link } from 'react-router-dom';
 import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import Button from '../../../ui/Button/Button';
 import './ResetPassword.scss';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../../../config/firebase-config';
+import swal from 'sweetalert';
+import { setRegData } from '../../../store/slices/registration';
 
 interface IReset {}
 
@@ -18,9 +20,20 @@ const ResetPassword: FC<IReset> = ({}) => {
 
     const [email, setEmail] = useState('');
 
+    const dispatch = useAppDispatch();
+
     const triggerResetEmail = async () => {
         setState(2);
-        await sendPasswordResetEmail(auth, email);
+        try {
+            await sendPasswordResetEmail(auth, email);
+            dispatch(
+                setRegData({
+                    email: email,
+                }),
+            );
+        } catch (e: any) {
+            swal(e);
+        }
     };
 
     return (

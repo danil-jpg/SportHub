@@ -1,25 +1,6 @@
 "use strict";
 (self["webpackChunksporthub"] = self["webpackChunksporthub"] || []).push([["src_components_pages_Registration_ResetPassword_ResetPassword_tsx"],{
 
-/***/ "./src/components/hooks/redux.tsx":
-/*!****************************************!*\
-  !*** ./src/components/hooks/redux.tsx ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   useAppDispatch: () => (/* binding */ useAppDispatch),
-/* harmony export */   useAppSelector: () => (/* binding */ useAppSelector)
-/* harmony export */ });
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
-var useAppDispatch = react_redux__WEBPACK_IMPORTED_MODULE_0__.useDispatch;
-var useAppSelector = react_redux__WEBPACK_IMPORTED_MODULE_0__.useSelector;
-
-/***/ }),
-
 /***/ "./src/components/pages/Registration/ResetPassword/ResetPassword.tsx":
 /*!***************************************************************************!*\
   !*** ./src/components/pages/Registration/ResetPassword/ResetPassword.tsx ***!
@@ -40,14 +21,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SignInUp_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../SignInUp.scss */ "./src/components/pages/Registration/SignInUp.scss");
 /* harmony import */ var _common_Logo_Logo__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../common/Logo/Logo */ "./src/components/common/Logo/Logo.tsx");
 /* harmony import */ var _common_RegistrationCouch_RegistrationCouch__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../common/RegistrationCouch/RegistrationCouch */ "./src/components/common/RegistrationCouch/RegistrationCouch.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _ui_Forms_InputContainer_InputContainer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../ui/Forms/InputContainer/InputContainer */ "./src/components/ui/Forms/InputContainer/InputContainer.tsx");
 /* harmony import */ var _ui_Button_Button__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../ui/Button/Button */ "./src/components/ui/Button/Button.tsx");
 /* harmony import */ var _ResetPassword_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ResetPassword.scss */ "./src/components/pages/Registration/ResetPassword/ResetPassword.scss");
 /* harmony import */ var _hooks_redux__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../hooks/redux */ "./src/components/hooks/redux.tsx");
 /* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! firebase/auth */ "./node_modules/firebase/auth/dist/esm/index.esm.js");
 /* harmony import */ var _config_firebase_config__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../../config/firebase-config */ "./src/config/firebase-config.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _store_slices_registration__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../store/slices/registration */ "./src/components/store/slices/registration.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
 
 
 
@@ -78,73 +64,85 @@ var ResetPassword = function ResetPassword(_ref) {
     _useState4 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState3, 2),
     email = _useState4[0],
     setEmail = _useState4[1];
+  var dispatch = (0,_hooks_redux__WEBPACK_IMPORTED_MODULE_11__.useAppDispatch)();
   var triggerResetEmail = /*#__PURE__*/function () {
     var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             setState(2);
-            _context.next = 3;
+            _context.prev = 1;
+            _context.next = 4;
             return (0,firebase_auth__WEBPACK_IMPORTED_MODULE_12__.sendPasswordResetEmail)(_config_firebase_config__WEBPACK_IMPORTED_MODULE_13__.auth, email);
-          case 3:
+          case 4:
+            dispatch((0,_store_slices_registration__WEBPACK_IMPORTED_MODULE_15__.setRegData)({
+              email: email
+            }));
+            _context.next = 10;
+            break;
+          case 7:
+            _context.prev = 7;
+            _context.t0 = _context["catch"](1);
+            sweetalert__WEBPACK_IMPORTED_MODULE_14___default()(_context.t0);
+          case 10:
           case "end":
             return _context.stop();
         }
-      }, _callee);
+      }, _callee, null, [[1, 7]]);
     }));
     return function triggerResetEmail() {
       return _ref2.apply(this, arguments);
     };
   }();
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
     className: "registration-container forgot-container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_common_RegistrationCouch_RegistrationCouch__WEBPACK_IMPORTED_MODULE_7__["default"], {}), state === 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_common_RegistrationCouch_RegistrationCouch__WEBPACK_IMPORTED_MODULE_7__["default"], {}), state === 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
       className: "reg-form__wr",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
         className: "reg-form__logo-wr",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_common_Logo_Logo__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_common_Logo_Logo__WEBPACK_IMPORTED_MODULE_6__["default"], {
           isReg: true
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("form", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("form", {
         className: "reg-form__form form",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("p", {
           className: "form__title",
           children: "Forgot your password?"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("p", {
           className: "form__descr",
           children: "Enter your email address and we'll send you instructions on how to reset your password"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_ui_Forms_InputContainer_InputContainer__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_ui_Forms_InputContainer_InputContainer__WEBPACK_IMPORTED_MODULE_8__["default"], {
           text: "Email",
           placeholder: "Your Email",
           value: email,
           onChangeHandler: function onChangeHandler(e) {
             return setEmail(e.target.value);
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_ui_Button_Button__WEBPACK_IMPORTED_MODULE_9__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_ui_Button_Button__WEBPACK_IMPORTED_MODULE_9__["default"], {
           className: "email__send",
           onClickHandler: triggerResetEmail,
           children: "Send Email"
         })]
       })]
-    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
       className: "reg-form__wr",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
         className: "reg-form__logo-wr",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_common_Logo_Logo__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_common_Logo_Logo__WEBPACK_IMPORTED_MODULE_6__["default"], {
           isReg: true
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("form", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("form", {
         className: "reg-form__form form",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("p", {
           className: "form__title",
           children: "Please check your inbox"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("p", {
           className: "form__descr",
           children: ["Check your email ", selector, " for instructions on how to reset your password. If it doesn\u2019t appear within a few minutes, check your spam folder."]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
           className: "form__etc",
-          children: ["Didn't receive the email?", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Link, {
+          children: ["Didn't receive the email?", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("span", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Link, {
               to: '../404',
               children: "Go to Support"
             })
@@ -538,4 +536,4 @@ function _objectDestructuringEmpty(obj) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_components_pages_Registration_ResetPassword_ResetPassword_tsx.app.4bb10634657b13a64420.js.map
+//# sourceMappingURL=src_components_pages_Registration_ResetPassword_ResetPassword_tsx.app.3cb935d69902eef75820.js.map
