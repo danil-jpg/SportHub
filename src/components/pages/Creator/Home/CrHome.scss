@@ -1,0 +1,105 @@
+.creator-container {
+    padding: 0 24px;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+.creator {
+    &__top {
+        margin-top: 35px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__video-play-tabs {
+        display: flex;
+    }
+
+    &__tab {
+        cursor: pointer;
+        color: #bbb;
+        font-size: 24px;
+        font-weight: 500;
+        padding: 14px 24px;
+        &.active {
+            color: #fff;
+            border-radius: 8px;
+            background: var(--9, #222);
+        }
+    }
+
+    &__video {
+    }
+
+    &__add-video-btn {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+
+        padding: 10px 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__add-video-svg {
+        margin-right: 10px;
+    }
+    &__types {
+        display: flex;
+        margin-top: 40px;
+        border-bottom: 1px solid #222;
+    }
+    &__type {
+        cursor: pointer;
+        padding: 8px 24px;
+        font-size: 16px;
+        color: #777;
+        font-weight: 600;
+        &.active {
+            border-bottom: 1px solid #ad7955;
+            color: #fff;
+        }
+    }
+
+    &__videos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px 21px;
+        margin-top: 22px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .creator__types {
+        justify-content: center;
+    }
+    .creator__videos {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .creator {
+        padding: 0 16px;
+        &__top {
+            margin-top: 29px;
+        }
+        &__tab {
+            font-size: 16px;
+            padding: 10px 15px;
+        }
+        &__add-video-btn {
+            position: fixed;
+            bottom: 25px;
+            z-index: 999;
+            right: 25px;
+        }
+
+        &__types {
+            margin-top: 15px;
+            width: 100%;
+            justify-content: space-between;
+            padding: 0 14px;
+        }
+    }
+}

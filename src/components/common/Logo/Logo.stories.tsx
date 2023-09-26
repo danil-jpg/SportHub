@@ -8,5 +8,5 @@ export default {
     argTypes: {},
 };
 
-export const Primary: StoryFn = (args) => <Logo {...args} />;
+export const Primary: StoryFn = (args) => <Logo isReg={true} {...args} />;
 Primary.args = {};

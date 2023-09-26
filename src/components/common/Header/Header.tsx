@@ -4,8 +4,8 @@ import IconRenderer from '../../ui/IconRenderer/IconRenderer';
 import Button from '../../ui/Button/Button';
 import './Header.scss';
 import { useNavigate } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
-import { DB } from '../../../config/firebase-config';
+// import { doc, getDoc } from 'firebase/firestore';
+// import { DB } from '../../../config/firebase-config';
 import { useAppSelector } from '../../hooks/redux';
 
 interface IHeader {
@@ -17,7 +17,6 @@ const Header: FC<IHeader> = ({ auth = false }) => {
     const [profileState, setProfileState] = useState<boolean>(false);
 
     const menuRef = useRef<HTMLDivElement | null>(null);
-    const burgerRef = useRef<HTMLDivElement | null>(null);
     const navigate = useNavigate();
 
     const selector = useAppSelector((state) => state.regSlice.regData);
@@ -26,9 +25,7 @@ const Header: FC<IHeader> = ({ auth = false }) => {
         const onMenuOutMenuClickHandler = (e: MouseEvent) => {
             const { target } = e;
             if (target instanceof Node && !menuRef.current?.contains(target)) {
-                console.log('click');
                 setMenuState(false);
-                console.log(profileState);
             }
         };
         window.addEventListener('click', onMenuOutMenuClickHandler);
