@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
 import Logo from '../../../common/Logo/Logo';
 import InputPasswordContainer from '../../../ui/Forms/InputPasswordContainer/InputPasswordContainer';
@@ -7,18 +7,23 @@ import { confirmPasswordReset } from 'firebase/auth';
 import { auth } from '../../../../config/firebase-config';
 import '../../Registration/SignInUp.scss';
 import swal from 'sweetalert';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { updateDoc, doc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { setRegData } from '../../../store/slices/registration';
 
 const ResetChangePassword: FC = () => {
     const [newPassword, setNewPassword] = useState<string>('');
     const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
 
+    const navigate = useNavigate();
+
     const [searchParams] = useSearchParams();
 
     let oobCode: string | null = searchParams.get('oobCode');
+
+    const dispatch = useAppDispatch();
 
     const selector = useAppSelector((state) => state.regSlice.regData);
 
@@ -31,9 +36,15 @@ const ResetChangePassword: FC = () => {
                     const res = await updateDoc(doc(DB, 'users', selector.email), {
                         password: newPassword,
                     });
-                }
 
+                    dispatch(
+                        setRegData({
+                            password: newPassword,
+                        }),
+                    );
+                }
                 swal('PasswordChanged');
+                navigate('../signIn/');
             } catch (e: any) {
                 swal(e);
             }

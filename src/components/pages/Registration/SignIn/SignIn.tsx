@@ -7,16 +7,21 @@ import Logo from '../../../common/Logo/Logo';
 import { auth } from '../../../../config/firebase-config';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import RegistrationCouch from '../../../common/RegistrationCouch/RegistrationCouch';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import swal from 'sweetalert';
 import { setRegData } from '../../../store/slices/registration';
+import { doc, getDoc } from 'firebase/firestore';
+import { DB } from '../../../../config/firebase-config';
 
 const SignIn: FC = () => {
     const selector = useAppSelector((state) => state.regSlice);
 
     const [email, setEmail] = useState<string>('' || selector.regData.email);
     const [password, setPassword] = useState<string>('' || selector.regData.password);
+    const [userType, setUserType] = useState<string>('');
+
+    const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
 
@@ -24,14 +29,21 @@ const SignIn: FC = () => {
         e.preventDefault();
 
         signInWithEmailAndPassword(auth, email, password)
-            .then((res) => {
-                console.log(res);
+            .then(() => {
                 dispatch(
                     setRegData({
                         email,
                         password,
+                        auth: true,
                     }),
                 );
+                const docRef = doc(DB, 'users', email);
+                getDoc(docRef)
+                    .then((res) => res.data()?.type)
+                    .then((res) => {
+                        res === 'User' ? navigate('../') : navigate('../../creator/home');
+                    })
+                    .catch((e) => console.error(e));
             })
             .catch((e) => swal(e.message));
     };

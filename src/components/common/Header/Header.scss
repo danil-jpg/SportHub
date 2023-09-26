@@ -29,12 +29,115 @@
         padding: 10.5px 35px;
         margin-left: 15px;
     }
+    &__profile {
+        position: relative;
+        margin-left: 24px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color: #bbb;
+        &_img {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+            border-radius: 24px;
+        }
+    }
+    &__video {
+        transition: 0.3s;
+        color: #bbb;
+        font-size: 16px;
+        font-weight: 400;
+        cursor: pointer;
+        margin-left: 24px;
+        &:active {
+            color: #fff;
+        }
+    }
+    &__store {
+        transition: 0.3s;
+        color: #bbb;
+        font-size: 16px;
+        font-weight: 400;
+        cursor: pointer;
+        margin-left: 24px;
+        &:active {
+            color: #fff;
+        }
+    }
+    &__authed {
+        flex-basis: auto;
+        .search {
+            margin-left: 0px;
+            margin-right: 47px;
+        }
+    }
+    .ring {
+        margin-right: 37px;
+    }
+    .header__authed-block {
+        display: flex;
+        flex-basis: auto;
+    }
+    .header__video {
+        margin: 0 9px;
+        align-items: center;
+        display: flex;
+    }
+
+    .header__store {
+        align-items: center;
+        display: flex;
+        margin: 0 34px;
+    }
+
+    .header__profile {
+        margin-right: 11px;
+        margin-left: 11px;
+    }
+    .profile__text {
+        color: #bbb;
+        font-size: 16px;
+        font-weight: 400;
+    }
+    .profile__popup {
+        border-radius: 8px;
+        background: #222;
+        position: absolute;
+        padding: 16px;
+        gap: 10px;
+        display: flex;
+        flex-direction: column;
+        bottom: -90px;
+        width: 150px;
+        left: -60px;
+
+        svg {
+            margin-right: 8px;
+        }
+    }
+    .profile__edit {
+        // margin-top: 18px;
+        display: flex;
+        align-items: center;
+    }
+    .profile__edit_text {
+        color: #bbb;
+        font-size: 16px;
+        font-weight: 400;
+    }
 }
 
 @media screen and (max-width: 575px) {
     .header {
         padding: 15px 23px;
         position: relative;
+        .header {
+            &__video,
+            &__store {
+                display: none;
+            }
+        }
         &__menu {
             z-index: 1;
             display: none;
@@ -53,6 +156,7 @@
             }
             &_li {
                 padding: 10px 14px;
+                cursor: pointer;
                 font-size: 16px;
                 font-weight: 400;
             }

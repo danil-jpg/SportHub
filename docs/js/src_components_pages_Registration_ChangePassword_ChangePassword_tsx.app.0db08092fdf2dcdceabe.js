@@ -26,10 +26,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Registration_SignInUp_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Registration/SignInUp.scss */ "./src/components/pages/Registration/SignInUp.scss");
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/esm/index.esm.js");
 /* harmony import */ var _hooks_redux__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../hooks/redux */ "./src/components/hooks/redux.tsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _store_slices_registration__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../store/slices/registration */ "./src/components/store/slices/registration.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -57,10 +60,12 @@ var ResetChangePassword = function ResetChangePassword() {
     _useState4 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState3, 2),
     confirmNewPassword = _useState4[0],
     setConfirmNewPassword = _useState4[1];
-  var _useSearchParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useSearchParams)(),
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_16__.useNavigate)();
+  var _useSearchParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_17__.useSearchParams)(),
     _useSearchParams2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useSearchParams, 1),
     searchParams = _useSearchParams2[0];
   var oobCode = searchParams.get('oobCode');
+  var dispatch = (0,_hooks_redux__WEBPACK_IMPORTED_MODULE_13__.useAppDispatch)();
   var selector = (0,_hooks_redux__WEBPACK_IMPORTED_MODULE_13__.useAppSelector)(function (state) {
     return state.regSlice.regData;
   });
@@ -72,7 +77,7 @@ var ResetChangePassword = function ResetChangePassword() {
           case 0:
             e.preventDefault();
             if (!(newPassword === confirmNewPassword && confirmNewPassword.length > 5)) {
-              _context.next = 16;
+              _context.next = 17;
               break;
             }
             _context.prev = 2;
@@ -89,54 +94,57 @@ var ResetChangePassword = function ResetChangePassword() {
             });
           case 8:
             res = _context.sent;
-            console.log(res);
+            dispatch((0,_store_slices_registration__WEBPACK_IMPORTED_MODULE_14__.setRegData)({
+              password: newPassword
+            }));
           case 10:
             sweetalert__WEBPACK_IMPORTED_MODULE_11___default()('PasswordChanged');
-            _context.next = 16;
+            navigate('../signIn/');
+            _context.next = 17;
             break;
-          case 13:
-            _context.prev = 13;
+          case 14:
+            _context.prev = 14;
             _context.t0 = _context["catch"](2);
             sweetalert__WEBPACK_IMPORTED_MODULE_11___default()(_context.t0);
-          case 16:
+          case 17:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[2, 13]]);
+      }, _callee, null, [[2, 14]]);
     }));
     return function onButtonClickHandler(_x) {
       return _ref.apply(this, arguments);
     };
   }();
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
     className: "registration-container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_common_RegistrationCouch_RegistrationCouch__WEBPACK_IMPORTED_MODULE_4__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_common_RegistrationCouch_RegistrationCouch__WEBPACK_IMPORTED_MODULE_4__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
       className: "reg-form__wr",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
         className: "reg-form__logo-wr",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_common_Logo_Logo__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_common_Logo_Logo__WEBPACK_IMPORTED_MODULE_5__["default"], {
           isReg: true
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("form", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("form", {
         className: "reg-form__form form",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
           className: "form__title",
           children: "Restore password"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_ui_Forms_InputPasswordContainer_InputPasswordContainer__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_ui_Forms_InputPasswordContainer_InputPasswordContainer__WEBPACK_IMPORTED_MODULE_6__["default"], {
           placeholder: "New Password",
           text: "New Password",
           value: newPassword,
           onChangeHandler: function onChangeHandler(e) {
             return setNewPassword(e.target.value);
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_ui_Forms_InputPasswordContainer_InputPasswordContainer__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_ui_Forms_InputPasswordContainer_InputPasswordContainer__WEBPACK_IMPORTED_MODULE_6__["default"], {
           placeholder: "Confirm Password",
           text: "Confirm Password",
           value: confirmNewPassword,
           onChangeHandler: function onChangeHandler(e) {
             return setConfirmNewPassword(e.target.value);
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_ui_Button_Button__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_ui_Button_Button__WEBPACK_IMPORTED_MODULE_7__["default"], {
           className: "form__btn",
           onClickHandler: onButtonClickHandler,
           children: "Save"
@@ -449,4 +457,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /***/ })
 
 }]);
-//# sourceMappingURL=src_components_pages_Registration_ChangePassword_ChangePassword_tsx.app.3cb935d69902eef75820.js.map
+//# sourceMappingURL=src_components_pages_Registration_ChangePassword_ChangePassword_tsx.app.0db08092fdf2dcdceabe.js.map

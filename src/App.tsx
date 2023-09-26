@@ -5,13 +5,15 @@ import Loading from './components/common/Loading/Loading';
 import { Link } from 'react-router-dom';
 
 const Registration = React.lazy(() => import('./components/pages/Registration/Registration'));
+const Creator = React.lazy(() => import('./components/pages/Creator/Creator'));
 
 const App: FC = () => {
     const LinkList = () => {
         return (
             <div>
-                <Link to={'/registration/signUp'}>Вход</Link>
-                <Link to={'/registration/signIn'}>Регистрация</Link>
+                <Link to={'/registration/signUp'}>Регистрация</Link>
+                <Link to={'/registration/signIn'}> Вход</Link>
+                <Link to={'/creator/home'}>home</Link>
                 {/* <Link to={'registration/personalInfo'}>Сброс пароля (оповещение)</Link> */}
                 {/* <Link>Сам Сброс</Link> */}
             </div>
@@ -23,6 +25,7 @@ const App: FC = () => {
             <Routes>
                 <Route index element={<LinkList />} />
                 <Route path='/registration/*' element={<Registration />} />
+                <Route path='/creator/*' element={<Creator />} />
             </Routes>
         </Suspense>
     );

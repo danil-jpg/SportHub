@@ -61,3 +61,21 @@
         fill: grey;
     }
 }
+
+.pencil {
+    height: 20px;
+    width: 20px;
+    fill: #fff;
+    &:hover {
+        fill: grey;
+    }
+}
+
+.exit {
+    height: 20px;
+    width: 20px;
+    fill: #fff;
+    &:hover {
+        fill: grey;
+    }
+}

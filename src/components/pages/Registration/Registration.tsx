@@ -12,8 +12,8 @@ const Registration: FC = () => {
     return (
         <Routes>
             <Route element={<SignUp />} path='signUp' />
-            <Route element={<PersonalInfo />} path='personalInfo' />
             <Route element={<SignIn />} path='signIn' />
+            <Route element={<PersonalInfo />} path='personalInfo' />
             <Route element={<ResetPassword />} path='resetPassword' />
             <Route element={<ChangePassword />} path='changePassword' />
             {/* <Route element={<CRUD />} path='crud' /> */}

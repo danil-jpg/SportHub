@@ -1,32 +1,111 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import Logo from '../Logo/Logo';
 import IconRenderer from '../../ui/IconRenderer/IconRenderer';
 import Button from '../../ui/Button/Button';
 import './Header.scss';
+import { useNavigate } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
+import { DB } from '../../../config/firebase-config';
+import { useAppSelector } from '../../hooks/redux';
 
 interface IHeader {
-    state: string;
+    auth: boolean;
 }
 
-const Header: FC<IHeader> = ({ state }) => {
+const Header: FC<IHeader> = ({ auth = false }) => {
     const [menuState, setMenuState] = useState<boolean>(false);
+    const [profileState, setProfileState] = useState<boolean>(false);
+
+    const menuRef = useRef<HTMLDivElement | null>(null);
+    const burgerRef = useRef<HTMLDivElement | null>(null);
+    const navigate = useNavigate();
+
+    const selector = useAppSelector((state) => state.regSlice.regData);
+
+    useEffect(() => {
+        const onMenuOutMenuClickHandler = (e: MouseEvent) => {
+            const { target } = e;
+            if (target instanceof Node && !menuRef.current?.contains(target)) {
+                console.log('click');
+                setMenuState(false);
+                console.log(profileState);
+            }
+        };
+        window.addEventListener('click', onMenuOutMenuClickHandler);
+
+        return () => {
+            window.removeEventListener('click', onMenuOutMenuClickHandler);
+        };
+    }, []);
 
     return (
-        <div className='header'>
+        <div className={`header ${auth ? 'header__authed' : ''}`}>
             <div className='header__left'>
-                <div onClick={() => setMenuState(!menuState)}>{menuState ? <IconRenderer id='cross' /> : <IconRenderer id='burger' />}</div>
+                <div ref={menuRef}>
+                    {menuState ? (
+                        <IconRenderer
+                            onClick={() => {
+                                setMenuState(!menuState);
+                            }}
+                            id='cross'
+                        />
+                    ) : (
+                        <IconRenderer
+                            onClick={() => {
+                                setMenuState(!menuState);
+                                setProfileState(false);
+                            }}
+                            id='burger'
+                        />
+                    )}
+                    <div className={menuState ? 'header__menu header__menu_active' : 'header__menu'}>
+                        <ul className='header__menu_ul'>
+                            {auth ? (
+                                <>
+                                    <li className='header__menu_li'>video</li>
+                                    <li className='header__menu_li'>store</li>
+                                </>
+                            ) : (
+                                ''
+                            )}
+                            <li className='header__menu_li'>item1</li>
+                            <li className='header__menu_li'>item2</li>
+                        </ul>
+                    </div>
+                </div>
                 <Logo isReg={false} />
             </div>
             <div className='header__right'>
                 <IconRenderer id='search' />
                 <IconRenderer id='ring' />
-                <Button className='header__button'>Sign in</Button>
-            </div>
-            <div className={menuState ? 'header__menu header__menu_active' : 'header__menu'}>
-                <ul className='header__menu_ul'>
-                    <li className='header__menu_li'>item1</li>
-                    <li className='header__menu_li'>item2</li>
-                </ul>
+                {auth ? (
+                    <div className='header__authed-block'>
+                        <div className='header__video'>Video</div>
+                        <div className='header__store'>Store</div>
+                        <div className='header__profile' onClick={() => setProfileState(!profileState)}>
+                            <img className='header__profile_img' src={selector?.photoUrl} />
+                            <p className='profile__text'>Profile</p>
+                            {profileState ? (
+                                <div className='profile__popup'>
+                                    <div className='profile__edit'>
+                                        <IconRenderer id='pencil' />
+                                        <p className='profile__edit_text'>Edit profile</p>
+                                    </div>
+                                    <div className='profile__edit'>
+                                        <IconRenderer id='exit' />
+                                        <p className='profile__edit_text'>Log out</p>
+                                    </div>
+                                </div>
+                            ) : (
+                                ''
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    <Button className='header__button' onClickHandler={() => navigate('../registration/signIn')}>
+                        Sign in
+                    </Button>
+                )}
             </div>
         </div>
     );

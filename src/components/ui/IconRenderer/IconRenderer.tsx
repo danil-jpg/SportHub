@@ -8,7 +8,7 @@ interface IIConRenderer {
     className?: string;
 }
 
-const IconRenderer: FC<IIConRenderer> = ({ id, className, ...props }) => {
+const IconRenderer: FC<IIConRenderer> = ({ id, className = '', ...props }) => {
     return (
         <svg {...props} className={`${id} ${className}`}>
             <use href={`${sprites}#${id}`} />

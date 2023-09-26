@@ -8,6 +8,7 @@ interface IReg {
         email: string;
         password: string;
         file?: File;
+        photoUrl?: string;
     };
 }
 
