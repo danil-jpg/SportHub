@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import './Video.scss';
-import IconRenderer from '../../../../ui/IconRenderer/IconRenderer';
+import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 
 const Video: FC = () => {
     return (

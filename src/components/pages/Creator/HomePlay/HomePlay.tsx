@@ -4,9 +4,9 @@ import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import '../CrHome.scss';
 import Video from '../Video/Video';
 
-const CrHome: FC = () => {
+const HomePlay = () => {
     return (
-        <div className='creator-container creator'>
+        <div className='creator-container creator creator-playlist'>
             <div className='creator__top'>
                 <div className='creator__video-play-tabs'>
                     <div className='creator__tab creator__video_tab active'>Your video</div>
@@ -14,13 +14,17 @@ const CrHome: FC = () => {
                 </div>
                 <Button className='creator__add-video-btn'>
                     <IconRenderer id='plus' className='creator__add-video-svg' />
-                    Add new video
+                    Create new playlist
                 </Button>
             </div>
             <div className='creator__types'>
                 <div className='creator__type active creator__type_mind'>Mind</div>
                 <div className='creator__type creator__type_body'>Body</div>
                 <div className='creator__type creator__type_soul'>Soul</div>
+            </div>
+            <div className='creator__playlist-line'>
+                <div className='creator__playlist_title'>Fitness training</div>
+                <div className='creator__playlist_view-more'>View all</div>
             </div>
             <div className='creator__videos'>
                 <Video></Video>
@@ -33,4 +37,4 @@ const CrHome: FC = () => {
     );
 };
 
-export default CrHome;
+export default HomePlay;
