@@ -1,21 +1,19 @@
-const car = {
-	model: 'Toyota',
-	year: 2007,
-	showModel: function (color, engine) {
-		console.log(this.model, color, engine);
-	}
-};
+'use strict';
 
-const anotherCar = {
-	model: 'Benz',
-	year: 1998,
-};
+let set = new Set();
 
-// console.log(anotherCar.model)
+let vasya = { name: "Вася" };
+let petya = { name: "Петя" };
+let dasha = { name: "Даша" };
 
-// car.showModel.call(anotherCar, "green", "some")
+// посещения, некоторые пользователи заходят много раз
+set.add(1);
+set.add(1);
+set.add(2);
+set.add(3);
+set.add(4);
 
-const modelShow = car.showModel.bind(anotherCar, "red", "ttt")
+// set сохраняет только уникальные значения
+console.log(set.size); // 3
 
-modelShow()
-
+set.forEach(user => console.log(user)); // Вася, Петя, Даша

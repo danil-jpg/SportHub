@@ -12,7 +12,6 @@ import { setRegData } from '../../../store/slices/registration';
 import { ref, uploadBytes, getDownloadURL, connectStorageEmulator } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
 import { DB, storage } from '../../../../config/firebase-config';
-import { v1 } from 'uuid';
 
 const PersonalInfo: FC = () => {
     const [file, setFile] = useState<File | null>(null);

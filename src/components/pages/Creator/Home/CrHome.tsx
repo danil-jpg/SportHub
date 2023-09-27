@@ -3,8 +3,10 @@ import Button from '../../../ui/Button/Button';
 import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import '../CrHome.scss';
 import Video from '../Video/Video';
+import { useNavigate } from 'react-router-dom';
 
 const CrHome: FC = () => {
+    const navigate = useNavigate();
     return (
         <div className='creator-container creator'>
             <div className='creator__top'>
@@ -12,7 +14,12 @@ const CrHome: FC = () => {
                     <div className='creator__tab creator__video_tab active'>Your video</div>
                     <div className='creator__tab creator__play_tab'>Playlists</div>
                 </div>
-                <Button className='creator__add-video-btn'>
+                <Button
+                    className='creator__add-video-btn'
+                    onClickHandler={() => {
+                        navigate('../addvideo1');
+                    }}
+                >
                     <IconRenderer id='plus' className='creator__add-video-svg' />
                     Add new video
                 </Button>

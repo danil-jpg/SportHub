@@ -14,7 +14,7 @@ const Creator: FC = () => {
     console.log(selector);
     return (
         <>
-            <Header auth={true}></Header>
+            <Header></Header>
             <Routes>
                 <Route element={<CrHome />} path='home' />
                 <Route element={<HomePlay />} path='home-cr-playlist' />

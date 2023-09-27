@@ -6,20 +6,33 @@ import './Header.scss';
 import { useNavigate } from 'react-router-dom';
 // import { doc, getDoc } from 'firebase/firestore';
 // import { DB } from '../../../config/firebase-config';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { setRegData } from '../../store/slices/registration';
 
-interface IHeader {
-    auth: boolean;
-}
-
-const Header: FC<IHeader> = ({ auth = false }) => {
+const Header: FC = ({}) => {
     const [menuState, setMenuState] = useState<boolean>(false);
     const [profileState, setProfileState] = useState<boolean>(false);
+    const [auth, setAuth] = useState<boolean>(false);
 
     const menuRef = useRef<HTMLDivElement | null>(null);
     const navigate = useNavigate();
 
     const selector = useAppSelector((state) => state.regSlice.regData);
+    const dispatch = useAppDispatch();
+
+    const profileExitHandler = () => {
+        dispatch(
+            setRegData({
+                email: '',
+                password: '',
+            }),
+        );
+        navigate('../../registration/signIn');
+    };
+
+    useEffect(() => {
+        selector.email ? setAuth(true) : '';
+    }, [selector.email]);
 
     useEffect(() => {
         const onMenuOutMenuClickHandler = (e: MouseEvent) => {
@@ -88,7 +101,7 @@ const Header: FC<IHeader> = ({ auth = false }) => {
                                         <IconRenderer id='pencil' />
                                         <p className='profile__edit_text'>Edit profile</p>
                                     </div>
-                                    <div className='profile__edit'>
+                                    <div className='profile__edit' onClick={profileExitHandler}>
                                         <IconRenderer id='exit' />
                                         <p className='profile__edit_text'>Log out</p>
                                     </div>

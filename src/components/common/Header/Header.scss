@@ -5,6 +5,8 @@
     max-width: 1440px;
     margin: 0 auto;
     &__left {
+        padding-top: 8px;
+
         .burger {
             display: none;
         }
@@ -13,14 +15,13 @@
         display: flex;
         align-items: center;
 
-        flex-basis: 250px;
+        flex-basis: auto;
     }
     &__menu {
         display: none;
     }
     .search {
         margin-right: 38px;
-        margin-left: 28px;
     }
     .ring {
         margin-right: 14px;
@@ -71,10 +72,11 @@
             margin-left: 0px;
             margin-right: 47px;
         }
+        .ring {
+            margin-right: 37px;
+        }
     }
-    .ring {
-        margin-right: 37px;
-    }
+
     .header__authed-block {
         display: flex;
         flex-basis: auto;
