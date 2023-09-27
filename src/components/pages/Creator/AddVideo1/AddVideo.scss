@@ -101,6 +101,13 @@
             margin-bottom: 25px;
         }
     }
+    &__preview {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: absolute;
+    }
 }
 .btn-innactive {
     background: #777;
@@ -108,11 +115,14 @@
 }
 
 @media screen and (max-width: 996px) {
+    .addvideo__text {
+        font-size: 20px;
+    }
     .addvideo {
         padding: 0 15px;
     }
     .addvideo__top {
-        display: none;
+        // display: none;
     }
     .addvideo__dragAndDrop-section {
         background: none;
@@ -125,6 +135,7 @@
         grid-template-columns: 1fr;
     }
     .addvideo__bottom__right {
+        margin-bottom: 50px;
         padding: 50px 50px 0;
     }
     .addvideo__right_text {
