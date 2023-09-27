@@ -23,7 +23,8 @@ interface IObject {
 
 const AddVideo1 = () => {
     const [video, setVideo] = useState<File | null>(null);
-    const [videoName, setVideoName] = useState('4');
+    const [videoTitle, setVideoTitle] = useState<string>('');
+    const [videoType, setVideoType] = useState<string | number>('');
     const [prevew, setPreview] = useState<File | null>(null);
 
     const videoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +42,7 @@ const AddVideo1 = () => {
         if (!video) {
             return;
         }
-        const filesFolderRef = ref(storage, `videos/${selector.regData.email}/${videoName}`);
+        const filesFolderRef = ref(storage, `videos/${selector.regData.email}/${videoTitle}`);
         const res = await updateDoc(doc(DB, 'users', selector.regData.email), {
             videos: [{ name: 'shrekorabbit' }, { name: 'waterfall' }],
         });
@@ -70,8 +71,21 @@ const AddVideo1 = () => {
             </div>
             <div className='addvideo__bottom'>
                 <div className='addvideo__bottom__left'>
-                    <InputContainer className='addvideo__bottom__input' text='Title' placeholder='Video Name' />
-                    <SelectContainer containerClassName='addvideo__bottom__input' arr={['Soul', 'Mind', 'Body']} placeholder='Select category' title='Category' />
+                    <InputContainer
+                        className='addvideo__bottom__input'
+                        text='Title'
+                        placeholder='Video Name'
+                        value={videoTitle}
+                        onChangeHandler={(e) => setVideoTitle(e.target.value)}
+                    />
+                    <SelectContainer
+                        value={videoType}
+                        setValue={setVideoType}
+                        containerClassName='addvideo__bottom__input'
+                        arr={['Soul', 'Mind', 'Body']}
+                        placeholder='Select category'
+                        title='Category'
+                    />
                     <InputContainer className='addvideo__bottom__input' text='Description' placeholder='Description' />
                     <InputContainer className='addvideo__bottom__input' text='Add Shopify link' placeholder='Add link on product' />
                 </div>
