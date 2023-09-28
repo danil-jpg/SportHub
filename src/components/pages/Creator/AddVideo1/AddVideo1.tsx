@@ -32,6 +32,8 @@ const AddVideo1: FC = () => {
 
     const [dragActive, setDragActive] = useState<boolean>(false);
 
+    const [dragPreviewActive, setDragPreviewActive] = useState<boolean>(false);
+
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const handleDragEvent = (e: React.DragEvent) => {
@@ -44,28 +46,57 @@ const AddVideo1: FC = () => {
         }
     };
 
+    const handlePrevewDragEvent = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.type === 'dragenter' || e.type === 'dragover') {
+            setDragPreviewActive(true);
+        } else if (e.type === 'dragleave') {
+            setDragPreviewActive(false);
+        }
+    };
+
+    const handlePrevewDropEvent = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragPreviewActive(false);
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            if (e.dataTransfer.files[0].size > 4097152) {
+                swal('File is too big! Max size is 4 mb');
+            } else {
+                setPreview(e.dataTransfer.files[0]);
+            }
+        }
+    };
+
     const handleDropEvent = (e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation();
         setDragActive(false);
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             if (e.dataTransfer.files[0].size > 4097152) {
-                swal('File is too big!');
+                swal('File is too big! Max size is 4 mb');
             } else {
                 setVideo(e.dataTransfer.files[0]);
             }
-
-            // at least one file has been dropped so do something
-            // handleFiles(e.dataTransfer.files);
         }
     };
 
     const videoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || e.target.files[0].size > 4097152) {
-            swal('File is too big!');
+            swal('File is too big! Max size is 4 mb');
             e.target.value = '';
         } else {
             setVideo(e.target.files[0]);
+        }
+    };
+
+    const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files || e.target.files[0].size > 4097152) {
+            swal('File is too big! Max size is 4 mb');
+            e.target.value = '';
+        } else {
+            setPreview(e.target.files[0]);
         }
     };
 
@@ -101,35 +132,42 @@ const AddVideo1: FC = () => {
                             videos: [...oldData, { title: videoTitle, descr: videoDescr, category: videoType, shopify }],
                         });
                         await uploadVideo();
-                        // console.log(oldData);
                     }}
                 >
                     Publish
                 </Button>
             </div>
             <form className='addvideo__dragAndDrop-section' onDragEnter={handleDragEvent} onSubmit={(e) => e.preventDefault()}>
-                <input ref={inputRef} id='input__addvideo' type='file' onChange={videoHandler} className='addvideo__input' />
-                <label htmlFor='input__addvideo' className={dragActive ? 'active addvideo__drag-text' : 'addvideo__drag-text'}>
-                    <img src={pngLogoW} className='addvideo__img' />
-                    <p>Drag and drop videos to upload</p>
-                    <Button
-                        className='addvideo__btn-addvideo'
-                        onClickHandler={(e) => {
-                            e.preventDefault();
-                            inputRef.current?.click();
-                        }}
-                    >
-                        Or choose files
-                    </Button>
-                </label>
-                {dragActive && (
-                    <div
-                        className='addvideo__drag-file-element'
-                        onDragEnter={handleDragEvent}
-                        onDragLeave={handleDragEvent}
-                        onDragOver={handleDragEvent}
-                        onDrop={handleDropEvent}
-                    ></div>
+                {video ? (
+                    <video controls className='addvideo__video'>
+                        <source src={URL.createObjectURL(video)}></source>
+                    </video>
+                ) : (
+                    <>
+                        <input ref={inputRef} id='input__addvideo' type='file' onChange={videoHandler} className='addvideo__input' accept='video/mp4,video/x-m4v,video/*' />
+                        <label htmlFor='input__addvideo' className={dragActive ? 'active addvideo__drag-text' : 'addvideo__drag-text'}>
+                            <img src={pngLogoW} className='addvideo__img' />
+                            <p>Drag and drop videos to upload</p>
+                            <Button
+                                className='addvideo__btn-addvideo'
+                                onClickHandler={(e) => {
+                                    e.preventDefault();
+                                    inputRef.current?.click();
+                                }}
+                            >
+                                Or choose files
+                            </Button>
+                        </label>
+                        {dragActive && (
+                            <div
+                                className='addvideo__drag-file-element'
+                                onDragEnter={handleDragEvent}
+                                onDragLeave={handleDragEvent}
+                                onDragOver={handleDragEvent}
+                                onDrop={handleDropEvent}
+                            ></div>
+                        )}
+                    </>
                 )}
             </form>
             <div className='addvideo__bottom'>
@@ -163,30 +201,38 @@ const AddVideo1: FC = () => {
                         onChangeHandler={(e) => setShopify(e.target.value)}
                     />
                 </div>
-                <div className='addvideo__bottom__right'>
-                    <form id='video-form'>
-                        <input
-                            multiple={false}
-                            type='file'
-                            id='video-form'
-                            onChange={(e) => {
-                                if (e.target.files) {
-                                    setPreview(e.target.files[0]);
-                                }
-                            }}
-                            className='addvideo__input'
-                        />
-                        {preview ? (
-                            <img src={URL.createObjectURL(preview)} className='addvideo__preview' />
-                        ) : (
-                            <>
-                                <img src={pngLogoW} className='addvideo__right_img' />
-                                <p className='addvideo__right_text'>Drag and drop photo to upload</p>
-                                <p className='addvideo__right_descr'>Information about adding photo. Amet minim mollit non deserunt ullamco est sit </p>
-                            </>
-                        )}
-                    </form>
-                </div>
+                <form
+                    id='preview-form'
+                    onDragEnter={() => {
+                        setDragPreviewActive(true);
+                    }}
+                    onSubmit={(e) => e.preventDefault()}
+                    className={`${dragPreviewActive ? 'active' : ''} addvideo__bottom__right`}
+                >
+                    <input
+                        accept='image/png, image/gif, image/jpeg , image/webp, image/*'
+                        onDragEnter={handlePrevewDragEvent}
+                        onDragLeave={handlePrevewDragEvent}
+                        onDragOver={handlePrevewDragEvent}
+                        onDrop={handlePrevewDropEvent}
+                        multiple={false}
+                        type='file'
+                        id='preview-form'
+                        onChange={(e) => {
+                            imageHandler(e);
+                        }}
+                        className='addvideo__input-preview'
+                    />
+                    {preview ? (
+                        <img src={URL.createObjectURL(preview)} className='addvideo__preview' />
+                    ) : (
+                        <>
+                            <img src={pngLogoW} className='addvideo__right_img' />
+                            <p className='addvideo__right_text'>Drag and drop photo to upload</p>
+                            <p className='addvideo__right_descr'>Information about adding photo. Amet minim mollit non deserunt ullamco est sit </p>
+                        </>
+                    )}
+                </form>
             </div>
         </div>
     );
