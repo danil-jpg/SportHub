@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import './AddVideo.scss';
 import Button from '../../../ui/Button/Button';
 import pngLogoW from '../../../../assets/img/addvideo/addvideo.png?as=webp';
@@ -29,6 +29,7 @@ const AddVideo1: FC = () => {
     const [videoType, setVideoType] = useState<string | number>('');
     const [shopify, setShopify] = useState<string>('');
     const [preview, setPreview] = useState<File | null>(null);
+    const [publishButtonState, setPublishButtonState] = useState<boolean>(false);
 
     const [dragActive, setDragActive] = useState<boolean>(false);
 
@@ -116,22 +117,39 @@ const AddVideo1: FC = () => {
             const previewRes = await uploadBytes(previewsFolderRef, video);
             console.log(videoRes, previewRes);
         } catch (e) {
-            alert(e);
+            swal(e);
         }
     };
+
+    useEffect(() => {
+        if (preview && video && videoTitle && videoType && videoDescr) {
+            setPublishButtonState(true);
+        }
+    }, [preview, videoTitle, videoType, videoDescr, video]);
 
     return (
         <div className='addvideo'>
             <div className='addvideo__top'>
                 <p className='addvideo__text'>Adding a new video</p>
                 <Button
-                    className='addvideo__btn btn-innactive'
+                    className={`${publishButtonState ? '' : 'btn-innactive'}  addvideo__btn `}
                     onClickHandler={async () => {
-                        const oldData = await getDoc(doc(DB, 'users', selector.regData.email)).then((res) => res.data()?.videos);
-                        const res = await updateDoc(doc(DB, 'users', selector.regData.email), {
-                            videos: [...oldData, { title: videoTitle, descr: videoDescr, category: videoType, shopify }],
-                        });
-                        await uploadVideo();
+                        if (preview && video && videoTitle && videoType && videoDescr) {
+                            try {
+                                const oldData = await getDoc(doc(DB, 'users', selector.regData.email)).then((res) => res.data()?.videos);
+                                const res = await updateDoc(doc(DB, 'users', selector.regData.email), {
+                                    videos: [...oldData, { title: videoTitle, descr: videoDescr, category: videoType, shopify }],
+                                });
+                                await uploadVideo();
+                                swal('Your video is successfully published');
+                            } catch (e) {
+                                swal('Something went wrong');
+                            }
+                        } else if (videoType === 'Select category') {
+                            swal('Please,choose video type');
+                        } else {
+                            swal('Please,write in all the fields , put video and its preview in the corresponding items');
+                        }
                     }}
                 >
                     Publish
