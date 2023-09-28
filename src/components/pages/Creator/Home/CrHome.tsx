@@ -1,11 +1,20 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Button from '../../../ui/Button/Button';
 import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import '../CrHome.scss';
 import Video from '../Video/Video';
 import { useNavigate } from 'react-router-dom';
+import { getDoc } from 'firebase/firestore';
 
 const CrHome: FC = () => {
+    const [previewImageUrl, setPreviewImageUrl] = useState<string>('');
+    const [videoTitle, setVideoTitle] = useState<string>('');
+    const [videoDate, setVideoDate] = useState<string>('');
+
+    const currentDate = new Date().getTime();
+    const date: number = new Date('28 Sept 2023 14:45:49').getTime();
+    console.log(`date differ by ${currentDate - date}`);
+
     const navigate = useNavigate();
     return (
         <div className='creator-container creator'>

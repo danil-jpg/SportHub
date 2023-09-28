@@ -2,11 +2,10 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import './AddVideo.scss';
 import Button from '../../../ui/Button/Button';
 import pngLogoW from '../../../../assets/img/addvideo/addvideo.png?as=webp';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { DB, storage } from '../../../../config/firebase-config';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useNavigate } from 'react-router-dom';
-import { setRegData } from '../../../store/slices/registration';
 import { ref, uploadBytes, getDownloadURL, connectStorageEmulator } from 'firebase/storage';
 import { updateDoc } from 'firebase/firestore';
 import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
@@ -14,6 +13,7 @@ import SelectContainer from '../../../ui/Forms/SelectContainer/SelectContainer';
 import pngPicW from '../../../../assets/img/addvideo/addvideo-white.png?as=webp';
 import swal from 'sweetalert';
 import { v1 } from 'uuid';
+import TextareaContainer from '../../../ui/Forms/TextareaContainer/TextareaContainer';
 
 interface IObject {
     name: string;
@@ -39,6 +39,11 @@ const AddVideo1: FC = () => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const uniqueId = v1();
+
+    const allowedTypesImg = ['image/jpeg', 'image/png', 'image/gif'];
+    const allowedTypesVideo = ['video/mp4', 'video/*', 'video/x-m4v'];
+
+    const navigate = useNavigate();
 
     const handleDragEvent = (e: React.DragEvent) => {
         e.preventDefault();
@@ -67,6 +72,8 @@ const AddVideo1: FC = () => {
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             if (e.dataTransfer.files[0].size > 4097152) {
                 swal('File is too big! Max size is 4 mb');
+            } else if (!allowedTypesImg.includes(e.dataTransfer.files[0]?.type)) {
+                swal('File must be jpeg,png,gif or webp format');
             } else {
                 setPreview(e.dataTransfer.files[0]);
             }
@@ -80,6 +87,8 @@ const AddVideo1: FC = () => {
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             if (e.dataTransfer.files[0].size > 4097152) {
                 swal('File is too big! Max size is 4 mb');
+            } else if (!allowedTypesVideo.includes(e.dataTransfer.files[0]?.type)) {
+                swal('File must be jpeg,png,gif or webp format');
             } else {
                 setVideo(e.dataTransfer.files[0]);
             }
@@ -99,6 +108,8 @@ const AddVideo1: FC = () => {
         if (!e.target.files || e.target.files[0].size > 4097152) {
             swal('File is too big! Max size is 4 mb');
             e.target.value = '';
+        } else if (!allowedTypesImg.includes(e.target.files[0]?.type)) {
+            swal('File must be jpeg,png,gif or webp format');
         } else {
             setPreview(e.target.files[0]);
         }
@@ -151,14 +162,20 @@ const AddVideo1: FC = () => {
                                 console.log(videoUrl, previewUrl);
                                 if (oldData) {
                                     await updateDoc(doc(DB, 'users', selector.regData.email), {
-                                        videos: [...oldData, { title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl }],
+                                        videos: [...oldData, { title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl, date: new Date() }],
                                     });
                                 } else {
                                     await updateDoc(doc(DB, 'users', selector.regData.email), {
-                                        videos: [{ title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl }],
+                                        videos: [{ title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl, date: new Date() }],
                                     });
                                 }
-                                swal('Your video is successfully published');
+                                swal('Your video is successfully published').then(() => {
+                                    if (selector.regData?.type === 'Creator') {
+                                        navigate('../home');
+                                    } else {
+                                        navigate('../');
+                                    }
+                                });
                             } catch (e) {
                                 console.error(e);
                                 swal('Something went wrong');
@@ -223,7 +240,7 @@ const AddVideo1: FC = () => {
                         placeholder='Select category'
                         title='Category'
                     />
-                    <InputContainer
+                    <TextareaContainer
                         className='addvideo__bottom__input'
                         text='Description'
                         placeholder='Description'
