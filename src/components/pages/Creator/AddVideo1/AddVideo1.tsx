@@ -13,6 +13,7 @@ import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import SelectContainer from '../../../ui/Forms/SelectContainer/SelectContainer';
 import pngPicW from '../../../../assets/img/addvideo/addvideo-white.png?as=webp';
 import swal from 'sweetalert';
+import { v1 } from 'uuid';
 
 interface IObject {
     name: string;
@@ -36,6 +37,8 @@ const AddVideo1: FC = () => {
     const [dragPreviewActive, setDragPreviewActive] = useState<boolean>(false);
 
     const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const uniqueId = v1();
 
     const handleDragEvent = (e: React.DragEvent) => {
         e.preventDefault();
@@ -106,18 +109,22 @@ const AddVideo1: FC = () => {
     const selector = useAppSelector((state) => state.regSlice);
 
     const uploadVideo = async () => {
-        if (!video) {
+        if (!video || !preview) {
             return;
         }
-        const filesFolderRef = ref(storage, `videos/${selector.regData.email}/${videoTitle}`);
-        const previewsFolderRef = ref(storage, `previews/${selector.regData.email}/${videoTitle}`);
+
+        const filesFolderRef = ref(storage, `videos/${selector.regData.email}/${videoTitle}${uniqueId}`);
+        const previewsFolderRef = ref(storage, `previews/${selector.regData.email}/${videoTitle}${uniqueId}`);
 
         try {
             const videoRes = await uploadBytes(filesFolderRef, video);
-            const previewRes = await uploadBytes(previewsFolderRef, video);
-            console.log(videoRes, previewRes);
+            const previewRes = await uploadBytes(previewsFolderRef, preview);
+            // console.log(videoRes, previewRes);
         } catch (e) {
-            swal(e);
+            let message = 'Unknown Error';
+            if (e instanceof Error) message = e.message;
+            console.error(message);
+            swal('Something went wrong');
         }
     };
 
@@ -136,13 +143,24 @@ const AddVideo1: FC = () => {
                     onClickHandler={async () => {
                         if (preview && video && videoTitle && videoType && videoDescr) {
                             try {
-                                const oldData = await getDoc(doc(DB, 'users', selector.regData.email)).then((res) => res.data()?.videos);
-                                const res = await updateDoc(doc(DB, 'users', selector.regData.email), {
-                                    videos: [...oldData, { title: videoTitle, descr: videoDescr, category: videoType, shopify }],
-                                });
                                 await uploadVideo();
+                                const oldData = await getDoc(doc(DB, 'users', selector.regData.email)).then((res) => res.data()?.videos);
+                                const videoUrl = await getDownloadURL(ref(storage, `videos/${selector.regData.email}/${videoTitle}${uniqueId}`));
+                                const previewUrl = await getDownloadURL(ref(storage, `previews/${selector.regData.email}/${videoTitle}${uniqueId}`));
+
+                                console.log(videoUrl, previewUrl);
+                                if (oldData) {
+                                    await updateDoc(doc(DB, 'users', selector.regData.email), {
+                                        videos: [...oldData, { title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl }],
+                                    });
+                                } else {
+                                    await updateDoc(doc(DB, 'users', selector.regData.email), {
+                                        videos: [{ title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl }],
+                                    });
+                                }
                                 swal('Your video is successfully published');
                             } catch (e) {
+                                console.error(e);
                                 swal('Something went wrong');
                             }
                         } else if (videoType === 'Select category') {
