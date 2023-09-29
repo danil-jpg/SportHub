@@ -1,8 +1,16 @@
 import React, { FC } from 'react';
 import './Video.scss';
 import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
+import { title } from 'process';
 
-const Video: FC = () => {
+interface IVideo {
+    title: string;
+    date: number | string;
+    preview: string;
+}
+
+const Video: FC<IVideo> = ({ title = 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame...', date = 'Long ago', preview = '' }) => {
+    console.log(Object.is(NaN, date));
     return (
         <div className='creator__video'>
             <div className='creator__video__edit'>
@@ -10,10 +18,10 @@ const Video: FC = () => {
                     <IconRenderer id='dots' className='dots' />
                 </div>
             </div>
-            <img className='creator__video__preview' />
+            <img className='creator__video__preview' src={preview} />
             <div className='creator__video__bottom'>
-                <div className='creator__video__bottom_title'>Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame...</div>
-                <div className='creator__video__bottom_date'>3h ago</div>
+                <div className='creator__video__bottom_title'>{title}</div>
+                <div className='creator__video__bottom_date'>{date === 'NaN' ? 'unknown' : +date > 30 ? 'Long age' : `${date} days ago`}</div>
             </div>
         </div>
     );

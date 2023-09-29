@@ -1,19 +1,45 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Button from '../../../ui/Button/Button';
 import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import '../CrHome.scss';
 import Video from '../Video/Video';
 import { useNavigate } from 'react-router-dom';
-import { getDoc } from 'firebase/firestore';
+import { getDocs, collection, getDoc, doc } from 'firebase/firestore';
+import { DB } from '../../../../config/firebase-config';
+import { useAppSelector } from '../../../hooks/redux';
+import { v1 } from 'uuid';
 
 const CrHome: FC = () => {
     const [previewImageUrl, setPreviewImageUrl] = useState<string>('');
     const [videoTitle, setVideoTitle] = useState<string>('');
     const [videoDate, setVideoDate] = useState<string>('');
 
-    const currentDate = new Date().getTime();
-    const date: number = new Date('28 Sept 2023 14:45:49').getTime();
-    console.log(`date differ by ${currentDate - date}`);
+    const [videosArr, setVideosArr] = useState<any[]>([]);
+
+    const selector = useAppSelector((state) => state.regSlice.regData);
+
+    const currentDay = new Date().getTime();
+
+    useEffect(() => {
+        const getUserData = async () => {
+            const ref = await doc(DB, 'users', selector.email);
+            const userData = await getDoc(ref);
+            const filteredData = userData.data()?.videos;
+            // console.log((currentDay - filteredData[1].date.toDate().getTime()) / 1000 / 60 / 60 / 24);
+            console.log(currentDay);
+
+            setVideosArr(filteredData);
+            // console.log(filteredData);
+            return filteredData;
+        };
+        getUserData();
+    }, []);
+
+    // new Date().get;
+
+    // const currentDate = new Date().getDay();
+    // const date: number = new Date('28 Sept 2023 14:45:49').getDay();
+    // console.log(`date differ by ${currentDate - date}`);
 
     const navigate = useNavigate();
     return (
@@ -39,11 +65,9 @@ const CrHome: FC = () => {
                 <div className='creator__type creator__type_soul'>Soul</div>
             </div>
             <div className='creator__videos'>
-                <Video></Video>
-                <Video></Video>
-                <Video></Video>
-                <Video></Video>
-                <Video></Video>
+                {videosArr.map((el) => (
+                    <Video title={el.title} date={((currentDay - el.date?.toDate().getTime()) / 1000 / 60 / 60 / 24).toFixed(0)} preview={el.previewUrl} key={v1()}></Video>
+                ))}
             </div>
         </div>
     );
