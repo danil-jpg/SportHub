@@ -46,6 +46,12 @@
                 margin-top: 12px;
             }
         }
+        &_delete {
+            position: absolute;
+            bottom: -17px;
+            right: 0;
+            cursor: pointer;
+        }
     }
 }
 @media screen and (max-width: 375px) {

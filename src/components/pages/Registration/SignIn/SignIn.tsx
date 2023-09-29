@@ -30,16 +30,19 @@ const SignIn: FC = () => {
 
         signInWithEmailAndPassword(auth, email, password)
             .then(() => {
-                dispatch(
-                    setRegData({
-                        email,
-                        password,
-                        auth: true,
-                    }),
-                );
                 const docRef = doc(DB, 'users', email);
                 getDoc(docRef)
-                    .then((res) => res.data()?.type)
+                    .then((res) => {
+                        dispatch(
+                            setRegData({
+                                email,
+                                password,
+                                auth: true,
+                                ...res.data(),
+                            }),
+                        );
+                        return res.data()?.type;
+                    })
                     .then((res) => {
                         res === 'User' ? navigate('../') : navigate('../../creator/home');
                     })

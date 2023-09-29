@@ -8,13 +8,23 @@ import { getDocs, collection, getDoc, doc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
 import { useAppSelector } from '../../../hooks/redux';
 import { v1 } from 'uuid';
+import swal from 'sweetalert';
+
+interface IVideo {
+    category: string;
+    descr: string;
+    previewUrl: string;
+    shopify: string;
+    title: string;
+    videoUrl: string;
+    date?: any;
+}
 
 const CrHome: FC = () => {
-    const [previewImageUrl, setPreviewImageUrl] = useState<string>('');
-    const [videoTitle, setVideoTitle] = useState<string>('');
-    const [videoDate, setVideoDate] = useState<string>('');
+    const [videosArr, setVideosArr] = useState<IVideo[]>([]);
+    const [filteredVideosArr, setFilteredVideosArr] = useState<IVideo[]>([]);
 
-    const [videosArr, setVideosArr] = useState<any[]>([]);
+    const [activeButtonArr, setActiveButtonArr] = useState<boolean[]>([true, false, false, false]);
 
     const selector = useAppSelector((state) => state.regSlice.regData);
 
@@ -25,21 +35,28 @@ const CrHome: FC = () => {
             const ref = await doc(DB, 'users', selector.email);
             const userData = await getDoc(ref);
             const filteredData = userData.data()?.videos;
-            // console.log((currentDay - filteredData[1].date.toDate().getTime()) / 1000 / 60 / 60 / 24);
-            console.log(currentDay);
 
-            setVideosArr(filteredData);
-            // console.log(filteredData);
+            setVideosArr(filteredData ? filteredData : []);
+            setFilteredVideosArr(filteredData ? filteredData : []);
+
             return filteredData;
         };
         getUserData();
     }, []);
 
-    // new Date().get;
-
-    // const currentDate = new Date().getDay();
-    // const date: number = new Date('28 Sept 2023 14:45:49').getDay();
-    // console.log(`date differ by ${currentDate - date}`);
+    const filterByType = (type: string) => {
+        if (type === 'All') {
+            setFilteredVideosArr(videosArr);
+        } else if (type === 'Mind') {
+            setFilteredVideosArr(videosArr.filter((el) => el.category === 'Mind'));
+        } else if (type === 'Body') {
+            setFilteredVideosArr(videosArr.filter((el) => el.category === 'Body'));
+        } else if (type === 'Soul') {
+            setFilteredVideosArr(videosArr.filter((el) => el.category === 'Soul'));
+        } else {
+            swal('Something went wrong');
+        }
+    };
 
     const navigate = useNavigate();
     return (
@@ -47,7 +64,9 @@ const CrHome: FC = () => {
             <div className='creator__top'>
                 <div className='creator__video-play-tabs'>
                     <div className='creator__tab creator__video_tab active'>Your video</div>
-                    <div className='creator__tab creator__play_tab'>Playlists</div>
+                    <div className='creator__tab creator__play_tab' onClick={() => navigate('../home-cr-playlist')}>
+                        Playlists
+                    </div>
                 </div>
                 <Button
                     className='creator__add-video-btn'
@@ -60,12 +79,45 @@ const CrHome: FC = () => {
                 </Button>
             </div>
             <div className='creator__types'>
-                <div className='creator__type active creator__type_mind'>Mind</div>
-                <div className='creator__type creator__type_body'>Body</div>
-                <div className='creator__type creator__type_soul'>Soul</div>
+                <div
+                    className={`creator__type ${activeButtonArr[0] ? 'active' : ''} creator__type_all`}
+                    onClick={(e) => {
+                        filterByType('All');
+                        setActiveButtonArr([true, false, false, false]);
+                    }}
+                >
+                    All
+                </div>
+                <div
+                    className={`creator__type ${activeButtonArr[1] ? 'active' : ''} creator__type_all`}
+                    onClick={() => {
+                        setActiveButtonArr([false, true, false, false]);
+                        filterByType('Mind');
+                    }}
+                >
+                    Mind
+                </div>
+                <div
+                    className={`creator__type ${activeButtonArr[2] ? 'active' : ''} creator__type_all`}
+                    onClick={() => {
+                        setActiveButtonArr([false, false, true, false]);
+                        filterByType('Body');
+                    }}
+                >
+                    Body
+                </div>
+                <div
+                    className={`creator__type ${activeButtonArr[3] ? 'active' : ''} creator__type_all`}
+                    onClick={() => {
+                        setActiveButtonArr([false, false, false, true]);
+                        filterByType('Soul');
+                    }}
+                >
+                    Soul
+                </div>
             </div>
             <div className='creator__videos'>
-                {videosArr.map((el) => (
+                {filteredVideosArr.map((el) => (
                     <Video title={el.title} date={((currentDay - el.date?.toDate().getTime()) / 1000 / 60 / 60 / 24).toFixed(0)} preview={el.previewUrl} key={v1()}></Video>
                 ))}
             </div>

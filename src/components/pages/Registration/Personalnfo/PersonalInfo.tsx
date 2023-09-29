@@ -26,17 +26,17 @@ const PersonalInfo: FC = () => {
 
     const navigate = useNavigate();
 
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
 
     const selector = useAppSelector((state) => state.regSlice);
 
-    useEffect(() => {
-        dispatch(
-            setRegData({
-                photoUrl,
-            }),
-        );
-    }, [photoUrl]);
+    // useEffect(() => {
+    //     dispatch(
+    //         setRegData({
+    //             photoUrl,
+    //         }),
+    //     );
+    // }, [photoUrl]);
 
     const uploadFile = async () => {
         if (!file) {
@@ -63,14 +63,14 @@ const PersonalInfo: FC = () => {
             await uploadFile();
             const res = await getDownloadURL(ref(storage, `users/${selector.regData.email}`));
             setPhotoUrl(res);
-            dispatch(
-                setRegData({
-                    gender: radio,
-                    birthday,
-                    type,
-                    photoUrl: res,
-                }),
-            );
+            // dispatch(
+            //     setRegData({
+            //         gender: radio,
+            //         birthday,
+            //         type,
+            //         photoUrl: res,
+            //     }),
+            // );
             await setDoc(doc(DB, 'users', selector.regData.email), {
                 ...selector.regData,
                 photoUrl: res,
