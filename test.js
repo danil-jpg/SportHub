@@ -1,19 +1,10 @@
-'use strict';
+const date1 = new Date()
 
-let set = new Set();
+// var dateString = currentDate.toString();
+// console.log(dateString);
 
-let vasya = { name: "Вася" };
-let petya = { name: "Петя" };
-let dasha = { name: "Даша" };
+setTimeout(() => {
+	date2 = new Date().toString()
+	console.log(date1, date2)
 
-// посещения, некоторые пользователи заходят много раз
-set.add(1);
-set.add(1);
-set.add(2);
-set.add(3);
-set.add(4);
-
-// set сохраняет только уникальные значения
-console.log(set.size); // 3
-
-set.forEach(user => console.log(user)); // Вася, Петя, Даша
+}, 1)

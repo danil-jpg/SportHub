@@ -18,7 +18,7 @@ const HomePlay = () => {
                     </div>
                     <div className='creator__tab creator__play_tab active'>Playlists</div>
                 </div>
-                <Button className='creator__add-video-btn'>
+                <Button className='creator__add-video-btn' onClickHandler={() => navigate('../create-playlist')}>
                     <IconRenderer id='plus' className='creator__add-video-svg' />
                     Create new playlist
                 </Button>

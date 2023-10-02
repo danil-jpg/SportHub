@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { IVideo } from '../../pages/Creator/Home/CrHome';
 
 interface IReg {
     regData: {
@@ -10,6 +11,8 @@ interface IReg {
         file?: File;
         type?: string;
         photoUrl?: string;
+        videos?: IVideo[];
+        date?: Date;
     };
 }
 

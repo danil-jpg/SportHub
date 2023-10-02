@@ -27,7 +27,7 @@ const AddVideo1: FC = () => {
     const [video, setVideo] = useState<File | null>(null);
     const [videoTitle, setVideoTitle] = useState<string>('');
     const [videoDescr, setVideoDescr] = useState<string>('');
-    const [videoType, setVideoType] = useState<string | number>('');
+    const [videoType, setVideoType] = useState<string>('');
     const [shopify, setShopify] = useState<string>('');
     const [preview, setPreview] = useState<File | null>(null);
     const [publishButtonState, setPublishButtonState] = useState<boolean>(false);
@@ -162,11 +162,14 @@ const AddVideo1: FC = () => {
                                 console.log(videoUrl, previewUrl);
                                 if (oldData) {
                                     await updateDoc(doc(DB, 'users', selector.regData.email), {
-                                        videos: [...oldData, { title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl, date: new Date() }],
+                                        videos: [
+                                            ...oldData,
+                                            { title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl, date: new Date().toString() },
+                                        ],
                                     });
                                 } else {
                                     await updateDoc(doc(DB, 'users', selector.regData.email), {
-                                        videos: [{ title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl, date: new Date() }],
+                                        videos: [{ title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl, date: new Date().toString() }],
                                     });
                                 }
                                 swal('Your video is successfully published').then(() => {

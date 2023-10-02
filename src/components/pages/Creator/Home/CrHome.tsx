@@ -6,9 +6,11 @@ import Video from '../Video/Video';
 import { useNavigate } from 'react-router-dom';
 import { getDoc, doc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { v1 } from 'uuid';
 import swal from 'sweetalert';
+import { setRegData } from '../../../store/slices/registration';
+import getDate from '../../../utils/getDate';
 
 interface IVideo {
     category: string;
@@ -28,6 +30,8 @@ const CrHome: FC = () => {
 
     const selector = useAppSelector((state) => state.regSlice.regData);
 
+    const dispatch = useAppDispatch();
+
     const currentDay = new Date().getTime();
 
     useEffect(() => {
@@ -38,6 +42,12 @@ const CrHome: FC = () => {
 
             setVideosArr(filteredData ? filteredData : []);
             setFilteredVideosArr(filteredData ? filteredData : []);
+
+            dispatch(
+                setRegData({
+                    videos: filteredData,
+                }),
+            );
 
             return filteredData;
         };
@@ -118,9 +128,10 @@ const CrHome: FC = () => {
             </div>
             <div className='creator__videos'>
                 {filteredVideosArr
-                    ? filteredVideosArr.map((el) => (
-                          <Video title={el.title} date={((currentDay - el.date.toDate().getTime()) / 1000 / 60 / 60 / 24).toFixed(0)} preview={el.previewUrl} key={v1()}></Video>
-                      ))
+                    ? filteredVideosArr.map((el) => {
+                          console.log(el.date);
+                          return <Video title={el.title} date={getDate(el.date)} preview={el.previewUrl} key={v1()}></Video>;
+                      })
                     : ''}
             </div>
         </div>

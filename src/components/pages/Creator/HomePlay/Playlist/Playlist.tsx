@@ -16,13 +16,7 @@ const Playlist: FC<IPlaylist> = ({ title = 'Defalut Title' }) => {
                 <div className='creator__playlist_title'>{title}</div>
                 <div className='creator__playlist_view-more'>View all</div>
             </div>
-            <div className='playlist__videos'>
-                <Video></Video>
-                <Video></Video>
-                <Video></Video>
-                <Video></Video>
-                <Video></Video>
-            </div>
+            <div className='playlist__videos'></div>
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, ReactNode, useEffect, useState } from 'react';
 import Button from '../../../ui/Button/Button';
 import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import DotBtn from '../../../common/DotBtn/DotBtn';
@@ -6,10 +6,32 @@ import './CreatePlaylist.scss';
 import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import SelectContainer from '../../../ui/Forms/SelectContainer/SelectContainer';
 import Input from '../../../ui/Forms/Input/Input';
+import { useAppSelector } from '../../../hooks/redux';
+import { IVideo } from '../Home/CrHome';
+import Video from '../Video/Video';
+import getDate from '../../../utils/getDate';
 
 const CreatePlaylist: FC = () => {
     const [selectState, setSelectState] = useState('');
     const [burgerMenu, setBurgerMenu] = useState<boolean>(false);
+    const [searchInput, setSearchInput] = useState('');
+
+    const selector = useAppSelector((state) => state.regSlice.regData);
+    const filteredVideos: IVideo[] | undefined = selector.videos;
+
+    const filterVideosArrFunc = (): ReactNode[] | undefined => {
+        const res = filteredVideos
+            ?.filter((el) => el.title.toUpperCase().includes(searchInput.toUpperCase()))
+            .map((el) => {
+                return <Video title={el.title} preview={el.previewUrl} date={getDate(el.date)}></Video>;
+            });
+
+        return res;
+    };
+
+    useEffect(() => {
+        console.log(filteredVideos);
+    }, [selector]);
 
     return (
         <div className='cr-playlist'>
@@ -34,7 +56,9 @@ const CreatePlaylist: FC = () => {
                         <p className='cr-playlist_selected-text'>Selected: {3}</p>
                         <IconRenderer id='cross' onClick={() => setBurgerMenu(false)} />
                     </div>
-                    <Input placeholder='Search' />
+                    <Input placeholder='Search' value={searchInput} onChangeHandler={(e) => setSearchInput(e.target.value)} />
+
+                    {filterVideosArrFunc()}
                 </div>
             </div>
         </div>
