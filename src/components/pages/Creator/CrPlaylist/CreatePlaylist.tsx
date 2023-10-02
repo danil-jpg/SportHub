@@ -10,6 +10,7 @@ import { useAppSelector } from '../../../hooks/redux';
 import { IVideo } from '../Home/CrHome';
 import Video from '../Video/Video';
 import getDate from '../../../utils/getDate';
+import { v1 } from 'uuid';
 
 const CreatePlaylist: FC = () => {
     const [selectState, setSelectState] = useState('');
@@ -23,7 +24,7 @@ const CreatePlaylist: FC = () => {
         const res = filteredVideos
             ?.filter((el) => el.title.toUpperCase().includes(searchInput.toUpperCase()))
             .map((el) => {
-                return <Video title={el.title} preview={el.previewUrl} date={getDate(el.date)}></Video>;
+                return <Video key={v1()} className='video-active' title={el.title} preview={el.previewUrl} date={getDate(el.date)}></Video>;
             });
 
         return res;

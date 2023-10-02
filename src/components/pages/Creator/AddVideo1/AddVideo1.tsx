@@ -173,11 +173,7 @@ const AddVideo1: FC = () => {
                                     });
                                 }
                                 swal('Your video is successfully published').then(() => {
-                                    if (selector.regData?.type === 'Creator') {
-                                        navigate('../home');
-                                    } else {
-                                        navigate('../');
-                                    }
+                                    navigate('../home');
                                 });
                             } catch (e) {
                                 console.error(e);

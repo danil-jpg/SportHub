@@ -7,11 +7,12 @@ interface IVideo {
     title: string;
     date: number | string;
     preview: string;
+    className?: string;
 }
 
-const Video: FC<IVideo> = ({ title = 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame...', date = 'Long ago', preview = '' }) => {
+const Video: FC<IVideo> = ({ title = 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame...', date = 'Long ago', preview = '', className = '' }) => {
     return (
-        <div className='creator__video'>
+        <div className={`${className} creator__video `}>
             {/* <div className='creator__video__edit'> */}
             {/* <div className='creator__video__dots-wr'> */}
             {/* <IconRenderer id='dots' className='dots' /> */}
