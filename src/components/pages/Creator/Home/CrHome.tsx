@@ -4,7 +4,7 @@ import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import '../CrHome.scss';
 import Video from '../Video/Video';
 import { useNavigate } from 'react-router-dom';
-import { getDocs, collection, getDoc, doc } from 'firebase/firestore';
+import { getDoc, doc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
 import { useAppSelector } from '../../../hooks/redux';
 import { v1 } from 'uuid';
@@ -117,12 +117,15 @@ const CrHome: FC = () => {
                 </div>
             </div>
             <div className='creator__videos'>
-                {filteredVideosArr.map((el) => (
-                    <Video title={el.title} date={((currentDay - el.date?.toDate().getTime()) / 1000 / 60 / 60 / 24).toFixed(0)} preview={el.previewUrl} key={v1()}></Video>
-                ))}
+                {filteredVideosArr
+                    ? filteredVideosArr.map((el) => (
+                          <Video title={el.title} date={((currentDay - el.date.toDate().getTime()) / 1000 / 60 / 60 / 24).toFixed(0)} preview={el.previewUrl} key={v1()}></Video>
+                      ))
+                    : ''}
             </div>
         </div>
     );
 };
 
+export type { IVideo };
 export default CrHome;

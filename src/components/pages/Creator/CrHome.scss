@@ -89,6 +89,16 @@
     cursor: pointer;
 }
 
+// playlists
+
+.playlist {
+    &__videos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 21px;
+    }
+}
+
 @media screen and (max-width: 767px) {
     .creator__types {
         justify-content: center;

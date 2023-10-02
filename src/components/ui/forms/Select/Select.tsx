@@ -6,20 +6,19 @@ interface ISelect {
     className?: string;
     arr: Array<string>;
     placeholder: string;
-    value: string | number;
-    setValue: (arg: string | number) => void;
+    value: string;
+    setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Select: FC<ISelect> = ({ value, setValue, className = '', placeholder = 'choose your category', arr = ['Soul', 'Mind', 'Body'] }) => {
     const rootRef = useRef<HTMLDivElement | null>(null);
 
-    // const [value, setValue] = useState<string | number>(placeholder);
     useEffect(() => {
         setValue(placeholder);
     }, []);
     const [open, setOpen] = useState<boolean>(false);
 
-    const onElementClickHandler = (str: string | number) => {
+    const onElementClickHandler = (str: string) => {
         setValue(str);
     };
 

@@ -5,7 +5,7 @@ import { useAppSelector } from '../../hooks/redux';
 import AddVideo1 from './AddVideo1/AddVideo1';
 import CrHome from './Home/CrHome';
 import HomePlay from './HomePlay/HomePlay';
-import AddVideo2 from './AddVideo2/AddVideo2';
+import CreatePlaylist from './CrPlaylist/CreatePlaylist';
 
 const Creator: FC = () => {
     // const CrHome = React.lazy(() => import('./Home/CrHome'));
@@ -17,9 +17,9 @@ const Creator: FC = () => {
             <Header></Header>
             <Routes>
                 <Route element={<CrHome />} path='home' />
-                <Route element={<HomePlay />} path='home-cr-playlist' />
                 <Route element={<AddVideo1 />} path='addvideo1' />
-                <Route element={<AddVideo2 />} path='addvideo2' />
+                <Route element={<HomePlay />} path='home-cr-playlist' />
+                <Route element={<CreatePlaylist />} path='create-playlist' />
             </Routes>
         </>
     );

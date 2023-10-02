@@ -8,8 +8,8 @@ interface ISelectContainer {
     arr: Array<string>;
     placeholder: string;
     title: string;
-    value: string | number;
-    setValue: (arg: string | number) => void;
+    value: string;
+    setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SelectContainer: FC<ISelectContainer> = ({

@@ -26,17 +26,17 @@ const PersonalInfo: FC = () => {
 
     const navigate = useNavigate();
 
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
     const selector = useAppSelector((state) => state.regSlice);
 
-    // useEffect(() => {
-    //     dispatch(
-    //         setRegData({
-    //             photoUrl,
-    //         }),
-    //     );
-    // }, [photoUrl]);
+    useEffect(() => {
+        dispatch(
+            setRegData({
+                videos: [],
+            }),
+        );
+    }, [photoUrl]);
 
     const uploadFile = async () => {
         if (!file) {

@@ -4,6 +4,7 @@ import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import '../CrHome.scss';
 import Video from '../Video/Video';
 import { useNavigate } from 'react-router-dom';
+import Playlist from './Playlist/Playlist';
 
 const HomePlay = () => {
     const navigate = useNavigate();
@@ -22,11 +23,7 @@ const HomePlay = () => {
                     Create new playlist
                 </Button>
             </div>
-            <div className='creator__playlist-line'>
-                <div className='creator__playlist_title'>Fitness training</div>
-                <div className='creator__playlist_view-more'>View all</div>
-            </div>
-            <div className='creator__videos'></div>
+            <Playlist></Playlist>
         </div>
     );
 };
