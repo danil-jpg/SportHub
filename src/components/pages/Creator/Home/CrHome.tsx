@@ -130,7 +130,7 @@ const CrHome: FC = () => {
                 {filteredVideosArr
                     ? filteredVideosArr.map((el) => {
                           console.log(el.date);
-                          return <Video title={el.title} date={getDate(el.date)} preview={el.previewUrl} key={v1()}></Video>;
+                          return <Video title={el.title} date={getDate(el.date)} previewUrl={el.previewUrl} key={v1()}></Video>;
                       })
                     : ''}
             </div>

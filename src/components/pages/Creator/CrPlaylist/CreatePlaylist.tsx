@@ -8,6 +8,7 @@ import SelectContainer from '../../../ui/Forms/SelectContainer/SelectContainer';
 import Input from '../../../ui/Forms/Input/Input';
 import { useAppSelector } from '../../../hooks/redux';
 import { IVideo } from '../Home/CrHome';
+import { IVideoComp } from '../Video/Video';
 import Video from '../Video/Video';
 import getDate from '../../../utils/getDate';
 import { v1 } from 'uuid';
@@ -17,22 +18,42 @@ const CreatePlaylist: FC = () => {
     const [burgerMenu, setBurgerMenu] = useState<boolean>(false);
     const [searchInput, setSearchInput] = useState('');
 
+    const [selectedArr, setSelectedArr] = useState<IVideo[] | []>([]);
+
     const selector = useAppSelector((state) => state.regSlice.regData);
     const filteredVideos: IVideo[] | undefined = selector.videos;
+
+    const [selectedArrState, setSelectedArrState] = useState<boolean[]>(Array(filteredVideos?.length).fill(false));
+
+    useEffect(() => {
+        setSelectedArrState(Array(filteredVideos?.length).fill(false));
+    }, [filteredVideos]);
 
     const filterVideosArrFunc = (): ReactNode[] | undefined => {
         const res = filteredVideos
             ?.filter((el) => el.title.toUpperCase().includes(searchInput.toUpperCase()))
-            .map((el) => {
-                return <Video key={v1()} className='video-active' title={el.title} preview={el.previewUrl} date={getDate(el.date)}></Video>;
+            .map((el, index) => {
+                return (
+                    <div
+                        key={v1()}
+                        onClick={(e) => {
+                            setSelectedArrState((prev) => {
+                                const res = [...prev];
+                                res[index] = ![...prev][index];
+                                return res;
+                            });
+                            setSelectedArr((prev) => [...prev, el]);
+                        }}
+                    >
+                        <Video className={`${selectedArrState[index] ? 'video-active' : ''}`} previewUrl={el.previewUrl} title={el.title} date={getDate(el.date)}></Video>
+                    </div>
+                );
             });
 
         return res;
     };
 
-    useEffect(() => {
-        console.log(filteredVideos);
-    }, [selector]);
+    useEffect(() => {}, []);
 
     return (
         <div className='cr-playlist'>
