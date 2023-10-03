@@ -39,10 +39,27 @@ const CreatePlaylist: FC = () => {
                         onClick={(e) => {
                             setSelectedArrState((prev) => {
                                 const res = [...prev];
-                                res[index] = ![...prev][index];
+                                res[index] = !res[index];
+
                                 return res;
                             });
-                            setSelectedArr((prev) => [...prev, el]);
+                            setSelectedArr((prev) => {
+                                const res = [...prev];
+                                let status: boolean = true;
+
+                                for (let i = 0; i < res.length; ++i) {
+                                    console.log(el.date, res[i].date);
+                                    status = !(el.date === res[i].date);
+                                }
+
+                                if (status) {
+                                    res.push(el);
+                                } else {
+                                    console.log(2);
+                                    res.splice(index, 1);
+                                }
+                                return res;
+                            });
                         }}
                     >
                         <Video className={`${selectedArrState[index] ? 'video-active' : ''}`} previewUrl={el.previewUrl} title={el.title} date={getDate(el.date)}></Video>
@@ -60,7 +77,9 @@ const CreatePlaylist: FC = () => {
             <div className='cr-playlist__top'>
                 <p className='cr-playlist__title'>Create new playlist</p>
                 <div className='cr-playlist__top-right'>
-                    <Button className='cr-playlist__top_btn'>Save</Button>
+                    <Button className='cr-playlist__top_btn' onClickHandler={() => console.log(selectedArr)}>
+                        Save
+                    </Button>
                     <DotBtn />
                 </div>
             </div>
