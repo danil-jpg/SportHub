@@ -25,6 +25,7 @@ const Header: FC = ({}) => {
             setRegData({
                 email: '',
                 password: '',
+                videos: [],
             }),
         );
         navigate('../../registration/signIn');
