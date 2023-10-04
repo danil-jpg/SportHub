@@ -12,31 +12,14 @@ import { IVideoComp } from '../Video/Video';
 import Video from '../Video/Video';
 import getDate from '../../../utils/getDate';
 import { v1 } from 'uuid';
-
-// const res = [...prev];
-// let status: boolean = false;
-
-// for (let i = 0; i < res.length; i++) {
-//     status = el.date === res[i].date;
-//     console.log(status);
-//     if (status === true) {
-//         break;
-//     }
-// }
-
-// if (!status) {
-//     res.push(el);
-// } else {
-//     res.splice(index, 1);
-// }
-// return res;
+import TextareaContainer from '../../../ui/Forms/TextareaContainer/TextareaContainer';
 
 const CreatePlaylist: FC = () => {
     const [selectState, setSelectState] = useState('');
     const [burgerMenu, setBurgerMenu] = useState<boolean>(false);
     const [searchInput, setSearchInput] = useState('');
-
-    // const [selectedArr, setSelectedArr] = useState<IVideo[] | []>([]);
+    const [titleInput, setTitleInput] = useState<string>('');
+    const [textAreaInput, setTextAreaInput] = useState<string>('');
 
     const selector = useAppSelector((state) => state.regSlice.regData);
     const filteredVideos: IVideo[] | undefined = selector.videos;
@@ -78,6 +61,61 @@ const CreatePlaylist: FC = () => {
 
     useEffect(() => {}, []);
 
+    const checkIfVideoHadChoosen = (): ReactNode | '' => {
+        let status = false;
+        for (let i = 0; i < selectedArrState[0].length; i++) {
+            if (selectedArrState[0][i] === true) {
+                status = true;
+                break;
+            }
+        }
+        return status ? (
+            <>
+                <p className='cr-playlist__selected'>Selected</p>{' '}
+                <ul className='cr-playlist__chosen-ul'>
+                    {selectedArrState[1].map((el, index) =>
+                        el.title ? (
+                            <li key={v1()} className='cr-playlist__chosen-li'>
+                                {el.title}
+                                <IconRenderer
+                                    id='small-cross'
+                                    onClick={() =>
+                                        setSelectedArrState((prev) => {
+                                            const res = [...prev[0]];
+                                            res[index] = !res[index];
+                                            //
+                                            const vidoesArr = [...prev[1]];
+                                            if (res[index]) {
+                                                vidoesArr[index] = el;
+                                            } else {
+                                                vidoesArr[index] = [];
+                                            }
+                                            return [res, vidoesArr];
+                                        })
+                                    }
+                                />
+                            </li>
+                        ) : (
+                            ''
+                        ),
+                    )}
+                </ul>
+            </>
+        ) : (
+            ''
+        );
+    };
+
+    const countNumberOfVideos = (): number => {
+        let num = 0;
+        for (let i = 0; i < selectedArrState[0].length; i++) {
+            if (selectedArrState[0][i]) {
+                num++;
+            }
+        }
+        return num;
+    };
+
     return (
         <div className='cr-playlist'>
             <div className='cr-playlist__top'>
@@ -91,16 +129,31 @@ const CreatePlaylist: FC = () => {
             </div>
             <div className='cr-playlist__center'>
                 <div>
-                    <InputContainer text='Playlist name' placeholder='Enter playlist name'></InputContainer>
-                    <InputContainer text='Description' placeholder='Description'></InputContainer>
+                    <InputContainer
+                        text='Playlist name'
+                        placeholder='Enter playlist name'
+                        value={titleInput}
+                        onChangeHandler={(e) => setTitleInput(e.target.value)}
+                    ></InputContainer>
+                    <TextareaContainer
+                        value={textAreaInput}
+                        onChangeHandler={(e) => setTextAreaInput(e.target.value)}
+                        text='Description'
+                        placeholder='Description'
+                    ></TextareaContainer>
                     <SelectContainer setValue={setSelectState} value={selectState} title='Category' placeholder='Select category' arr={['Mind', 'Body', 'Soul']}></SelectContainer>
+                    {checkIfVideoHadChoosen()}
+
                     <Button className='cr-playlist__center_select-videos' onClickHandler={() => setBurgerMenu(true)}>
                         Select video
                     </Button>
                 </div>
                 <div className={`cr-playlist__center__right  ${burgerMenu ? 'active' : ''} `}>
                     <div className='cr-playlist__center__right_selected'>
-                        <p className='cr-playlist_selected-text'>Selected: {3}</p>
+                        <p className='cr-playlist_selected-text'>
+                            Selected:
+                            {countNumberOfVideos()}
+                        </p>
                         <IconRenderer id='cross' onClick={() => setBurgerMenu(false)} />
                     </div>
                     <Input placeholder='Search' value={searchInput} onChangeHandler={(e) => setSearchInput(e.target.value)} />
