@@ -6,7 +6,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { DB, storage } from '../../../../config/firebase-config';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useNavigate } from 'react-router-dom';
-import { ref, uploadBytes, getDownloadURL, connectStorageEmulator } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { updateDoc } from 'firebase/firestore';
 import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import SelectContainer from '../../../ui/Forms/SelectContainer/SelectContainer';
@@ -14,14 +14,6 @@ import pngPicW from '../../../../assets/img/addvideo/addvideo-white.png?as=webp'
 import swal from 'sweetalert';
 import { v1 } from 'uuid';
 import TextareaContainer from '../../../ui/Forms/TextareaContainer/TextareaContainer';
-
-interface IObject {
-    name: string;
-    date: number;
-    preview: File | null;
-    category: string;
-    description: string;
-}
 
 const AddVideo1: FC = () => {
     const [video, setVideo] = useState<File | null>(null);
@@ -115,8 +107,6 @@ const AddVideo1: FC = () => {
         }
     };
 
-    const dispatch = useAppDispatch();
-
     const selector = useAppSelector((state) => state.regSlice);
 
     const uploadVideo = async () => {
@@ -130,7 +120,6 @@ const AddVideo1: FC = () => {
         try {
             const videoRes = await uploadBytes(filesFolderRef, video);
             const previewRes = await uploadBytes(previewsFolderRef, preview);
-            // console.log(videoRes, previewRes);
         } catch (e) {
             let message = 'Unknown Error';
             if (e instanceof Error) message = e.message;

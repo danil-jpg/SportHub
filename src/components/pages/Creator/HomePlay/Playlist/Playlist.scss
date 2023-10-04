@@ -1,0 +1,22 @@
+.creator-playlist {
+}
+.creator__playlist-line {
+    display: flex;
+    justify-content: space-between;
+    margin: 32px 0 24px;
+}
+.creator__playlist_title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.creator__playlist_view-more {
+    color: #ad7955;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    &.active {
+        color: #fff;
+    }
+}

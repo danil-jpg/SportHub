@@ -1,13 +1,41 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Button from '../../../ui/Button/Button';
 import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import '../CrHome.scss';
-import Video from '../Video/Video';
 import { useNavigate } from 'react-router-dom';
 import Playlist from './Playlist/Playlist';
+import { DB } from '../../../../config/firebase-config';
+import { getDoc } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
+import { useAppSelector } from '../../../hooks/redux';
+import { IVideo } from '../Home/CrHome';
+import { v1 } from 'uuid';
+
+interface IPlaylist {
+    title: string;
+    descr: string;
+    videos: IVideo[];
+}
 
 const HomePlay = () => {
+    const [playlistData, setPlayListData] = useState<IPlaylist[]>([]);
+
     const navigate = useNavigate();
+
+    const selector = useAppSelector((state) => state.regSlice.regData);
+
+    const getData = async () => {
+        try {
+            const data = await getDoc(doc(DB, 'users', selector.email)).then((res) => res.data()?.playlists);
+            setPlayListData(data);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     return (
         <div className='creator-container creator creator-playlist'>
@@ -23,9 +51,12 @@ const HomePlay = () => {
                     Create new playlist
                 </Button>
             </div>
-            <Playlist></Playlist>
+            {playlistData.map((el) => (
+                <Playlist videos={el.videos} key={v1()} title={el.title} descr={el.descr}></Playlist>
+            ))}
         </div>
     );
 };
 
+export type { IPlaylist };
 export default HomePlay;

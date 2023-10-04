@@ -1,5 +1,5 @@
 .cr-playlist {
-    max-width: 920px;
+    max-width: 1440px;
     margin: 0 auto;
     margin-top: 33px;
     width: 100%;
@@ -20,6 +20,9 @@
             margin-right: 16px;
             width: 180px;
             background-color: #777;
+            &.active {
+                background-color: #ad7955;
+            }
         }
     }
 
@@ -117,9 +120,16 @@
     }
 }
 
+@media screen and (max-width: 1440px) {
+    .cr-playlist {
+        padding: 0 16px;
+    }
+}
+
 @media screen and (max-width: 996px) {
     .cr-playlist {
         padding: 0 16px;
+        max-width: 920px;
     }
 }
 
