@@ -6,6 +6,7 @@ import AddVideo1 from './AddVideo1/AddVideo1';
 import CrHome from './Home/CrHome';
 import HomePlay from './HomePlay/HomePlay';
 import CreatePlaylist from './CrPlaylist/CreatePlaylist';
+import PlaylistPage from './PlaylistPage/PlaylistPage';
 
 const Creator: FC = () => {
     // const CrHome = React.lazy(() => import('./Home/CrHome'));
@@ -20,6 +21,7 @@ const Creator: FC = () => {
                 <Route element={<AddVideo1 />} path='addvideo1' />
                 <Route element={<HomePlay />} path='home-cr-playlist' />
                 <Route element={<CreatePlaylist />} path='create-playlist' />
+                <Route element={<PlaylistPage />} path='playlist' />
             </Routes>
         </>
     );

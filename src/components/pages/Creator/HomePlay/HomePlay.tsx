@@ -13,8 +13,9 @@ import { v1 } from 'uuid';
 
 interface IPlaylist {
     title: string;
-    descr: string;
+    description?: string;
     videos: IVideo[];
+    index?: number;
 }
 
 const HomePlay = () => {
@@ -51,8 +52,8 @@ const HomePlay = () => {
                     Create new playlist
                 </Button>
             </div>
-            {playlistData.map((el) => (
-                <Playlist videos={el.videos} key={v1()} title={el.title} descr={el.descr}></Playlist>
+            {playlistData.map((el, index) => (
+                <Playlist index={index} videos={el.videos} key={v1()} title={el.title}></Playlist>
             ))}
         </div>
     );
