@@ -7,4 +7,43 @@
     align-items: center;
     width: 44px;
     height: 44px;
+
+    svg {
+        transition: 0.3s;
+    }
+
+    &__wr {
+        position: relative;
+    }
+
+    &__menu {
+        background: #222;
+        padding: 0 10px;
+        width: 210px;
+        position: absolute;
+        right: 0;
+        bottom: -65px;
+        display: none;
+        &.active {
+            display: block;
+        }
+    }
+
+    &__li {
+        color: #bbb;
+        font-size: 16px;
+        font-weight: 400;
+        cursor: pointer;
+        margin: 10px 0;
+
+        &:hover {
+            color: #fff;
+        }
+        a {
+            color: inherit;
+        }
+        a::visited {
+            color: #bbb;
+        }
+    }
 }

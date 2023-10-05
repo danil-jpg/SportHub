@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction, ChangeEventHandler } from 'react';
+import React, { FC, ChangeEventHandler } from 'react';
 import './Input.scss';
 
 interface IInput {

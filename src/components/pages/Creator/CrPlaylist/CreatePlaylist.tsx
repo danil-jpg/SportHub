@@ -1,7 +1,6 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 import Button from '../../../ui/Button/Button';
 import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
-import DotBtn from '../../../common/DotBtn/DotBtn';
 import './CreatePlaylist.scss';
 import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import SelectContainer from '../../../ui/Forms/SelectContainer/SelectContainer';
@@ -133,7 +132,7 @@ const CreatePlaylist: FC = () => {
                             videos: selectedArrState[1].filter((el: IVideo) => el.title),
                         },
                     ],
-                }).then((res) => swal('Successfully added'));
+                }).then(() => swal('Successfully added'));
             } else {
                 await updateDoc(doc(DB, 'users', selector.email), {
                     playlists: [
@@ -171,7 +170,6 @@ const CreatePlaylist: FC = () => {
                     <Button className={`${saveBtnState ? 'active' : ''} cr-playlist__top_btn`} onClickHandler={() => onSaveClick()}>
                         Save
                     </Button>
-                    <DotBtn />
                 </div>
             </div>
             <div className='cr-playlist__center'>

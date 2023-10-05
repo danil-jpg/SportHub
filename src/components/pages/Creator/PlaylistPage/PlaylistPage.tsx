@@ -3,20 +3,22 @@ import './PlaylistPage';
 import DotBtn from '../../../common/DotBtn/DotBtn';
 import './PlaylistPage.scss';
 import { DB } from '../../../../config/firebase-config';
-import { getDoc } from 'firebase/firestore';
+import { arrayRemove, getDoc } from 'firebase/firestore';
 import { doc } from 'firebase/firestore';
 import { useAppSelector } from '../../../hooks/redux';
-import { IVideo } from '../Home/CrHome';
 import { v1 } from 'uuid';
 import { useSearchParams } from 'react-router-dom';
 import Loading from '../../../common/Loading/Loading';
 import { IPlaylist } from '../HomePlay/HomePlay';
 import Video from '../Video/Video';
 import getDate from '../../../utils/getDate';
+import { updateDoc } from 'firebase/firestore';
 
 const PlaylistPage: FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const index: string | null = searchParams.get('playlist-index');
+
+    const [btnMenu, setBtnMenu] = useState<boolean>(true);
 
     const [playlistData, setPlayListData] = useState<IPlaylist[]>([]);
 
@@ -35,9 +37,19 @@ const PlaylistPage: FC = () => {
         getData();
     }, []);
 
-    useEffect(() => {
-        // console.log(playlistData[index].descr);
-    }, [playlistData]);
+    const onBtnClickHandler = () => setBtnMenu(!btnMenu);
+
+    const onDeleteClickHandler = async () => {
+        const playlistDoc = doc(DB, 'users', selector.email);
+        const elemToDelete = {
+            playlists: arrayRemove(0),
+        };
+        updateDoc(playlistDoc, elemToDelete)
+            .then((res) => {
+                console.log('Ready?');
+            })
+            .catch((e) => console.log('error'));
+    };
 
     if (!playlistData[0]) {
         return <Loading />;
@@ -47,7 +59,7 @@ const PlaylistPage: FC = () => {
             <div className='playlist__top'>
                 <div className='playlist__top-info'>
                     <p className='playlist__title'>{index ? playlistData[+index].title : 'undefined'}</p>
-                    <DotBtn />
+                    <DotBtn menu={btnMenu} onClickHandler={onBtnClickHandler} onDeleteHandler={onDeleteClickHandler}></DotBtn>
                 </div>
                 <div className='playlist__video'>
                     <p className='playlist__video_text'>{index ? playlistData[+index].videos.length : 'undefined'} videos</p>
