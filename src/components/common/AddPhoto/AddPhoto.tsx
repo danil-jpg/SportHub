@@ -8,6 +8,7 @@ interface IAddPhoto {
     classname: string;
     file: File | Blob | null;
     setFile: React.Dispatch<React.SetStateAction<File | null>>;
+    defaultImg?: string;
 }
 
 const AddPhoto: FC<IAddPhoto> = ({ file, setFile, classname = '' }) => {

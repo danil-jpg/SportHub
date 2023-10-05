@@ -31,6 +31,10 @@ const Header: FC = ({}) => {
         navigate('../../registration/signIn');
     };
 
+    const profileEditHandler = () => {
+        navigate('../../creator/edit-profile');
+    };
+
     useEffect(() => {
         selector.email ? setAuth(true) : '';
     }, [selector.email]);
@@ -98,7 +102,7 @@ const Header: FC = ({}) => {
                             <p className='profile__text'>Profile</p>
                             {profileState ? (
                                 <div className='profile__popup'>
-                                    <div className='profile__edit'>
+                                    <div className='profile__edit' onClick={profileEditHandler}>
                                         <IconRenderer id='pencil' />
                                         <p className='profile__edit_text'>Edit profile</p>
                                     </div>
