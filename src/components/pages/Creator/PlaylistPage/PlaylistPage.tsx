@@ -36,7 +36,7 @@ const PlaylistPage: FC = () => {
     useEffect(() => {
         getData();
     }, []);
-
+    // x
     const onBtnClickHandler = () => setBtnMenu(!btnMenu);
 
     const onDeleteClickHandler = async () => {
