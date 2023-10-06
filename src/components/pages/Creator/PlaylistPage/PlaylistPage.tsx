@@ -3,7 +3,7 @@ import './PlaylistPage';
 import DotBtn from '../../../common/DotBtn/DotBtn';
 import './PlaylistPage.scss';
 import { DB } from '../../../../config/firebase-config';
-import { arrayRemove, getDoc } from 'firebase/firestore';
+import { getDoc } from 'firebase/firestore';
 import { doc } from 'firebase/firestore';
 import { useAppSelector } from '../../../hooks/redux';
 import { v1 } from 'uuid';
@@ -18,7 +18,7 @@ const PlaylistPage: FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const index: string | null = searchParams.get('playlist-index');
 
-    const [btnMenu, setBtnMenu] = useState<boolean>(true);
+    const [btnMenu, setBtnMenu] = useState<boolean>(false);
 
     const [playlistData, setPlayListData] = useState<IPlaylist[]>([]);
 
@@ -40,12 +40,13 @@ const PlaylistPage: FC = () => {
     const onBtnClickHandler = () => setBtnMenu(!btnMenu);
 
     const onDeleteClickHandler = async () => {
-        const playlistDoc = doc(DB, 'users', selector.email);
-        const elemToDelete = {
-            playlists: arrayRemove(0),
-        };
-        updateDoc(playlistDoc, elemToDelete)
-            .then((res) => {
+        const ref = await doc(DB, 'users', selector.email);
+        const data = await getDoc(ref);
+        const newArr = [...data.data()?.playlists];
+        index ? newArr.splice(+index, 1) : console.error('Index is null');
+
+        updateDoc(ref, { playlists: newArr })
+            .then(() => {
                 console.log('Ready?');
             })
             .catch((e) => console.log('error'));

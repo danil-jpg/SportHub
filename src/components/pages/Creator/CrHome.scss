@@ -86,6 +86,12 @@
     .creator__videos {
         justify-content: center;
     }
+
+    .playlist {
+        &__videos {
+            justify-content: center;
+        }
+    }
     .creator {
         padding: 0 16px;
         &__top {
