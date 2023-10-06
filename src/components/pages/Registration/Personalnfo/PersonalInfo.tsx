@@ -9,12 +9,12 @@ import AddPhoto from '../../../common/AddPhoto/AddPhoto';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { setRegData } from '../../../store/slices/registration';
-import { ref, uploadBytes, getDownloadURL, connectStorageEmulator } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
 import { DB, storage } from '../../../../config/firebase-config';
 
 const PersonalInfo: FC = () => {
-    const [file, setFile] = useState<File | null>(null);
+    const [file, setFile] = useState<File | null | string>(null);
 
     const [radio, setRadio] = useState<string>('');
 
@@ -44,7 +44,7 @@ const PersonalInfo: FC = () => {
         }
         const filesFolderRef = ref(storage, `users/${selector.regData.email}`);
         try {
-            await uploadBytes(filesFolderRef, file);
+            typeof file !== 'string' ? await uploadBytes(filesFolderRef, file) : '';
         } catch (e) {
             alert(e);
         }
@@ -63,14 +63,6 @@ const PersonalInfo: FC = () => {
             await uploadFile();
             const res = await getDownloadURL(ref(storage, `users/${selector.regData.email}`));
             setPhotoUrl(res);
-            // dispatch(
-            //     setRegData({
-            //         gender: radio,
-            //         birthday,
-            //         type,
-            //         photoUrl: res,
-            //     }),
-            // );
             await setDoc(doc(DB, 'users', selector.regData.email), {
                 ...selector.regData,
                 photoUrl: res,

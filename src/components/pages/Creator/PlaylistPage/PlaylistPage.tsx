@@ -7,7 +7,7 @@ import { getDoc } from 'firebase/firestore';
 import { doc } from 'firebase/firestore';
 import { useAppSelector } from '../../../hooks/redux';
 import { v1 } from 'uuid';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Loading from '../../../common/Loading/Loading';
 import { IPlaylist } from '../HomePlay/HomePlay';
 import Video from '../Video/Video';
@@ -23,6 +23,8 @@ const PlaylistPage: FC = () => {
     const [playlistData, setPlayListData] = useState<IPlaylist[]>([]);
 
     const selector = useAppSelector((state) => state.regSlice.regData);
+
+    const navigate = useNavigate();
 
     const getData = async () => {
         try {
@@ -47,7 +49,7 @@ const PlaylistPage: FC = () => {
 
         updateDoc(ref, { playlists: newArr })
             .then(() => {
-                console.log('Ready?');
+                navigate('../');
             })
             .catch((e) => console.log('error'));
     };

@@ -32,8 +32,6 @@ const CrHome: FC = () => {
 
     const dispatch = useAppDispatch();
 
-    const currentDay = new Date().getTime();
-
     useEffect(() => {
         const getUserData = async () => {
             const ref = await doc(DB, 'users', selector.email);

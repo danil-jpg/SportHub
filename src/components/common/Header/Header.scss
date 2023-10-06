@@ -47,24 +47,47 @@
     }
     &__video {
         transition: 0.3s;
+        position: relative;
         color: #bbb;
         font-size: 16px;
         font-weight: 400;
         cursor: pointer;
         margin-left: 24px;
+        z-index: 1;
         &:active {
             color: #fff;
+            &:after {
+                border-radius: 8px;
+                z-index: -1;
+                background: #222;
+                position: absolute;
+                padding: 15px;
+                width: 120%;
+                left: -10%;
+                content: '';
+            }
         }
     }
     &__store {
         transition: 0.3s;
         color: #bbb;
+        position: relative;
         font-size: 16px;
         font-weight: 400;
         cursor: pointer;
         margin-left: 24px;
         &:active {
             color: #fff;
+            &:after {
+                border-radius: 8px;
+                z-index: -1;
+                background: #222;
+                position: absolute;
+                padding: 15px;
+                width: 120%;
+                left: -10%;
+                content: '';
+            }
         }
     }
     &__authed {

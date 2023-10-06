@@ -39,6 +39,10 @@ const Header: FC = ({}) => {
         selector.email ? setAuth(true) : '';
     }, [selector.email]);
 
+    // useEffect(() => {
+
+    // },[selector.photoUrl])
+
     useEffect(() => {
         const onMenuOutMenuClickHandler = (e: MouseEvent) => {
             const { target } = e;

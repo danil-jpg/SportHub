@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, ChangeEventHandler } from 'react';
 import './TextareaContainer.scss';
 
 interface ITextarea {
     placeholder?: string;
     value?: string | number;
-    onChangeHandler?: React.ChangeEventHandler<HTMLTextAreaElement>;
+    onChangeHandler?: ChangeEventHandler<HTMLTextAreaElement>;
     className?: string;
     text: string;
 }
