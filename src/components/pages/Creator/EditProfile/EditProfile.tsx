@@ -134,18 +134,6 @@ const EditProfile: FC = () => {
                     );
                 })
                 .then(() => navigate('../home'));
-            // setProfilePhoto(profilePhoto);
-            // setCoverPhoto(coverPhoto);
-            // setFname(fname);
-            // setLName(lname);
-            // setBirth(birth);
-            // setAdress(adress);
-            // setShopify(shopify);
-            // setDescr(descr);
-            // setVimeo(vimeo);
-            // setInst(inst);
-            // setFace(face);
-            // setTwitter(twitter);
         } catch (e) {
             console.error('Error', e);
         }

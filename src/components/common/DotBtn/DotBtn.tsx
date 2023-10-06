@@ -16,7 +16,7 @@ const DotBtn: FC<IDotBtnMenu> = ({ menu, onClickHandler, onDeleteHandler }) => {
             <button className='dotBtn'>{menu ? <IconRenderer id='cross' /> : <IconRenderer id='dotsBig' />}</button>
             <ul className={`${menu ? 'active' : ''} dotBtn__menu`}>
                 <li className='dotBtn__li'>
-                    <Link to={'Edit '}>Edit</Link>
+                    <Link to={'../edit-playlist'}>Edit</Link>
                 </li>
                 <li className='dotBtn__li' onClick={onDeleteHandler}>
                     Delete
