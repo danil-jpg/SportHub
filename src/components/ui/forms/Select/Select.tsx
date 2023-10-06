@@ -14,7 +14,7 @@ const Select: FC<ISelect> = ({ value, setValue, className = '', placeholder = 'c
     const rootRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        setValue(placeholder);
+        if (!value) setValue(placeholder);
     }, []);
     const [open, setOpen] = useState<boolean>(false);
 

@@ -16,20 +16,55 @@ import swal from 'sweetalert';
 import { updateDoc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
 import { doc } from 'firebase/firestore';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { IPlaylist } from '../HomePlay/HomePlay';
+import Loading from '../../../common/Loading/Loading';
 
 const EditPlaylist: FC = () => {
     const [burgerMenu, setBurgerMenu] = useState<boolean>(false);
     const [searchInput, setSearchInput] = useState('');
 
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [numOfVideos, setNumOfVideos] = useState<number>(2);
+
     const [selectState, setSelectState] = useState('');
     const [titleInput, setTitleInput] = useState<string>('');
     const [textAreaInput, setTextAreaInput] = useState<string>('');
 
-    const [saveBtnState, setSaveBtnState] = useState<boolean>(false);
+    const [saveBtnState, setSaveBtnState] = useState<boolean>(true);
 
     const selector = useAppSelector((state) => state.regSlice.regData);
     const filteredVideos: IVideo[] | undefined = selector.videos;
     const [selectedArrState, setSelectedArrState] = useState<[boolean[], IVideo[] | any]>([Array(filteredVideos?.length).fill(false), Array(filteredVideos?.length).fill({})]);
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const index: string | null = searchParams.get('playlist-index');
+
+    const navigation = useNavigate();
+
+    const getPlaylist = async () => {
+        try {
+            const documentRef = await doc(DB, 'users', selector.email);
+            const data = await getDoc(documentRef);
+            let concretePlaylist = await data.data();
+            index ? (concretePlaylist = concretePlaylist?.playlists[index]) : '';
+            setTitleInput(concretePlaylist?.title);
+            setTextAreaInput(concretePlaylist?.description);
+            setSelectState(concretePlaylist?.type);
+            setSelectedArrState([
+                concretePlaylist?.videos.map(() => {
+                    return true;
+                }),
+                concretePlaylist?.videos,
+            ]);
+            setIsLoaded(true);
+
+            setNumOfVideos(concretePlaylist?.videos.length);
+        } catch (e) {
+            setIsLoaded(true);
+            console.error(e);
+        }
+    };
 
     const countNumberOfVideos = (): number => {
         let num = 0;
@@ -40,8 +75,6 @@ const EditPlaylist: FC = () => {
         }
         return num;
     };
-
-    const numOfVideos = countNumberOfVideos();
 
     const filterVideosArrFunc = (): ReactNode[] | undefined => {
         const res = filteredVideos
@@ -122,49 +155,43 @@ const EditPlaylist: FC = () => {
         if (selectState && selectState !== 'Select category' && titleInput && textAreaInput && countNumberOfVideos() > 1) {
             const oldData = await getDoc(doc(DB, 'users', selector.email)).then((res) => res.data()?.playlists);
 
+            oldData.splice(index, 1, {
+                title: titleInput,
+                description: textAreaInput,
+                type: selectState,
+                videos: selectedArrState[1].filter((el: IVideo) => el.title),
+            });
+
             if (oldData) {
                 await updateDoc(doc(DB, 'users', selector.email), {
-                    playlists: [
-                        ...oldData,
-                        {
-                            title: titleInput,
-                            description: textAreaInput,
-                            type: selectState,
-                            videos: selectedArrState[1].filter((el: IVideo) => el.title),
-                        },
-                    ],
-                }).then(() => swal('Successfully added'));
-            } else {
-                await updateDoc(doc(DB, 'users', selector.email), {
-                    playlists: [
-                        {
-                            title: titleInput,
-                            description: textAreaInput,
-                            type: selectState,
-                            videos: selectedArrState[1].filter((el: IVideo) => el.title),
-                        },
-                    ],
-                }).then(() => swal('Successfully added'));
+                    playlists: [...oldData],
+                })
+                    .then(() => swal('Successfully changed'))
+                    .then(() => navigation('../home-cr-playlist'));
             }
         } else {
             swal('Fill out all fields and select at least two video');
         }
     };
 
-    const getPlaylistData = async () => {};
+    useEffect(() => {
+        getPlaylist();
+    }, []);
 
     useEffect(() => {
         setSelectedArrState([Array(filteredVideos?.length).fill(false), Array(filteredVideos?.length).fill({})]);
     }, [filteredVideos]);
 
     useEffect(() => {
-        if (selectState && selectState !== 'Select category' && titleInput && textAreaInput && numOfVideos > 1) {
+        console.log(numOfVideos);
+        if (selectState && selectState !== 'Select category' && titleInput && textAreaInput && countNumberOfVideos() > 1) {
             setSaveBtnState(true);
         } else {
             setSaveBtnState(false);
         }
-    }, [selectState, titleInput, textAreaInput, numOfVideos]);
+    }, [selectState, titleInput, textAreaInput, numOfVideos, selectedArrState]);
 
+    if (!isLoaded) return <Loading></Loading>;
     return (
         <div className='cr-playlist'>
             <div className='cr-playlist__top'>
