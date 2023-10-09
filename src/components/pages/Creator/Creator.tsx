@@ -12,9 +12,6 @@ import EditPlaylist from './EditPlaylist/EditPlaylist';
 
 const Creator: FC = () => {
     // const CrHome = React.lazy(() => import('./Home/CrHome'));
-
-    const selector = useAppSelector((state) => state.regSlice.regData);
-    console.log(selector);
     return (
         <>
             <Header></Header>

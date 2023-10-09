@@ -12,6 +12,7 @@ import swal from 'sweetalert';
 import { setRegData } from '../../../store/slices/registration';
 import getDate from '../../../utils/getDate';
 import Loading from '../../../common/Loading/Loading';
+import deleteFromFirebase from '../../../utils/deleteFromFirebase';
 
 interface IVideo {
     category: string;
@@ -130,9 +131,8 @@ const CrHome: FC = () => {
             </div>
             <div className='creator__videos'>
                 {filteredVideosArr
-                    ? filteredVideosArr.map((el) => {
-                          console.log(el.date);
-                          return <Video title={el.title} date={getDate(el.date)} previewUrl={el.previewUrl} key={v1()}></Video>;
+                    ? filteredVideosArr.map((el, index) => {
+                          return <Video index={index} title={el.title} date={getDate(el.date)} previewUrl={el.previewUrl} key={v1()}></Video>;
                       })
                     : ''}
             </div>
