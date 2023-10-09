@@ -11,6 +11,7 @@ import { v1 } from 'uuid';
 import swal from 'sweetalert';
 import { setRegData } from '../../../store/slices/registration';
 import getDate from '../../../utils/getDate';
+import Loading from '../../../common/Loading/Loading';
 
 interface IVideo {
     category: string;
@@ -67,6 +68,9 @@ const CrHome: FC = () => {
     };
 
     const navigate = useNavigate();
+    if (!videosArr) {
+        return <Loading />;
+    }
     return (
         <div className='creator-container creator'>
             <div className='creator__top'>

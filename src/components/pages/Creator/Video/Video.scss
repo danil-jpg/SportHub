@@ -3,11 +3,25 @@
         cursor: pointer;
         width: 331.772px;
         position: relative;
+        transition: 0.3;
 
         &:hover {
             .creator__video__bottom {
                 background-color: #222222;
                 border-radius: 0 0 7.212px 7.212px;
+            }
+            &::after {
+                transition: 0.3;
+                content: '';
+                background-image: url('../../../../assets/img/addvideo/play-btn.png');
+                background-repeat: no-repeat;
+                display: block;
+                position: absolute;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%, 0);
+                width: 50px;
+                height: 30px;
             }
         }
 
@@ -31,6 +45,7 @@
             height: 188.049px;
             object-fit: contain;
             background-color: #222;
+            position: relative;
         }
         &__bottom {
             transition: 0.3s;
