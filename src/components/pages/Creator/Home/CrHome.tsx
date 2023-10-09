@@ -132,7 +132,7 @@ const CrHome: FC = () => {
             <div className='creator__videos'>
                 {filteredVideosArr
                     ? filteredVideosArr.map((el, index) => {
-                          return <Video index={index} title={el.title} date={getDate(el.date)} previewUrl={el.previewUrl} key={v1()}></Video>;
+                          return <Video title={el.title} date={getDate(el.date)} previewUrl={el.previewUrl} key={v1()}></Video>;
                       })
                     : ''}
             </div>

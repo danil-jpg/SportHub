@@ -38,7 +38,7 @@ const Video: FC<IVideoComp> = ({ title = 'Amet minim mollit non deserunt ullamco
         <div
             className={`${className} creator__video `}
             onClick={() => {
-                deleteFromFirebase(index, 'videos', '');
+                // deleteFromFirebase(index, 'videos', '');
             }}
         >
             <div className='creator__video__edit'>

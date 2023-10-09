@@ -1,0 +1,55 @@
+.user-home {
+    display: grid;
+    grid-template-columns: 1fr 83%;
+    gap: 24px;
+
+    &__container {
+        padding: 10px 24px;
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+
+    &__left {
+    }
+
+    &__filters-wr {
+        margin-top: 22px;
+    }
+
+    &__filter {
+        margin-bottom: 8px;
+        color: #bbb;
+        font-size: 16px;
+        font-weight: 400;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        cursor: pointer;
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+        &.active {
+            border-radius: 8px;
+            background: #222;
+            color: #fff;
+            font-size: 16px;
+        }
+    }
+
+    &__subscriptions {
+        border-top: 1px solid #222;
+        margin-top: 24px;
+        padding-top: 12px;
+        &_title {
+            color: #ad7955;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 11px;
+            text-transform: uppercase;
+        }
+    }
+
+    &__right {
+    }
+}

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Registration = React.lazy(() => import('./components/pages/Registration/Registration'));
 const Creator = React.lazy(() => import('./components/pages/Creator/Creator'));
+const User = React.lazy(() => import('./components/pages/User/User'));
 
 const App: FC = () => {
     const LinkList = () => {
@@ -14,7 +15,7 @@ const App: FC = () => {
                 <Link to={'/registration/signUp'}>Регистрация</Link>
                 <Link to={'/registration/signIn'}> Вход</Link>
                 <Link to={'/creator/home'}>home</Link>
-                {/* <Link to={'registration/personalInfo'}>Сброс пароля (оповещение)</Link> */}
+                <Link to={'/user/home'}>Пользователь главная</Link>
                 {/* <Link>Сам Сброс</Link> */}
             </div>
         );
@@ -26,6 +27,7 @@ const App: FC = () => {
                 <Route index element={<LinkList />} />
                 <Route path='/registration/*' element={<Registration />} />
                 <Route path='/creator/*' element={<Creator />} />
+                <Route path='/user/*' element={<User />} />
             </Routes>
         </Suspense>
     );

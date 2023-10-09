@@ -1,0 +1,20 @@
+.user-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px;
+    margin-bottom: 4px;
+
+    &__img {
+        margin-right: 8px;
+        width: 24px;
+        height: 24px;
+        border-radius: 24px;
+    }
+
+    &__name {
+        color: #bbb;
+        font-size: 14px;
+        font-weight: 400;
+    }
+}
