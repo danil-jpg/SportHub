@@ -3,6 +3,7 @@ import './UserHome.scss';
 import UserItem from '../UserItem/User-item';
 import { v1 } from 'uuid';
 import Slider from './Slider/Slider';
+import Video from '../../Creator/Video/Video';
 
 const UserHome: FC = () => {
     return (
@@ -15,12 +16,20 @@ const UserHome: FC = () => {
                 </div>
                 <div className='user-home__subscriptions'>
                     <p className='user-home__subscriptions_title'>My subscription</p>
-                    {/* <UserItem name='Marvin McKinney' />
-                    <UserItem name='Marvin McKinney' /> */}
+                    <UserItem name='Marvin McKinney' />
+                    <UserItem name='Marvin McKinney' />
                 </div>
             </div>
             <div className='user-home__right'>
-                <Slider />
+                <Slider className='user-home__slider' />
+                <div className='user-home__videos-section'>
+                    <p className='user-home__videos_text'>Video List</p>
+                    <div className='user-home__videos-wr'>
+                        <Video />
+                        <Video />
+                        <Video />
+                    </div>
+                </div>
             </div>
         </div>
     );

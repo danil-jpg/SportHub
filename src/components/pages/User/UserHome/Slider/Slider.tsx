@@ -8,8 +8,13 @@ import bodyImg from '../../../../../assets/img/user/card/body.jpg';
 import bodyImgW from '../../../../../assets/img/user/card/body.jpg?as=webp';
 import soulImg from '../../../../../assets/img/user/card/soul.jpg';
 import soulImgW from '../../../../../assets/img/user/card/soul.jpg?as=webp';
+import './Slider.scss';
 
-const Slider = () => {
+interface ISlider {
+    className: string;
+}
+
+const Slider: FC<ISlider> = ({ className }) => {
     const swiperRef = useRef<any>(null);
 
     useEffect(() => {
@@ -32,24 +37,30 @@ const Slider = () => {
     }, []);
 
     return (
-        <swiper-container init={false} ref={swiperRef} style={{ height: '100%' }}>
+        <swiper-container className={className} init={false} ref={swiperRef}>
             <swiper-slide key={v1()}>
-                <picture>
-                    <source src={mindImgW}></source>
-                    <img src={mindImg} />
-                </picture>
+                <div className='slider__item'>
+                    <picture className=''>
+                        <source src={mindImgW}></source>
+                        <img src={mindImg} />
+                    </picture>
+                </div>
             </swiper-slide>
-            <swiper-slide key={v1()}>
-                <picture>
-                    <source src={bodyImgW}></source>
-                    <img src={bodyImg} />
-                </picture>
+            <swiper-slide key={v1()} style={{ cursor: 'pointer' }}>
+                <div className='slider__item'>
+                    <picture>
+                        <source src={bodyImgW}></source>
+                        <img src={bodyImg} />
+                    </picture>{' '}
+                </div>
             </swiper-slide>
-            <swiper-slide key={v1()}>
-                <picture>
-                    <source src={soulImgW}></source>
-                    <img src={soulImg} />
-                </picture>
+            <swiper-slide key={v1()} style={{ cursor: 'pointer' }}>
+                <div className='slider__item'>
+                    <picture>
+                        <source src={soulImgW}></source>
+                        <img src={soulImg} />
+                    </picture>{' '}
+                </div>
             </swiper-slide>
         </swiper-container>
     );
