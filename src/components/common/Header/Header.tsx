@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 // import { doc, getDoc } from 'firebase/firestore';
 // import { DB } from '../../../config/firebase-config';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { setRegData } from '../../store/slices/registration';
+import { setInitialUserState, setRegData } from '../../store/slices/registration';
 
 const Header: FC = ({}) => {
     const [menuState, setMenuState] = useState<boolean>(false);
@@ -21,13 +21,7 @@ const Header: FC = ({}) => {
     const dispatch = useAppDispatch();
 
     const profileExitHandler = () => {
-        dispatch(
-            setRegData({
-                email: '',
-                password: '',
-                videos: [],
-            }),
-        );
+        dispatch(setInitialUserState());
         navigate('../../registration/signIn');
     };
 

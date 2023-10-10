@@ -34,15 +34,19 @@ const PersonalInfo: FC = () => {
         dispatch(
             setRegData({
                 videos: [],
+                playlists: [],
+                birthday,
+                type,
+                gender: radio,
             }),
         );
-    }, [photoUrl]);
+    }, [photoUrl, type, birthday, radio]);
 
     const uploadFile = async () => {
         if (!file) {
             return;
         }
-        const filesFolderRef = ref(storage, `users/${selector.regData.email}`);
+        const filesFolderRef = ref(storage, `users-avatar/${selector.regData.email}`);
         try {
             typeof file !== 'string' ? await uploadBytes(filesFolderRef, file) : '';
         } catch (e) {
@@ -61,11 +65,17 @@ const PersonalInfo: FC = () => {
     const onButtonSignUpClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
         try {
             await uploadFile();
-            const res = await getDownloadURL(ref(storage, `users/${selector.regData.email}`));
+            const res = await getDownloadURL(ref(storage, `users-avatar/${selector.regData.email}`));
+            // const objToLoad: any = { ...selector.regData };
+            // delete objToLoad?.some;
+            // delete objToLoad?.selectedVideosArr;
             setPhotoUrl(res);
             await setDoc(doc(DB, 'users', selector.regData.email), {
                 ...selector.regData,
                 photoUrl: res,
+                birthday,
+                type,
+                gender: radio,
             });
             navigate('../signIn');
         } catch (e) {
@@ -88,7 +98,7 @@ const PersonalInfo: FC = () => {
                 </div>
             </div>
             <div className='info__radio-wr info__radio_type'>
-                <p className='info__radio_text'>Gender</p>
+                <p className='info__radio_text'>Type</p>
                 <div className='info__radio-line'>
                     <form>
                         <InputRadio checked={type === 'User'} value={'User'} onChange={onInputTypeChangeHandler} text='User' name='User' id='User'></InputRadio>

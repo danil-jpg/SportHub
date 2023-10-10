@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { IVideo } from '../../pages/Creator/Home/CrHome';
+import { IPlaylist } from '../../pages/Creator/HomePlay/HomePlay';
 
 interface IReg {
     regData: {
@@ -8,11 +9,20 @@ interface IReg {
         lname: string;
         email: string;
         password: string;
-        file?: File;
+        file?: File | string;
         type?: string;
         photoUrl?: string;
+        birthday?: string | number;
+        gender?: string;
         videos?: IVideo[];
-        date?: Date;
+        playlists?: IPlaylist[];
+        date?: string;
+        bio?: string;
+        vimeo?: string;
+        inst?: string;
+        twitter?: string;
+        facebook?: string;
+        shopify: string;
     };
 }
 
@@ -22,6 +32,20 @@ const initialState: IReg = {
         lname: '',
         email: '',
         password: '',
+        file: '',
+        type: '',
+        photoUrl: '',
+        date: '',
+        videos: [],
+        playlists: [],
+        twitter: '',
+        facebook: '',
+        shopify: '',
+        inst: '',
+        vimeo: '',
+        bio: '',
+        birthday: '',
+        gender: '',
     },
 };
 
@@ -32,8 +56,11 @@ export const regSlice = createSlice({
         setRegData: (state, action: PayloadAction<any>) => {
             state.regData = { ...state.regData, ...action.payload };
         },
+        setInitialUserState: () => {
+            return initialState;
+        },
     },
 });
 
 export default regSlice.reducer;
-export const { setRegData } = regSlice.actions;
+export const { setRegData, setInitialUserState } = regSlice.actions;

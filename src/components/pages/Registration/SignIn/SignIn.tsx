@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import '../SignInUp.scss';
 import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import InputPasswordContainer from '../../../ui/Forms/InputPasswordContainer/InputPasswordContainer';
@@ -25,6 +25,14 @@ const SignIn: FC = () => {
 
     const dispatch = useAppDispatch();
 
+    // useEffect(() => {
+    //     dispatch(
+    //         setRegData({
+    //             playlists: [],
+    //         }),
+    //     );
+    // }, []);
+
     const onButtonClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
@@ -33,6 +41,7 @@ const SignIn: FC = () => {
                 const docRef = doc(DB, 'users', email);
                 getDoc(docRef)
                     .then((res) => {
+                        console.log(res.data());
                         dispatch(
                             setRegData({
                                 email,
@@ -44,14 +53,12 @@ const SignIn: FC = () => {
                         return res.data()?.type;
                     })
                     .then((res) => {
-                        res === 'User' ? navigate('../') : navigate('../../creator/home');
+                        res === 'User' ? navigate('../../Creator/home') : navigate('../../creator/home');
                     })
                     .catch((e) => console.error(e));
             })
             .catch((e) => swal(e.message));
     };
-
-    // console.log(auth.currentUser?.email);
 
     return (
         <div className='registration-container'>
