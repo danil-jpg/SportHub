@@ -8,7 +8,7 @@ const User: FC = () => {
         <>
             <Header></Header>
             <Routes>
-                <Route element={<UserHome />} path='home'></Route>
+                <Route element={<UserHome />} index path='home'></Route>
             </Routes>
         </>
     );

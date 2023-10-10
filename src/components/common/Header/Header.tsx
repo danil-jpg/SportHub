@@ -76,7 +76,7 @@ const Header: FC = ({}) => {
                             {auth ? (
                                 <>
                                     <li className='header__menu_li'>video</li>
-                                    <li className='header__menu_li'>store</li>
+                                    {/* <li className='header__menu_li'>store</li> */}
                                 </>
                             ) : (
                                 ''
@@ -86,7 +86,7 @@ const Header: FC = ({}) => {
                         </ul>
                     </div>
                 </div>
-                <Logo isReg={false} />
+                <Logo isReg={false} onClickHandler={() => navigate('../../../../')} />
             </div>
             <div className='header__right'>
                 <IconRenderer id='search' />
@@ -94,7 +94,7 @@ const Header: FC = ({}) => {
                 {auth ? (
                     <div className='header__authed-block'>
                         <div className='header__video'>Video</div>
-                        <div className='header__store'>Store</div>
+                        {/* <div className='header__store'>Store</div> */}
                         <div className='header__profile' onClick={() => setProfileState(!profileState)}>
                             <img className='header__profile_img' src={selector?.photoUrl} />
                             <p className='profile__text'>Profile</p>

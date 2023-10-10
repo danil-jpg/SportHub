@@ -12,7 +12,6 @@ import swal from 'sweetalert';
 import { setRegData } from '../../../store/slices/registration';
 import getDate from '../../../utils/getDate';
 import Loading from '../../../common/Loading/Loading';
-import deleteFromFirebase from '../../../utils/deleteFromFirebase';
 
 interface IVideo {
     category: string;
@@ -36,20 +35,24 @@ const CrHome: FC = () => {
 
     useEffect(() => {
         const getUserData = async () => {
-            const ref = await doc(DB, 'users', selector.email);
-            const userData = await getDoc(ref);
-            const filteredData = userData.data()?.videos;
+            try {
+                const ref = await doc(DB, 'users', selector.email);
+                const userData = await getDoc(ref);
+                const filteredData = userData.data()?.videos;
 
-            setVideosArr(filteredData ? filteredData : []);
-            setFilteredVideosArr(filteredData ? filteredData : []);
+                setVideosArr(filteredData ? filteredData : []);
+                setFilteredVideosArr(filteredData ? filteredData : []);
 
-            dispatch(
-                setRegData({
-                    videos: filteredData,
-                }),
-            );
+                dispatch(
+                    setRegData({
+                        videos: filteredData,
+                    }),
+                );
 
-            return filteredData;
+                return filteredData;
+            } catch (e) {
+                console.error(e);
+            }
         };
         getUserData();
     }, []);

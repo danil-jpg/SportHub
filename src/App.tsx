@@ -24,7 +24,7 @@ const App: FC = () => {
     return (
         <Suspense fallback={<Loading />}>
             <Routes>
-                <Route index element={<LinkList />} />
+                <Route element={<LinkList />} index />
                 <Route path='/registration/*' element={<Registration />} />
                 <Route path='/creator/*' element={<Creator />} />
                 <Route path='/user/*' element={<User />} />
