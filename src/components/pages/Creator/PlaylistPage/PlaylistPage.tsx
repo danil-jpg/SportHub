@@ -49,7 +49,7 @@ const PlaylistPage: FC = () => {
 
         updateDoc(ref, { playlists: newArr })
             .then(() => {
-                navigate('../');
+                navigate('../home-cr-playlist');
             })
             .catch((e) => console.log('error'));
     };

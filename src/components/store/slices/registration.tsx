@@ -9,7 +9,7 @@ interface IReg {
         lname: string;
         email: string;
         password: string;
-        file?: File | string;
+        file?: string;
         type?: string;
         photoUrl?: string;
         birthday?: string | number;

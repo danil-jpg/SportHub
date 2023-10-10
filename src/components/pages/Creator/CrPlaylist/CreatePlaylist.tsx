@@ -15,6 +15,7 @@ import swal from 'sweetalert';
 import { updateDoc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
 import { doc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePlaylist: FC = () => {
     const [burgerMenu, setBurgerMenu] = useState<boolean>(false);
@@ -41,6 +42,8 @@ const CreatePlaylist: FC = () => {
     };
 
     const numOfVideos = countNumberOfVideos();
+
+    const navigate = useNavigate();
 
     const filterVideosArrFunc = (): ReactNode[] | undefined => {
         const res = filteredVideos
@@ -132,7 +135,9 @@ const CreatePlaylist: FC = () => {
                             videos: selectedArrState[1].filter((el: IVideo) => el.title),
                         },
                     ],
-                }).then(() => swal('Successfully added'));
+                })
+                    .then(() => swal('Successfully added'))
+                    .then(() => navigate('../home-cr-playlist'));
             } else {
                 await updateDoc(doc(DB, 'users', selector.email), {
                     playlists: [
@@ -143,7 +148,9 @@ const CreatePlaylist: FC = () => {
                             videos: selectedArrState[1].filter((el: IVideo) => el.title),
                         },
                     ],
-                }).then(() => swal('Successfully added'));
+                })
+                    .then(() => swal('Successfully added'))
+                    .then(() => navigate('../home-cr-playlist'));
             }
         } else {
             swal('Fill out all fields and select at least two video');

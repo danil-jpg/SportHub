@@ -81,14 +81,14 @@ const EditProfile: FC = () => {
             setFname(data.data()?.fname);
             setLName(data.data()?.lname);
             setBirth(data.data()?.birthday);
-            setAdress(data.data()?.adress);
-            setShopify(data.data()?.shopify);
-            setDescr(data.data()?.bio);
-            setVimeo(data.data()?.vimeo);
-            setInst(data.data()?.instagram);
-            setFace(data.data()?.facebook);
-            setTwitter(data.data()?.twitter);
-            setRadio(data.data()?.gender);
+            setAdress(data.data()?.adress ? data.data()?.adress : '');
+            setShopify(data.data()?.shopify ? data.data()?.shopify : '');
+            setDescr(data.data()?.bio ? data.data()?.bio : '');
+            setVimeo(data.data()?.vimeo ? data.data()?.vimeo : '');
+            setInst(data.data()?.instagram ? data.data()?.instagram : '');
+            setFace(data.data()?.facebook ? data.data()?.facebook : '');
+            setTwitter(data.data()?.twitter ? data.data()?.twitter : '');
+            setRadio(data.data()?.gender ? data.data()?.gender : '');
             setGetStatus(true);
 
             dispatch(
