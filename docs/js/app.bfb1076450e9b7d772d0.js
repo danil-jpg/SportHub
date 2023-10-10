@@ -6158,15 +6158,27 @@ __webpack_require__.r(__webpack_exports__);
 var Registration = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().lazy(function () {
   return __webpack_require__.e(/*! import() */ "src_components_pages_Registration_Registration_tsx").then(__webpack_require__.bind(__webpack_require__, /*! ./components/pages/Registration/Registration */ "./src/components/pages/Registration/Registration.tsx"));
 });
+var Creator = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().lazy(function () {
+  return Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_babel_runtime_regenerator_index_js-node_modules_babel_runtime_helpers_es-090912"), __webpack_require__.e("vendors-node_modules_sweetalert_dist_sweetalert_min_js"), __webpack_require__.e("src_components_common_Logo_Logo_tsx-src_components_hooks_redux_tsx-src_components_ui_Button_B-df9184"), __webpack_require__.e("src_components_common_Header_Header_tsx-node_modules_uuid_dist_esm-browser_v1_js"), __webpack_require__.e("src_components_common_AddPhoto_AddPhoto_tsx-src_components_ui_Forms_InputContainer_InputConta-ef7f52"), __webpack_require__.e("src_components_pages_Creator_Creator_tsx-node_modules_babel_runtime_helpers_esm_objectWithout-ac8a11")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/pages/Creator/Creator */ "./src/components/pages/Creator/Creator.tsx"));
+});
+var User = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().lazy(function () {
+  return Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_babel_runtime_helpers_esm_objectWithoutProperties_js-node_modules_swiper-e8abad"), __webpack_require__.e("src_components_common_Logo_Logo_tsx-src_components_hooks_redux_tsx-src_components_ui_Button_B-df9184"), __webpack_require__.e("src_components_common_Header_Header_tsx-node_modules_uuid_dist_esm-browser_v1_js"), __webpack_require__.e("src_components_pages_User_User_tsx-node_modules_babel_runtime_helpers_esm_slicedToArray_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/pages/User/User */ "./src/components/pages/User/User.tsx"));
+});
 var App = function App() {
   var LinkList = function LinkList() {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         to: '/registration/signUp',
-        children: "\u0412\u0445\u043E\u0434"
+        children: "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         to: '/registration/signIn',
-        children: "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F"
+        children: " \u0412\u0445\u043E\u0434"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+        to: '/creator/home',
+        children: "home"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+        to: '/user/home',
+        children: "\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0433\u043B\u0430\u0432\u043D\u0430\u044F"
       })]
     });
   };
@@ -6179,6 +6191,12 @@ var App = function App() {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
         path: "/registration/*",
         element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Registration, {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
+        path: "/creator/*",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Creator, {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
+        path: "/user/*",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(User, {})
       })]
     })
   });
@@ -6235,6 +6253,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   regSlice: () => (/* binding */ regSlice),
+/* harmony export */   setInitialUserState: () => (/* binding */ setInitialUserState),
 /* harmony export */   setRegData: () => (/* binding */ setRegData)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
@@ -6248,7 +6267,21 @@ var initialState = {
     fname: '',
     lname: '',
     email: '',
-    password: ''
+    password: '',
+    file: '',
+    type: '',
+    photoUrl: '',
+    date: '',
+    videos: [],
+    playlists: [],
+    twitter: '',
+    facebook: '',
+    shopify: '',
+    inst: '',
+    vimeo: '',
+    bio: '',
+    birthday: '',
+    gender: ''
   }
 };
 var regSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
@@ -6257,11 +6290,16 @@ var regSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
   reducers: {
     setRegData: function setRegData(state, action) {
       state.regData = _objectSpread(_objectSpread({}, state.regData), action.payload);
+    },
+    setInitialUserState: function setInitialUserState() {
+      return initialState;
     }
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (regSlice.reducer);
-var setRegData = regSlice.actions.setRegData;
+var _regSlice$actions = regSlice.actions,
+  setRegData = _regSlice$actions.setRegData,
+  setInitialUserState = _regSlice$actions.setInitialUserState;
 
 
 /***/ }),
@@ -52545,7 +52583,7 @@ function n(n){for(var r=arguments.length,t=Array(r>1?r-1:0),e=1;e<r;e++)t[e-1]=a
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("0db08092fdf2dcdceabe")
+/******/ 		__webpack_require__.h = () => ("bfb1076450e9b7d772d0")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
@@ -52766,7 +52804,7 @@ root.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(redux_persist_integration_react__WEBPACK_IMPORTED_MODULE_3__.PersistGate, {
       persistor: _components_store_store__WEBPACK_IMPORTED_MODULE_5__.persistor,
       loading: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_common_Loading_Loading__WEBPACK_IMPORTED_MODULE_6__["default"], {}),
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.HashRouter, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.BrowserRouter, {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_App__WEBPACK_IMPORTED_MODULE_4__["default"], {})
       })
     })
@@ -52776,4 +52814,4 @@ root.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)
 
 /******/ })()
 ;
-//# sourceMappingURL=app.0db08092fdf2dcdceabe.js.map
+//# sourceMappingURL=app.bfb1076450e9b7d772d0.js.map
