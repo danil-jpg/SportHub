@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/redux';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
+import defaultUser from '../../../../assets/img/user/card/default-user.jpg';
+import defaultUserW from '../../../../assets/img/user/card/default-user.jpg?as=webp';
 
 interface IVideoComp {
     title: string;
@@ -14,9 +16,16 @@ interface IVideoComp {
     className?: string;
     onClickFoo?: any;
     index?: number | string;
+    author?: boolean;
 }
 
-const Video: FC<IVideoComp> = ({ title = 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame...', date = 'Long ago', previewUrl = '', className = '' }) => {
+const Video: FC<IVideoComp> = ({
+    author = true,
+    title = 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame...',
+    date = 'Long ago',
+    previewUrl = '',
+    className = '',
+}) => {
     // const navigate = useNavigate();
     // const selector = useAppSelector((state) => state.regSlice.regData);
 
@@ -51,7 +60,20 @@ const Video: FC<IVideoComp> = ({ title = 'Amet minim mollit non deserunt ullamco
             <img className='creator__video__preview' src={previewUrl} />
             <div className='creator__video__bottom'>
                 <div className='creator__video__bottom_title'>{title}</div>
-                <div className='creator__video__bottom_date'>{date === 'NaN' ? 'unknown' : +date > 30 ? 'Long ago' : +date < 1 ? 'Today' : `${date} days ago`}</div>
+                {author ? (
+                    <div className='creator__video_author-wr'>
+                        <div className='creator__video_author'>
+                            <picture>
+                                <source src={defaultUserW}></source>
+                                <img className='creator__video_author_img' alt='author img' src={defaultUser} />
+                            </picture>
+                            <p className='creator__video_author_text'>Adan Lauzon</p>
+                        </div>
+                        <div className='creator__video__bottom_date'>{date === 'NaN' ? 'unknown' : +date > 30 ? 'Long ago' : +date < 1 ? 'Today' : `${date} days ago`}</div>
+                    </div>
+                ) : (
+                    <div className='creator__video__bottom_date'>{date === 'NaN' ? 'unknown' : +date > 30 ? 'Long ago' : +date < 1 ? 'Today' : `${date} days ago`}</div>
+                )}
             </div>
         </div>
     );

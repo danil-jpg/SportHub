@@ -68,6 +68,30 @@
             right: 0;
             cursor: pointer;
         }
+        &_author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        &_author-wr {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+            .creator__video__bottom_date {
+                margin-top: 0;
+            }
+        }
+        &_author_text {
+            color: #999;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        &_author_img {
+            width: 24px;
+            height: 24px;
+        }
     }
 }
 @media screen and (max-width: 375px) {

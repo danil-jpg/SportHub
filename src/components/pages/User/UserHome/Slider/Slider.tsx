@@ -23,8 +23,11 @@ const Slider: FC<ISlider> = ({ className }) => {
             slidesPerView: 3,
             spaceBetween: 24,
             breakpoints: {
-                992: {
+                768: {
                     slidesPerView: 2.5,
+                },
+                576: {
+                    slidesPerView: 2,
                 },
                 320: {
                     slidesPerView: 1.5,

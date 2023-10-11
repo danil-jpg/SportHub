@@ -86,11 +86,23 @@
     }
 }
 
-@media screen and (max-width: 996px) {
+@media screen and (max-width: 992px) {
     .user-home {
         display: block;
         &__left {
             display: none;
+        }
+
+        &__videos-wr {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .user-home {
+        &__videos-wr {
+            grid-template-columns: 1fr;
         }
     }
 }
