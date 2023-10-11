@@ -64,3 +64,4 @@ export const regSlice = createSlice({
 
 export default regSlice.reducer;
 export const { setRegData, setInitialUserState } = regSlice.actions;
+export type { IReg };

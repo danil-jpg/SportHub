@@ -17,10 +17,16 @@ interface IVideoComp {
     onClickFoo?: any;
     index?: number | string;
     author?: boolean;
+    authorPicUrl?: string;
+    fName?: string;
+    lName?: string;
 }
 
 const Video: FC<IVideoComp> = ({
-    author = true,
+    author = false,
+    authorPicUrl,
+    fName,
+    lName,
     title = 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame...',
     date = 'Long ago',
     previewUrl = '',
@@ -63,11 +69,18 @@ const Video: FC<IVideoComp> = ({
                 {author ? (
                     <div className='creator__video_author-wr'>
                         <div className='creator__video_author'>
-                            <picture>
-                                <source src={defaultUserW}></source>
-                                <img className='creator__video_author_img' alt='author img' src={defaultUser} />
-                            </picture>
-                            <p className='creator__video_author_text'>Adan Lauzon</p>
+                            {authorPicUrl ? (
+                                <picture>
+                                    <source src={''}></source>
+                                    <img className='creator__video_author_img' alt='author img' src={authorPicUrl} />
+                                </picture>
+                            ) : (
+                                <picture>
+                                    <source src={defaultUserW}></source>
+                                    <img className='creator__video_author_img' alt='author img' src={defaultUser} />
+                                </picture>
+                            )}
+                            <p className='creator__video_author_text'>{fName ? `${fName} ${lName}` : 'unknown'}</p>
                         </div>
                         <div className='creator__video__bottom_date'>{date === 'NaN' ? 'unknown' : +date > 30 ? 'Long ago' : +date < 1 ? 'Today' : `${date} days ago`}</div>
                     </div>
