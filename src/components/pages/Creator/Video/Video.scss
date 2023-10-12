@@ -3,9 +3,12 @@
         cursor: pointer;
         width: 331.772px;
         position: relative;
-        transition: 0.3;
+        transition: 0.3s;
 
         &:hover {
+            .creator__video__dots-wr {
+                display: flex;
+            }
             .creator__video__bottom {
                 background-color: #222222;
                 border-radius: 0 0 7.212px 7.212px;
@@ -40,6 +43,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: 0.3s;
+            display: none;
+            &.active {
+                border: 1px solid #fff;
+            }
+            &:hover {
+                border: 1px solid #fff;
+            }
         }
         &__preview {
             width: 100%;
@@ -62,11 +73,23 @@
                 margin-top: 12px;
             }
         }
-        &_delete {
+        &_view-later {
             position: absolute;
-            bottom: -17px;
             right: 0;
+            bottom: -35px;
+            width: 187px;
+            background: red;
+            border-radius: 8px;
+            padding: 10px;
             cursor: pointer;
+            background: var(--9, #222);
+            display: none;
+            &:hover {
+                text-decoration: underline;
+            }
+            &.active {
+                display: block;
+            }
         }
         &_author {
             display: flex;

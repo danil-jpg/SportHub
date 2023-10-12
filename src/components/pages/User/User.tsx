@@ -63,6 +63,7 @@ const User: FC = () => {
         for (let i = 0; i < usersData.length; i++) {
             for (let j = 0; j < usersData[i].videos.length; j++) {
                 setVideos((prev) => [...prev, { ...usersData[i].videos[j], fname: usersData[i].fname, lname: usersData[i].lname, authorPicUrl: usersData[i].photoUrl }]);
+                setDefaultVideos((prev) => [...prev, { ...usersData[i].videos[j], fname: usersData[i].fname, lname: usersData[i].lname, authorPicUrl: usersData[i].photoUrl }]);
             }
         }
         setVideos((prev) => {
@@ -70,6 +71,7 @@ const User: FC = () => {
             copyArr.sort(() => Math.random() - 0.5);
             return (prev = copyArr);
         });
+
         return videos;
     };
 
@@ -82,7 +84,7 @@ const User: FC = () => {
         });
         return videos;
     };
-
+    //
     const onLatestFilterClickHandler = () => {
         setVideos((prev) => {
             prev = defaultVideos;
@@ -97,15 +99,13 @@ const User: FC = () => {
     useEffect(() => {
         getUsers();
         getAllTheusersVideosAndShuffleIt();
-        setVideos(defaultVideos);
     }, []);
 
     useEffect(() => {
         getAllTheusersVideosAndShuffleIt();
-        setDefaultVideos(videos);
     }, [usersData]);
 
-    if (videos.length < 1) return <Loading />;
+    if (defaultVideos.length < 1) return <Loading />;
     return (
         <>
             <Header></Header>
