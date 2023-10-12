@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
+import IconRenderer from '../../../../ui/IconRenderer/IconRenderer';
 import './Banner.scss';
-import defaultUser from '../../../../assets/img/user/card/default-user.jpg';
-import defaultUserW from '../../../../assets/img/user/card/default-user.jpg?as=webp';
-import Button from '../../../ui/Button/Button';
+import defaultUser from '../../../../../assets/img/user/card/default-user.jpg';
+import defaultUserW from '../../../../../assets/img/user/card/default-user.jpg?as=webp';
+import Button from '../../../../ui/Button/Button';
 
 const Banner: FC = () => {
     return (

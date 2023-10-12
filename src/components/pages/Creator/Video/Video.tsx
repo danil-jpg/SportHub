@@ -33,23 +33,14 @@ const Video: FC<IVideoComp> = ({
     className = '',
 }) => {
     const [videoMenu, setVideoMenu] = useState(false);
-    // const navigate = useNavigate();
-    // const selector = useAppSelector((state) => state.regSlice.regData);
+    const selector = useAppSelector((state) => state.regSlice.regData);
 
-    // const deleteFromFirebase = async (index: number | string, itemToDelete: string, navigateTo: string): Promise<void> => {
-    //     const ref = await doc(DB, 'users', selector.email);
-    //     const data = await getDoc(ref);
+    const addToViewLater = async (index: number | string, itemToAdd: string): Promise<void> => {
+        const ref = await doc(DB, 'users', selector.email);
+        const data = await getDoc(ref);
 
-    //     const newArr = [...data.data()?.videos];
-    //     newArr.splice(+index, 1);
-
-    //     updateDoc(ref, { videos: newArr })
-    //         .then(() => {
-    //             console.log('Worked');
-    //             navigate(navigateTo);
-    //         })
-    //         .catch((e) => console.log('error'));
-    // };
+        const newArr = [...data.data()?.viewLater];
+    };
 
     return (
         <div className={`${className}   creator__video `}>

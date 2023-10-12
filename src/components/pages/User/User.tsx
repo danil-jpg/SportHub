@@ -148,7 +148,7 @@ const User: FC = () => {
                 </div>
                 <Routes>
                     <Route element={<UserHome videos={videos} setVideos={setVideos} />} index path='home'></Route>
-                    {/* <Route element={<UserChannel />} index path='channel'></Route> */}
+                    <Route element={<UserChannel videosArr={defaultVideos} />} index path='channel'></Route>
                 </Routes>
             </div>
         </>
