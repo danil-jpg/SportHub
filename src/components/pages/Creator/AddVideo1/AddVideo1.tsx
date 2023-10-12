@@ -129,7 +129,7 @@ const AddVideo1: FC = () => {
     };
 
     useEffect(() => {
-        if (preview && video && videoTitle && videoType && videoDescr) {
+        if (preview && video && videoTitle && videoType && videoType !== 'Select category' && videoDescr) {
             setPublishButtonState(true);
         }
     }, [preview, videoTitle, videoType, videoDescr, video]);
@@ -141,7 +141,7 @@ const AddVideo1: FC = () => {
                 <Button
                     className={`${publishButtonState ? '' : 'btn-innactive'}  addvideo__btn `}
                     onClickHandler={async () => {
-                        if (preview && video && videoTitle && videoType && videoDescr) {
+                        if (preview && video && videoTitle && videoType && videoType !== 'Select category' && videoDescr) {
                             try {
                                 await uploadVideo();
                                 const oldData = await getDoc(doc(DB, 'users', selector.regData.email)).then((res) => res.data()?.videos);
