@@ -52,7 +52,7 @@ const Video: FC<IVideoComp> = ({
 
     return (
         <div
-            className={`${className} creator__video `}
+            className={`${className}  creator__video `}
             onClick={() => {
                 // deleteFromFirebase(index, 'videos', '');
             }}

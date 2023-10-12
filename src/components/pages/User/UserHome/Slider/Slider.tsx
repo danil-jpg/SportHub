@@ -1,4 +1,4 @@
-import React, { FC, Ref, useEffect, useRef } from 'react';
+import React, { FC, Ref, useState, useEffect, SetStateAction, useRef } from 'react';
 import { v1 } from 'uuid';
 import { register } from 'swiper/element/bundle';
 import { SwiperRef } from 'swiper/react';
@@ -9,13 +9,22 @@ import bodyImgW from '../../../../../assets/img/user/card/body.jpg?as=webp';
 import soulImg from '../../../../../assets/img/user/card/soul.jpg';
 import soulImgW from '../../../../../assets/img/user/card/soul.jpg?as=webp';
 import './Slider.scss';
+import { IShuffledVideo } from '../../User';
 
 interface ISlider {
     className: string;
+    videosArr: IShuffledVideo[];
+    setVideos: React.Dispatch<React.SetStateAction<IShuffledVideo[]>>;
 }
 
-const Slider: FC<ISlider> = ({ className }) => {
+const Slider: FC<ISlider> = ({ className, videosArr, setVideos }) => {
     const swiperRef = useRef<any>(null);
+
+    const [initialVideosArr, setInitialVideosArr] = useState(videosArr);
+
+    useEffect(() => {
+        // setVideos(initialVideosArr);
+    }, []);
 
     useEffect(() => {
         register();
@@ -37,32 +46,58 @@ const Slider: FC<ISlider> = ({ className }) => {
         if (!swiperRef.current) return;
         Object.assign(swiperRef.current, params);
         swiperRef.current.initialize();
+
+        console.log(initialVideosArr);
     }, []);
 
     return (
-        <swiper-container className={className} init={false} ref={swiperRef}>
-            <swiper-slide key={v1()}>
-                <div className='slider__item'>
+        <swiper-container className={className} init={false} ref={swiperRef} style={{}}>
+            <swiper-slide>
+                <div
+                    className='slider__item'
+                    onClick={() => {
+                        setVideos((prev) => {
+                            prev = initialVideosArr;
+                            return (prev = prev.filter((el) => el.category === 'Mind'));
+                        });
+                    }}
+                >
                     <picture className=''>
                         <source src={mindImgW}></source>
                         <img src={mindImg} />
                     </picture>
                 </div>
             </swiper-slide>
-            <swiper-slide key={v1()} style={{ cursor: 'pointer' }}>
-                <div className='slider__item'>
+            <swiper-slide style={{ cursor: 'pointer' }}>
+                <div
+                    className='slider__item'
+                    onClick={() => {
+                        setVideos((prev) => {
+                            prev = initialVideosArr;
+                            return (prev = prev.filter((el) => el.category === 'Body'));
+                        });
+                    }}
+                >
                     <picture>
                         <source src={bodyImgW}></source>
                         <img src={bodyImg} />
-                    </picture>{' '}
+                    </picture>
                 </div>
             </swiper-slide>
-            <swiper-slide key={v1()} style={{ cursor: 'pointer' }}>
+            <swiper-slide
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                    setVideos((prev) => {
+                        prev = initialVideosArr;
+                        return (prev = prev.filter((el) => el.category === 'Soul'));
+                    });
+                }}
+            >
                 <div className='slider__item'>
                     <picture>
                         <source src={soulImgW}></source>
                         <img src={soulImg} />
-                    </picture>{' '}
+                    </picture>
                 </div>
             </swiper-slide>
         </swiper-container>
