@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { IVideo } from '../../pages/Creator/Home/CrHome';
 import { IPlaylist } from '../../pages/Creator/HomePlay/HomePlay';
+import { IShuffledVideo } from '../../pages/User/User';
 
 interface IReg {
     regData: {
@@ -15,6 +16,7 @@ interface IReg {
         birthday?: string | number;
         gender?: string;
         videos?: IVideo[];
+        viewLater?: IShuffledVideo[];
         playlists?: IPlaylist[];
         date?: string;
         bio?: string;

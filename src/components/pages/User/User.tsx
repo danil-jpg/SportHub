@@ -11,9 +11,12 @@ import { DB } from '../../../config/firebase-config';
 import Loading from '../../common/Loading/Loading';
 import getDate from '../../utils/getDate';
 import { v1 } from 'uuid';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { setRegData } from '../../store/slices/registration';
 
 interface IUserData {
     videos: IVideo[];
+    viewLater?: IVideo[];
     fname: string;
     lname: string;
     email: string;
@@ -30,7 +33,7 @@ interface IUserData {
     inst?: string;
     twitter?: string;
     facebook?: string;
-    shopify: string;
+    shopify?: string;
 }
 
 interface IShuffledVideo {
@@ -50,13 +53,21 @@ const User: FC = () => {
     const [usersData, setUsersData] = useState<IUserData[]>([]);
     const [defaultVideos, setDefaultVideos] = useState<IShuffledVideo[]>([]);
     const [videos, setVideos] = useState<IShuffledVideo[]>([]);
+    const [viewLaterVideos, setViewLaterVideos] = useState<IShuffledVideo[]>([]);
     const [filterBtn, setFilterBtn] = useState<boolean[]>([true, false, false]);
+
+    const selector = useAppSelector((state) => state.regSlice.regData);
+    const dispatch = useAppDispatch();
 
     const getUsers = async () => {
         const docRef = await collection(DB, 'users');
         const getUsers = await getDocs(docRef);
-        const users: any[] = getUsers.docs.map((el) => ({ ...el.data(), id: v1() }));
+        const users: IUserData[] = getUsers.docs.map((el) => ({ ...el.data(), id: v1() }));
         setUsersData(users.filter((el) => el.videos));
+        setViewLaterVideos(() => {
+            const currentUser = users.filter((el) => el.email === selector.email);
+            return currentUser[0]?.viewLater;
+        });
     };
 
     const getAllTheusersVideosAndShuffleIt = (): IShuffledVideo[] => {
@@ -96,6 +107,16 @@ const User: FC = () => {
         });
     };
 
+    const onViewLaterClickHandler = () => {
+        // dispatch(
+        //     setRegData({
+        //         viewLater: [],
+        //     }),
+        // );
+        // setVideos((prev) => (viewLaterVideos && viewLaterVideos.length >= 1 ? viewLaterVideos : []));
+        selector.viewLater ? setVideos(selector?.viewLater) : setVideos([]);
+    };
+
     useEffect(() => {
         getUsers();
         getAllTheusersVideosAndShuffleIt();
@@ -133,7 +154,7 @@ const User: FC = () => {
                         <p
                             className={`${filterBtn[2] ? ' active' : ''} user-home__filter`}
                             onClick={() => {
-                                onLatestFilterClickHandler();
+                                onViewLaterClickHandler();
                                 setFilterBtn([false, false, true]);
                             }}
                         >

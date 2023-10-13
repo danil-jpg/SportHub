@@ -23,47 +23,23 @@ const UserHome: FC<IUserHome> = ({ videos, setVideos }) => {
             <div className='user-home__videos-section'>
                 <p className='user-home__videos_text'>Video List</p>
                 <div className='user-home__videos-wr'>
-                    {videos.map((el, index) => {
-                        return (
-                            <Video
-                                key={v1()}
-                                title={el.title}
-                                previewUrl={el.previewUrl}
-                                date={getDate(el.date)}
-                                fName={el.fname}
-                                lName={el.lname}
-                                author={true}
-                                authorPicUrl={el.authorPicUrl}
-                            ></Video>
-                        );
-                        //     if (el.videos.length > 1) {
-                        //         return el.videos.map((innerEl, innerIndex) => (
-                        //             <Video
-                        //                 key={v1()}
-                        //                 title={innerEl.title}
-                        //                 previewUrl={innerEl.previewUrl}
-                        //                 date={getDate(innerEl.date)}
-                        //                 fName={el.fname}
-                        //                 lName={el.lname}
-                        //                 author={true}
-                        //                 authorPicUrl={el.photoUrl}
-                        //             ></Video>
-                        //         ));
-                        //     } else {
-                        //         return (
-                        //             <Video
-                        //                 key={v1()}
-                        //                 title={el.videos[index].title}
-                        //                 previewUrl={el.videos[index].previewUrl}
-                        //                 date={getDate(el.videos[index].date)}
-                        //                 fName={el.fname}
-                        //                 lName={el.lname}
-                        //                 author={true}
-                        //                 authorPicUrl={el.photoUrl}
-                        //             ></Video>
-                        //         );
-                        // }
-                    })}
+                    {videos
+                        ? videos.map((el, index) => {
+                              return (
+                                  <Video
+                                      key={v1()}
+                                      title={el.title}
+                                      previewUrl={el.previewUrl}
+                                      date={getDate(el.date)}
+                                      fName={el.fname}
+                                      lName={el.lname}
+                                      author={true}
+                                      authorPicUrl={el.authorPicUrl}
+                                      videoObj={el}
+                                  ></Video>
+                              );
+                          })
+                        : ''}
                 </div>
             </div>
         </div>

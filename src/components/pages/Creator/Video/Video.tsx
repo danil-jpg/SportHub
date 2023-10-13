@@ -2,11 +2,14 @@ import React, { FC, useState } from 'react';
 import './Video.scss';
 import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
 import defaultUser from '../../../../assets/img/user/card/default-user.jpg';
 import defaultUserW from '../../../../assets/img/user/card/default-user.jpg?as=webp';
+import { IVideo } from '../Home/CrHome';
+import { IShuffledVideo } from '../../User/User';
+import { setRegData } from '../../../store/slices/registration';
 
 interface IVideoComp {
     title: string;
@@ -20,9 +23,12 @@ interface IVideoComp {
     authorPicUrl?: string;
     fName?: string;
     lName?: string;
+    videoObj?: IVideo;
+    setVideos?: React.Dispatch<React.SetStateAction<IShuffledVideo[]>>;
 }
 
 const Video: FC<IVideoComp> = ({
+    videoObj,
     author = false,
     authorPicUrl,
     fName,
@@ -33,13 +39,48 @@ const Video: FC<IVideoComp> = ({
     className = '',
 }) => {
     const [videoMenu, setVideoMenu] = useState(false);
-    const selector = useAppSelector((state) => state.regSlice.regData);
 
-    const addToViewLater = async (index: number | string, itemToAdd: string): Promise<void> => {
+    const selector = useAppSelector((state) => state.regSlice.regData);
+    const dispatch = useAppDispatch();
+
+    const addToViewLater = async (): Promise<void> => {
         const ref = await doc(DB, 'users', selector.email);
         const data = await getDoc(ref);
+        const oldViewLater = data.data()?.viewLater;
 
-        const newArr = [...data.data()?.viewLater];
+        try {
+            if (oldViewLater) {
+                let isVidUnique: boolean = true;
+
+                for (let i = 0; i < oldViewLater.length; i++) {
+                    isVidUnique = !(videoObj?.date === oldViewLater[i]?.date);
+                    if (isVidUnique) {
+                        break;
+                    }
+                }
+                if (isVidUnique) {
+                    await updateDoc(ref, {
+                        viewLater: [...oldViewLater, videoObj],
+                    });
+                    dispatch(
+                        setRegData({
+                            viewLater: [...oldViewLater, videoObj],
+                        }),
+                    );
+                }
+            } else {
+                await updateDoc(ref, {
+                    viewLater: [videoObj],
+                });
+                dispatch(
+                    setRegData({
+                        viewLater: [videoObj],
+                    }),
+                );
+            }
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     return (
@@ -52,7 +93,9 @@ const Video: FC<IVideoComp> = ({
             >
                 <div className={`${videoMenu ? 'active' : ''} creator__video__dots-wr`}>
                     <IconRenderer id='dots' className='dots' />
-                    <p className={`${videoMenu ? 'active' : ''} creator__video_view-later`}>View later</p>
+                    <p className={`${videoMenu ? 'active' : ''} creator__video_view-later`} onClick={addToViewLater}>
+                        View later
+                    </p>
                 </div>
             </div>
             <img className='creator__video__preview' src={previewUrl} />
