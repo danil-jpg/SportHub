@@ -53,7 +53,6 @@ const User: FC = () => {
     const [usersData, setUsersData] = useState<IUserData[]>([]);
     const [defaultVideos, setDefaultVideos] = useState<IShuffledVideo[]>([]);
     const [videos, setVideos] = useState<IShuffledVideo[]>([]);
-    const [viewLaterVideos, setViewLaterVideos] = useState<IShuffledVideo[]>([]);
     const [filterBtn, setFilterBtn] = useState<boolean[]>([true, false, false]);
 
     const selector = useAppSelector((state) => state.regSlice.regData);
@@ -62,12 +61,8 @@ const User: FC = () => {
     const getUsers = async () => {
         const docRef = await collection(DB, 'users');
         const getUsers = await getDocs(docRef);
-        const users: IUserData[] = getUsers.docs.map((el) => ({ ...el.data(), id: v1() }));
+        const users: any[] = getUsers.docs.map((el) => ({ ...el.data(), id: v1() }));
         setUsersData(users.filter((el) => el.videos));
-        setViewLaterVideos(() => {
-            const currentUser = users.filter((el) => el.email === selector.email);
-            return currentUser[0]?.viewLater;
-        });
     };
 
     const getAllTheusersVideosAndShuffleIt = (): IShuffledVideo[] => {
@@ -113,7 +108,7 @@ const User: FC = () => {
         //         viewLater: [],
         //     }),
         // );
-        // setVideos((prev) => (viewLaterVideos && viewLaterVideos.length >= 1 ? viewLaterVideos : []));
+        // setVideos([]);
         selector.viewLater ? setVideos(selector?.viewLater) : setVideos([]);
     };
 

@@ -47,14 +47,14 @@ const Video: FC<IVideoComp> = ({
         const ref = await doc(DB, 'users', selector.email);
         const data = await getDoc(ref);
         const oldViewLater = data.data()?.viewLater;
-
+        console.log(oldViewLater);
         try {
             if (oldViewLater) {
                 let isVidUnique: boolean = true;
 
                 for (let i = 0; i < oldViewLater.length; i++) {
                     isVidUnique = !(videoObj?.date === oldViewLater[i]?.date);
-                    if (isVidUnique) {
+                    if (!isVidUnique) {
                         break;
                     }
                 }
