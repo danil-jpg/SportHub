@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, ReactNode } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import UserHome from './UserHome/UserHome';
 import Header from '../../common/Header/Header';
@@ -9,6 +9,8 @@ import Loading from '../../common/Loading/Loading';
 import getDate from '../../utils/getDate';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getUsers } from '../../store/slices/users';
+import UserItem from './UserItem/UserItem';
+import { v1 } from 'uuid';
 
 interface IUserData {
     videos: IVideo[];
@@ -121,6 +123,21 @@ const User: FC = () => {
         getAllTheusersVideosAndShuffleIt();
     }, [usersData]);
 
+    const subscrObj = [{}];
+
+    const Subscribers = (): JSX.Element[] | undefined => {
+        const currentUser = selectorUsers.filter((el) => el.email === selector.email)[0];
+        return currentUser?.subscriptions?.map((el) => {
+            const currentCreator = selectorUsers.filter((innerEl) => innerEl.email === el);
+            return <UserItem key={v1()} email={currentCreator[0].email} name={currentCreator[0].fname} imgUrl={currentCreator[0].photoUrl} />;
+        });
+        // return
+        //     ?.subscriptions?.map((el) => {
+        //         const creatorObj = selectorUsers.filter((el) => el.email === selectorCreatorEmail)[0];
+        //         return <UserItem key={v1()} name={creatorObj.fname} imgUrl={creatorObj.photoUrl} />;
+        //     });
+    };
+
     if (defaultVideos.length < 1) return <Loading />;
     return (
         <>
@@ -158,13 +175,12 @@ const User: FC = () => {
                     </div>
                     <div className='user-home__subscriptions'>
                         <p className='user-home__subscriptions_title'>My subscription</p>
-                        {/* <UserItem name='Marvin McKinney' />
-                        <UserItem name='Marvin McKinney' /> */}
+                        {Subscribers()}
                     </div>
                 </div>
                 <Routes>
                     <Route element={<UserHome videos={videos} setVideos={setVideos} />} index path='home'></Route>
-                    <Route element={<UserChannel email={selectorCreatorEmail} videosArr={defaultVideos} />} path='channel'></Route>
+                    <Route element={<UserChannel />} path='channel'></Route>
                 </Routes>
             </div>
         </>

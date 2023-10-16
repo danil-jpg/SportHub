@@ -4,52 +4,48 @@ import './Banner.scss';
 import defaultUser from '../../../../../assets/img/user/card/default-user.jpg';
 import defaultUserW from '../../../../../assets/img/user/card/default-user.jpg?as=webp';
 import Button from '../../../../ui/Button/Button';
-import { useAppSelector } from '../../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { DB } from '../../../../../config/firebase-config';
 import { ref } from 'firebase/storage';
+import { getUsers, setUsersData } from '../../../../store/slices/users';
 
 const Banner: FC = () => {
-    const [sbsBtn, setSbsBtn] = useState<boolean>(false);
-
     const selectorCreatorEmail = useAppSelector((state) => state.creatorSlice.creatorEmail.email);
     const selectorUsers = useAppSelector((state) => state.usersSlice.data);
     const selectorUserEmail = useAppSelector((state) => state.regSlice.regData.email);
+    const dispatch = useAppDispatch();
+    const getCurrentUser = selectorUsers.filter((el) => el.email === selectorUserEmail);
+
+    const [sbsBtn, setSbsBtn] = useState<boolean | undefined>(getCurrentUser[0].subscriptions && getCurrentUser[0].subscriptions.includes(selectorCreatorEmail));
     const [channelData, setChannelData] = useState(selectorUsers.filter((el) => el.email === selectorCreatorEmail));
-
-    const getDataFunc = async () => {
-        const docRef = doc(DB, 'users', selectorUserEmail);
-        const docRefCreator = doc(DB, 'users', selectorCreatorEmail);
-
-        const getSubscriptions = (await getDoc(docRef)).data();
-    };
 
     const onSubscribeBtnClickHandler = async () => {
         const docRef = doc(DB, 'users', selectorUserEmail);
         const docRefCreator = doc(DB, 'users', selectorCreatorEmail);
 
-        const getSubscriptions = selectorUsers.filter((el) => el.email === selectorUserEmail);
-
-        console.log(selectorCreatorEmail);
-
-        if (channelData?.subscriptions.includes(selectorCreatorEmail)) {
+        if (getCurrentUser[0].subscriptions && getCurrentUser[0].subscriptions.includes(selectorCreatorEmail)) {
             const userUpdate = await updateDoc(docRef, {
                 subscriptions: arrayRemove(selectorCreatorEmail),
             });
             const creatorUpdate = await updateDoc(docRefCreator, {
-                subscribes: arrayRemove(selectorUserEmail),
+                subscribers: arrayRemove(selectorUserEmail),
             });
+
+            dispatch(getUsers());
+            setSbsBtn(false);
         } else {
             const userUpdate = await updateDoc(docRef, {
                 subscriptions: arrayUnion(selectorCreatorEmail),
             });
             const creatorUpdate = await updateDoc(docRefCreator, {
-                subscribes: arrayUnion(selectorUserEmail),
+                subscribers: arrayUnion(selectorUserEmail),
             });
+
+            dispatch(getUsers());
+            setSbsBtn(true);
         }
     };
-
-    useEffect(() => {}, []);
 
     return (
         <div>
@@ -86,9 +82,15 @@ const Banner: FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <Button className=' banner__subs-btn' onClickHandler={onSubscribeBtnClickHandler}>
-                            Subscribe
-                        </Button>
+                        {!sbsBtn ? (
+                            <Button className='banner__subs-btn button_unsubscribe' onClickHandler={onSubscribeBtnClickHandler}>
+                                Unsubscribe
+                            </Button>
+                        ) : (
+                            <Button className='banner__subs-btn ' onClickHandler={onSubscribeBtnClickHandler}>
+                                Subscribe
+                            </Button>
+                        )}
                     </div>
                 </div>
             ) : (
