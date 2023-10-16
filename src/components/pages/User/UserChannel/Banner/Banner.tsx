@@ -51,7 +51,7 @@ const Banner: FC = () => {
         <div>
             {channelData[0].coverPhotoUrl ? (
                 <div className='banner' style={{ backgroundImage: `url(${channelData[0].coverPhotoUrl})` }}>
-                    <div></div>
+                    <div className='banner__empty'></div>
                     <div className=' banner__left'>
                         <div className=' banner_avatar-wr'>
                             {channelData[0].photoUrl ? (
