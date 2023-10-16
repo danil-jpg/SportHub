@@ -2,13 +2,15 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import regSlice from './slices/registration';
+import creatorSlice from './slices/creator';
+import usersSlice from './slices/users';
 
 const persistConfig = {
     key: 'root',
     storage,
 };
 
-const rootReducer = combineReducers({ regSlice });
+const rootReducer = combineReducers({ regSlice, creatorSlice, usersSlice });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

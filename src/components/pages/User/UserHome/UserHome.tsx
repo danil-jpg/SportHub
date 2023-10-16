@@ -28,6 +28,7 @@ const UserHome: FC<IUserHome> = ({ videos, setVideos }) => {
                               return (
                                   <Video
                                       key={v1()}
+                                      email={el.email}
                                       title={el.title}
                                       previewUrl={el.previewUrl}
                                       date={getDate(el.date)}

@@ -66,9 +66,6 @@ const PersonalInfo: FC = () => {
         try {
             await uploadFile();
             const res = await getDownloadURL(ref(storage, `users-avatar/${selector.regData.email}`));
-            // const objToLoad: any = { ...selector.regData };
-            // delete objToLoad?.some;
-            // delete objToLoad?.selectedVideosArr;
             setPhotoUrl(res);
             await setDoc(doc(DB, 'users', selector.regData.email), {
                 ...selector.regData,

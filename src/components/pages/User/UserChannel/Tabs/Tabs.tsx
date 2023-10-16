@@ -1,19 +1,20 @@
 import React, { FC, useState } from 'react';
 import './Tabs.scss';
-import { IVideo } from '../../../Creator/Home/CrHome';
 import Video from '../../../Creator/Video/Video';
+import { useAppSelector } from '../../../../hooks/redux';
+import { v1 } from 'uuid';
 
-interface ITab {
-    videosArr: IVideo[];
-}
-
-const Tabs: FC<ITab> = ({ videosArr }) => {
+const Tabs: FC = ({}) => {
     const [tabs, setTabs] = useState([true, false, false, false]);
+
+    const selectorEmail = useAppSelector((state) => state.creatorSlice.creatorEmail.email);
+    const selectorUsers = useAppSelector((state) => state.usersSlice.data);
+    const [channelData, setChannelData] = useState(selectorUsers.filter((el) => el.email === selectorEmail));
 
     return (
         <div className='tabs'>
             <div className='tabs__items'>
-                <p className={`${tabs[0] ? 'active' : ''} tab__item `} onClick={() => setTabs([false, true, false, false])}>
+                <p className={`${tabs[0] ? 'active' : ''} tab__item `} onClick={() => setTabs([true, false, false, false])}>
                     Video
                 </p>
                 <p className={`${tabs[1] ? 'active' : ''} tab__item `} onClick={() => setTabs([false, true, false, false])}>
@@ -27,12 +28,10 @@ const Tabs: FC<ITab> = ({ videosArr }) => {
                 </p>
             </div>
             <div className='tabs__content'>
-                <div className='tabs__videos'>
-                    {videosArr.map((el) => (
-                        <Video title={el.title} previewUrl={el.previewUrl}></Video>
-                    ))}
+                <div className={`${tabs[0] ? 'active' : ''} tabs__videos`}>
+                    {channelData[0].videos ? channelData[0].videos.map((el) => <Video key={v1()} title={el.title} previewUrl={el.previewUrl}></Video>) : ''}
                 </div>
-                <div className='tabs__bio'></div>
+                <div className={`${tabs[1] ? 'active' : ''} tabs__bio`}></div>
                 <div className='tabs__playlists'></div>
             </div>
         </div>

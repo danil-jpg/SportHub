@@ -11,9 +11,13 @@
     }
 
     &__videos {
-        display: grid;
+        display: none;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 24;
+        gap: 24px;
+        // grid-template-columns: 1fr 1fr;
+        &.active {
+            display: grid;
+        }
         .creator__video {
             width: auto;
             &:last-of-type {
@@ -23,9 +27,17 @@
     }
 
     &__bio {
+        display: none;
+        &.active {
+            display: block;
+        }
     }
 
     &__playlists {
+        display: none;
+        &.active {
+            display: block;
+        }
     }
 }
 .tab {
@@ -57,15 +69,18 @@
         }
 
         &__videos {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24;
+            display: none;
         }
 
         &__bio {
+            display: none;
         }
 
         &__playlists {
+            display: none;
+            &.active {
+                display: block;
+            }
         }
     }
 }

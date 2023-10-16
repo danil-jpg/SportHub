@@ -3,16 +3,12 @@ import { Routes, Route } from 'react-router-dom';
 import UserHome from './UserHome/UserHome';
 import Header from '../../common/Header/Header';
 import UserChannel from './UserChannel/UserChannel';
-import UserItem from './UserItem/User-item';
 import { IPlaylist } from '../Creator/HomePlay/HomePlay';
 import { IVideo } from '../Creator/Home/CrHome';
-import { getDocs, collection } from 'firebase/firestore';
-import { DB } from '../../../config/firebase-config';
 import Loading from '../../common/Loading/Loading';
 import getDate from '../../utils/getDate';
-import { v1 } from 'uuid';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { setRegData } from '../../store/slices/registration';
+import { getUsers } from '../../store/slices/users';
 
 interface IUserData {
     videos: IVideo[];
@@ -47,29 +43,31 @@ interface IShuffledVideo {
     fname: string;
     lname: string;
     authorPicUrl?: string;
+    email?: string;
 }
 
 const User: FC = () => {
-    const [usersData, setUsersData] = useState<IUserData[]>([]);
+    const [usersData, setUsersData] = useState<any[]>([]);
     const [defaultVideos, setDefaultVideos] = useState<IShuffledVideo[]>([]);
     const [videos, setVideos] = useState<IShuffledVideo[]>([]);
     const [filterBtn, setFilterBtn] = useState<boolean[]>([true, false, false]);
 
     const selector = useAppSelector((state) => state.regSlice.regData);
+    const selectorCreatorEmail = useAppSelector((state) => state.creatorSlice.creatorEmail.email);
+    const selectorUsers = useAppSelector((state) => state.usersSlice.data);
     const dispatch = useAppDispatch();
-
-    const getUsers = async () => {
-        const docRef = await collection(DB, 'users');
-        const getUsers = await getDocs(docRef);
-        const users: any[] = getUsers.docs.map((el) => ({ ...el.data(), id: v1() }));
-        setUsersData(users.filter((el) => el.videos));
-    };
 
     const getAllTheusersVideosAndShuffleIt = (): IShuffledVideo[] => {
         for (let i = 0; i < usersData.length; i++) {
             for (let j = 0; j < usersData[i].videos.length; j++) {
-                setVideos((prev) => [...prev, { ...usersData[i].videos[j], fname: usersData[i].fname, lname: usersData[i].lname, authorPicUrl: usersData[i].photoUrl }]);
-                setDefaultVideos((prev) => [...prev, { ...usersData[i].videos[j], fname: usersData[i].fname, lname: usersData[i].lname, authorPicUrl: usersData[i].photoUrl }]);
+                setVideos((prev) => [
+                    ...prev,
+                    { ...usersData[i].videos[j], fname: usersData[i].fname, lname: usersData[i].lname, authorPicUrl: usersData[i].photoUrl, email: usersData[i].email },
+                ]);
+                setDefaultVideos((prev) => [
+                    ...prev,
+                    { ...usersData[i].videos[j], fname: usersData[i].fname, lname: usersData[i].lname, authorPicUrl: usersData[i].photoUrl, email: usersData[i].email },
+                ]);
             }
         }
         setVideos((prev) => {
@@ -113,7 +111,9 @@ const User: FC = () => {
     };
 
     useEffect(() => {
-        getUsers();
+        dispatch(getUsers());
+        setUsersData(selectorUsers.filter((el) => el.videos));
+
         getAllTheusersVideosAndShuffleIt();
     }, []);
 
@@ -164,7 +164,7 @@ const User: FC = () => {
                 </div>
                 <Routes>
                     <Route element={<UserHome videos={videos} setVideos={setVideos} />} index path='home'></Route>
-                    <Route element={<UserChannel videosArr={defaultVideos} />} index path='channel'></Route>
+                    <Route element={<UserChannel email={selectorCreatorEmail} videosArr={defaultVideos} />} path='channel'></Route>
                 </Routes>
             </div>
         </>

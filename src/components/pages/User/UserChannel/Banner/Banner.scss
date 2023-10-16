@@ -6,6 +6,9 @@
     margin-top: 24px;
     border-radius: 15px;
     grid-template-columns: 1fr 41%;
+    background-repeat: no-repeat;
+    // background-size: 100% 100%;
+    background-size: cover;
     &__left {
         padding-top: 133px;
     }

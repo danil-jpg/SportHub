@@ -1,20 +1,23 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import './UserChannel.scss';
 import Banner from './Banner/Banner';
-import Video from '../../Creator/Video/Video';
-import { IVideo } from '../../Creator/Home/CrHome';
 import Tabs from './Tabs/Tabs';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { getUsers } from '../../../store/slices/users';
 
-interface IUserChannel {
-    videosArr: IVideo[];
-}
+const UserChannel: FC = () => {
+    const selectorUsers = useAppSelector((state) => state.usersSlice.data);
+    const dispatch = useAppDispatch();
 
-const UserChannel: FC<IUserChannel> = ({ videosArr }) => {
+    useEffect(() => {
+        dispatch(getUsers());
+    }, []);
+
     return (
         <div className='channel'>
             <Banner />
             <div className='tabs-wr'>
-                <Tabs videosArr={videosArr} />
+                <Tabs />
             </div>
         </div>
     );

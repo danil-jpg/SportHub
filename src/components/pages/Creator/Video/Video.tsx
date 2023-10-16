@@ -10,6 +10,7 @@ import defaultUserW from '../../../../assets/img/user/card/default-user.jpg?as=w
 import { IVideo } from '../Home/CrHome';
 import { IShuffledVideo } from '../../User/User';
 import { setRegData } from '../../../store/slices/registration';
+import { setCreatorEmail } from '../../../store/slices/creator';
 
 interface IVideoComp {
     title: string;
@@ -25,6 +26,7 @@ interface IVideoComp {
     lName?: string;
     videoObj?: IVideo;
     setVideos?: React.Dispatch<React.SetStateAction<IShuffledVideo[]>>;
+    email?: string;
 }
 
 const Video: FC<IVideoComp> = ({
@@ -37,8 +39,11 @@ const Video: FC<IVideoComp> = ({
     date = 'Long ago',
     previewUrl = '',
     className = '',
+    email,
 }) => {
     const [videoMenu, setVideoMenu] = useState(false);
+
+    const navigate = useNavigate();
 
     const selector = useAppSelector((state) => state.regSlice.regData);
     const dispatch = useAppDispatch();
@@ -47,7 +52,7 @@ const Video: FC<IVideoComp> = ({
         const ref = await doc(DB, 'users', selector.email);
         const data = await getDoc(ref);
         const oldViewLater = data.data()?.viewLater;
-        console.log(oldViewLater);
+
         try {
             if (oldViewLater) {
                 let isVidUnique: boolean = true;
@@ -83,6 +88,11 @@ const Video: FC<IVideoComp> = ({
         }
     };
 
+    const onVideoAuthorClickHandler = () => {
+        dispatch(setCreatorEmail({ email }));
+        navigate('../channel');
+    };
+
     return (
         <div className={`${className}   creator__video `}>
             <div
@@ -102,7 +112,7 @@ const Video: FC<IVideoComp> = ({
             <div className='creator__video__bottom'>
                 <div className='creator__video__bottom_title'>{title}</div>
                 {author ? (
-                    <div className='creator__video_author-wr'>
+                    <div className='creator__video_author-wr' onClick={onVideoAuthorClickHandler}>
                         <div className='creator__video_author'>
                             {authorPicUrl ? (
                                 <picture>
