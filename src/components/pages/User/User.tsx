@@ -129,14 +129,15 @@ const User: FC = () => {
         const currentUser = selectorUsers.filter((el) => el.email === selector.email)[0];
         return currentUser?.subscriptions?.map((el) => {
             const currentCreator = selectorUsers.filter((innerEl) => innerEl.email === el);
-            // alert(currentCreator[0].email);
-            return <UserItem key={v1()} email={currentCreator[0].email} name={currentCreator[0].fname} imgUrl={currentCreator[0].photoUrl} />;
+            return (
+                <UserItem
+                    key={v1()}
+                    email={currentCreator[0].email}
+                    name={currentCreator[0].fname ? currentCreator[0].fname : ''}
+                    imgUrl={currentCreator[0].photoUrl ? currentCreator[0].photoUrl : ''}
+                />
+            );
         });
-        // return
-        //     ?.subscriptions?.map((el) => {
-        //         const creatorObj = selectorUsers.filter((el) => el.email === selectorCreatorEmail)[0];
-        //         return <UserItem key={v1()} name={creatorObj.fname} imgUrl={creatorObj.photoUrl} />;
-        //     });
     };
 
     if (defaultVideos.length < 1) return <Loading />;

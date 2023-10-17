@@ -1,9 +1,10 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './Tabs.scss';
 import Video from '../../../Creator/Video/Video';
 import { useAppSelector } from '../../../../hooks/redux';
 import { v1 } from 'uuid';
 import IconRenderer from '../../../../ui/IconRenderer/IconRenderer';
+import Playlist from '../../../Creator/HomePlay/Playlist/Playlist';
 
 const Tabs: FC = ({}) => {
     const [tabs, setTabs] = useState([true, false, false]);
@@ -11,6 +12,10 @@ const Tabs: FC = ({}) => {
     const selectorEmail = useAppSelector((state) => state.creatorSlice.creatorEmail.email);
     const selectorUsers = useAppSelector((state) => state.usersSlice.data);
     const [channelData, setChannelData] = useState(selectorUsers.filter((el) => el.email === selectorEmail));
+
+    console.log(channelData[0].playlists);
+
+    useEffect(() => {}, []);
 
     return (
         <div className='tabs'>
@@ -70,7 +75,9 @@ const Tabs: FC = ({}) => {
                     )}
                 </div>
                 <div className={`${tabs[2] ? 'active' : ''} tabs__playlists`}>
-                    <div>hey2</div>
+                    {channelData[0].playlists?.map((el, index) => {
+                        return <Playlist index={index} title={el.title} videos={el.videos} description={el.description}></Playlist>;
+                    })}
                 </div>
             </div>
         </div>
