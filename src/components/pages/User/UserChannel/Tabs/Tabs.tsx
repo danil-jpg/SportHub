@@ -31,7 +31,7 @@ const Tabs: FC = ({}) => {
                 <div className={`${tabs[1] ? 'active' : ''} tabs__bio`}>
                     <div>hey</div>
                 </div>
-                <div className={`${tabs[1] ? 'active' : ''} tabs__playlist`}>
+                <div className={`${tabs[2] ? 'active' : ''} tabs__playlist`}>
                     <div>hey2</div>
                 </div>
             </div>

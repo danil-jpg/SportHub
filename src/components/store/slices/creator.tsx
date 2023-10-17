@@ -23,9 +23,12 @@ export const creatorSlice = createSlice({
         setCreatorEmail: (state, action: PayloadAction<any>) => {
             state.creatorEmail = action.payload;
         },
+        setFormattedCreatorEmail: (state, action: PayloadAction<any>) => {
+            state.creatorEmail = action.payload;
+        },
     },
 });
 
 export default creatorSlice.reducer;
-export const { setCreatorEmail } = creatorSlice.actions;
+export const { setCreatorEmail, setFormattedCreatorEmail } = creatorSlice.actions;
 export type { ICreator };

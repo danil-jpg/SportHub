@@ -15,9 +15,11 @@ const UserItem: FC<IUserItem> = ({ email, name, imgUrl }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    const currentUserEmailFormatted = email.replace(/\./g, '');
+
     const onUserClickHandler = () => {
         dispatch(setCreatorEmail({ email }));
-        navigate('./channel');
+        navigate(`./channel/${currentUserEmailFormatted}`);
     };
 
     return (

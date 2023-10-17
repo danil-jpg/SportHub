@@ -82,7 +82,7 @@ const Banner: FC = () => {
                                 </div>
                             </div>
                         </div>
-                        {!sbsBtn ? (
+                        {sbsBtn ? (
                             <Button className='banner__subs-btn button_unsubscribe' onClickHandler={onSubscribeBtnClickHandler}>
                                 Unsubscribe
                             </Button>

@@ -88,9 +88,11 @@ const Video: FC<IVideoComp> = ({
         }
     };
 
+    const currentUserEmailFormatted = email ? email.replace(/\./g, '') : '';
+
     const onVideoAuthorClickHandler = () => {
         dispatch(setCreatorEmail({ email }));
-        navigate('../channel');
+        navigate(`../channel/${currentUserEmailFormatted}`);
     };
 
     return (
