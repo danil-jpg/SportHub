@@ -141,3 +141,34 @@
         fill: grey;
     }
 }
+
+.return-arrow {
+    width: 7.997px;
+    height: 13.94px;
+    fill: #fff;
+    transition: 0.3s;
+    cursor: pointer;
+    &:hover {
+        fill: grey;
+    }
+}
+
+.like,
+.dislike {
+    width: 18px;
+    height: 19px;
+    fill: #fff;
+    cursor: pointer;
+    &:hover {
+        fill: grey;
+    }
+}
+
+.comments {
+    width: 18px;
+    height: 15px;
+    cursor: pointer;
+    &:hover {
+        // fill: #ad7955;
+    }
+}

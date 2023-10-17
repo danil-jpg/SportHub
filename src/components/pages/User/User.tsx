@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getUsers } from '../../store/slices/users';
 import UserItem from './UserItem/UserItem';
 import { v1 } from 'uuid';
+import UserPlayer from './UserPlayer';
 
 interface IUserData {
     videos: IVideo[];
