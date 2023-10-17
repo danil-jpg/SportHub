@@ -117,6 +117,19 @@
         }
     }
 }
+.video-cr-playlist {
+    position: static;
+    .creator__video__edit {
+        display: none;
+    }
+    &:hover {
+        &::after {
+            display: none;
+            content: '';
+            background: none;
+        }
+    }
+}
 @media screen and (max-width: 375px) {
     .creator {
         &__video {

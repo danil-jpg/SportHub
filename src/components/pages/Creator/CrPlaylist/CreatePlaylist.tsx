@@ -67,7 +67,12 @@ const CreatePlaylist: FC = () => {
                             });
                         }}
                     >
-                        <Video className={`${selectedArrState[0][index] ? 'video-active' : ''}`} previewUrl={el.previewUrl} title={el.title} date={getDate(el.date)}></Video>
+                        <Video
+                            className={`${selectedArrState[0][index] ? 'video-active' : ''} video-cr-playlist`}
+                            previewUrl={el.previewUrl}
+                            title={el.title}
+                            date={getDate(el.date)}
+                        ></Video>
                     </div>
                 );
             });
