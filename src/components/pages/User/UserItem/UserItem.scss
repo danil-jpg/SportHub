@@ -24,4 +24,8 @@
     &:hover {
         border: 1px solid #fff;
     }
+    &.active {
+        border-radius: 8px;
+        background: var(--9, #222);
+    }
 }

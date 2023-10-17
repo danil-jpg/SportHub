@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import './UserItem.scss';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { setCreatorEmail } from '../../../store/slices/creator';
 
 interface IUserItem {
@@ -15,6 +15,7 @@ const UserItem: FC<IUserItem> = ({ email, name, imgUrl }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    const selectorCreatorEmail = useAppSelector((state) => state.creatorSlice.creatorEmail.email);
     const currentUserEmailFormatted = email.replace(/\./g, '');
 
     const onUserClickHandler = () => {
@@ -23,7 +24,7 @@ const UserItem: FC<IUserItem> = ({ email, name, imgUrl }) => {
     };
 
     return (
-        <div className='user-item' onClick={() => onUserClickHandler()}>
+        <div className={`user-item ${selectorCreatorEmail === email ? 'active' : ''}`} onClick={() => onUserClickHandler()}>
             <img className='user-item__img' src={imgUrl} />
             <p className='user-item__name'>{name}</p>
         </div>
