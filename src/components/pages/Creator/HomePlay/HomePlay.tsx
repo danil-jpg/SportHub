@@ -16,6 +16,7 @@ interface IPlaylist {
     description?: string;
     videos: IVideo[];
     index?: number;
+    type?: string;
 }
 
 const HomePlay = () => {

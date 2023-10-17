@@ -76,7 +76,7 @@ const Tabs: FC = ({}) => {
                 </div>
                 <div className={`${tabs[2] ? 'active' : ''} tabs__playlists`}>
                     {channelData[0].playlists?.map((el, index) => {
-                        return <Playlist index={index} title={el.title} videos={el.videos} description={el.description}></Playlist>;
+                        return <Playlist type='channel' index={index} title={el.title} videos={el.videos} description={el.description}></Playlist>;
                     })}
                 </div>
             </div>

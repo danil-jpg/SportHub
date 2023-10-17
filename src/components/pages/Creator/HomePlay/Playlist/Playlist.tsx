@@ -7,15 +7,13 @@ import './Playlist.scss';
 import { Link } from 'react-router-dom';
 import getDate from '../../../../utils/getDate';
 
-const Playlist: FC<IPlaylist> = ({ title = 'Defalut Title', videos, index }) => {
+const Playlist: FC<IPlaylist> = ({ title = 'Defalut Title', type, videos, index }) => {
     const [showAll, setShowAll] = useState(false);
 
     return (
         <div className='playlist'>
             <div className='creator__playlist-line'>
-                <div className='creator__playlist_title'>
-                    <Link to={`../playlist?playlist-index=${index}`}>{title}</Link>
-                </div>
+                <div className='creator__playlist_title'>{type === 'channel' ? <a>{title}</a> : <Link to={`../playlist?playlist-index=${index}`}>{title}</Link>}</div>
                 <div className={`${showAll ? 'active' : ''} creator__playlist_view-more`} onClick={() => setShowAll(!showAll)}>
                     View all
                 </div>
