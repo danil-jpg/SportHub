@@ -23,7 +23,7 @@ const Banner: FC = () => {
     const onSubscribeBtnClickHandler = async () => {
         const docRef = doc(DB, 'users', selectorUserEmail);
         const docRefCreator = doc(DB, 'users', selectorCreatorEmail);
-
+        alert('del');
         if (getCurrentUser[0].subscriptions && getCurrentUser[0].subscriptions.includes(selectorCreatorEmail)) {
             const userUpdate = await updateDoc(docRef, {
                 subscriptions: arrayRemove(selectorCreatorEmail),
@@ -41,6 +41,7 @@ const Banner: FC = () => {
             const creatorUpdate = await updateDoc(docRefCreator, {
                 subscribers: arrayUnion(selectorUserEmail),
             });
+            alert('add');
 
             dispatch(getUsers());
             setSbsBtn(true);
@@ -70,7 +71,9 @@ const Banner: FC = () => {
                             <div className=' banner__data'>
                                 <IconRenderer id='subs' />
                                 <div className=' banner__inner-data-wr'>
-                                    <p className=' banner__data-num'>6.4K</p>
+                                    <p className=' banner__data-num'>
+                                        {channelData[0].subscribers && channelData[0].subscribers?.length > 0 ? channelData[0].subscribers.length : 0}
+                                    </p>
                                     <p className=' banner__data-text'>Subscribers</p>
                                 </div>
                             </div>
@@ -111,7 +114,9 @@ const Banner: FC = () => {
                             <div className=' banner__data'>
                                 <IconRenderer id='subs' />
                                 <div className=' banner__inner-data-wr'>
-                                    <p className=' banner__data-num'>6.4K</p>
+                                    <p className=' banner__data-num'>
+                                        {channelData[0].subscribers && channelData[0].subscribers?.length > 1 ? channelData[0].subscribers.length : 0}
+                                    </p>
                                     <p className=' banner__data-text'>Subscribers</p>
                                 </div>
                             </div>
@@ -123,7 +128,7 @@ const Banner: FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <Button className=' banner__subs-btn'>Subscribe</Button>
+                        {getCurrentUser[0].email === selectorUserEmail ? '' : <Button className=' banner__subs-btn'>Subscribe</Button>}
                     </div>
                 </div>
             )}
