@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import './AddVideo.scss';
 import Button from '../../../ui/Button/Button';
 import pngLogoW from '../../../../assets/img/addvideo/addvideo.png?as=webp';
-import { doc, getDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { DB, storage } from '../../../../config/firebase-config';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ const AddVideo1: FC = () => {
 
     const inputRef = useRef<HTMLInputElement | null>(null);
 
-    const uniqueId = v1();
+    const uniqueId: string = v1();
 
     const allowedTypesImg = ['image/jpeg', 'image/png', 'image/gif'];
     const allowedTypesVideo = ['video/mp4', 'video/*', 'video/x-m4v'];
@@ -62,8 +62,8 @@ const AddVideo1: FC = () => {
         e.stopPropagation();
         setDragPreviewActive(false);
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            if (e.dataTransfer.files[0].size > 4097152) {
-                swal('File is too big! Max size is 4 mb');
+            if (e.dataTransfer.files[0].size > 26097152) {
+                swal('File is too big! Max size is 25 mb');
             } else if (!allowedTypesImg.includes(e.dataTransfer.files[0]?.type)) {
                 swal('File must be jpeg,png,gif or webp format');
             } else {
@@ -77,8 +77,8 @@ const AddVideo1: FC = () => {
         e.stopPropagation();
         setDragActive(false);
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            if (e.dataTransfer.files[0].size > 4097152) {
-                swal('File is too big! Max size is 4 mb');
+            if (e.dataTransfer.files[0].size > 26097152) {
+                swal('File is too big! Max size is 25 mb');
             } else if (!allowedTypesVideo.includes(e.dataTransfer.files[0]?.type)) {
                 swal('File must be jpeg,png,gif or webp format');
             } else {
@@ -88,8 +88,8 @@ const AddVideo1: FC = () => {
     };
 
     const videoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files || e.target.files[0].size > 4097152) {
-            swal('File is too big! Max size is 4 mb');
+        if (!e.target.files || e.target.files[0].size > 26097152) {
+            swal('File is too big! Max size is 25 mb');
             e.target.value = '';
         } else {
             setVideo(e.target.files[0]);
@@ -97,8 +97,8 @@ const AddVideo1: FC = () => {
     };
 
     const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files || e.target.files[0].size > 4097152) {
-            swal('File is too big! Max size is 4 mb');
+        if (!e.target.files || e.target.files[0].size > 26097152) {
+            swal('File is too big! Max size is 25 mb');
             e.target.value = '';
         } else if (!allowedTypesImg.includes(e.target.files[0]?.type)) {
             swal('File must be jpeg,png,gif or webp format');
@@ -144,23 +144,32 @@ const AddVideo1: FC = () => {
                         if (preview && video && videoTitle && videoType && videoType !== 'Select category' && videoDescr) {
                             try {
                                 await uploadVideo();
-                                const oldData = await getDoc(doc(DB, 'users', selector.regData.email)).then((res) => res.data()?.videos);
+                                // const oldData = await getDoc(doc(DB, 'users', selector.regData.email)).then((res) => res.data()?.videos);
                                 const videoUrl = await getDownloadURL(ref(storage, `videos/${selector.regData.email}/${videoTitle}${uniqueId}`));
                                 const previewUrl = await getDownloadURL(ref(storage, `previews/${selector.regData.email}/${videoTitle}${uniqueId}`));
 
                                 console.log(videoUrl, previewUrl);
-                                if (oldData) {
-                                    await updateDoc(doc(DB, 'users', selector.regData.email), {
-                                        videos: [
-                                            ...oldData,
-                                            { title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl, date: new Date().toString() },
-                                        ],
-                                    });
-                                } else {
-                                    await updateDoc(doc(DB, 'users', selector.regData.email), {
-                                        videos: [{ title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl, date: new Date().toString() }],
-                                    });
-                                }
+                                // if (oldData) {
+                                //     await updateDoc(doc(DB, 'videos', selector.regData.email), {
+                                //         uniqueId: [
+                                //             ...oldData,
+                                //             { title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl, date: new Date().toString() },
+                                //         ],
+                                //     });
+                                // } else {
+
+                                // console.log(objToLoad.get(v1()));
+                                await addDoc(collection(DB, 'videos'), {
+                                    title: videoTitle,
+                                    descr: videoDescr,
+                                    category: videoType,
+                                    shopify,
+                                    videoUrl,
+                                    previewUrl,
+                                    date: new Date().toString(),
+                                    email: selector.regData.email,
+                                });
+                                // }
                                 swal('Your video is successfully published').then(() => {
                                     navigate('../home');
                                 });
