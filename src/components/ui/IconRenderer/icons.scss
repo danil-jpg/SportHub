@@ -114,3 +114,30 @@
     height: 44px;
     fill: #fff;
 }
+
+.facebook {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+.inst {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+.twitter {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+.facebook,
+.inst,
+.twitter {
+    transition: 0.3s;
+    &:hover {
+        fill: grey;
+    }
+}

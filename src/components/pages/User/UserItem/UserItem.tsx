@@ -22,9 +22,9 @@ const UserItem: FC<IUserItem> = ({ email, name, imgUrl }) => {
         dispatch(setCreatorEmail({ email }));
         navigate(`./channel/${currentUserEmailFormatted}`);
     };
-
+    console.log();
     return (
-        <div className={`user-item ${selectorCreatorEmail === email ? 'active' : ''}`} onClick={() => onUserClickHandler()}>
+        <div className={`user-item ${window.location.href.includes('channel') && selectorCreatorEmail === email ? 'active' : ''}`} onClick={() => onUserClickHandler()}>
             <img className='user-item__img' src={imgUrl} />
             <p className='user-item__name'>{name}</p>
         </div>
