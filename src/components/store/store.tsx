@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import regSlice from './slices/registration';
 import creatorSlice from './slices/creator';
 import usersSlice from './slices/users';
+// import videoSlice from './slices/videos';
 
 const persistConfig = {
     key: 'root',

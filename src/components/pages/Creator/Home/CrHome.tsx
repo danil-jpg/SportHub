@@ -4,14 +4,16 @@ import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import '../CrHome.scss';
 import Video from '../Video/Video';
 import { useNavigate } from 'react-router-dom';
-import { getDoc, doc } from 'firebase/firestore';
-import { DB } from '../../../../config/firebase-config';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { v1 } from 'uuid';
 import swal from 'sweetalert';
 import { setRegData } from '../../../store/slices/registration';
 import getDate from '../../../utils/getDate';
 import Loading from '../../../common/Loading/Loading';
+import { getUsers } from '../../../store/slices/users';
+import { DocumentData, doc, getDoc } from 'firebase/firestore';
+import { DB } from '../../../../config/firebase-config';
+// import { getVideo } from '../../../store/slices/videos';
 
 interface IVideo {
     category: string;
@@ -21,41 +23,56 @@ interface IVideo {
     title: string;
     videoUrl: string;
     date?: any;
+    email?: string;
 }
 
 const CrHome: FC = () => {
-    const [videosArr, setVideosArr] = useState<IVideo[]>([]);
+    const [videosArr, setVideosArr] = useState<IVideo[] | any[]>([]);
     const [filteredVideosArr, setFilteredVideosArr] = useState<IVideo[]>([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const [activeButtonArr, setActiveButtonArr] = useState<boolean[]>([true, false, false, false]);
 
-    const selector = useAppSelector((state) => state.regSlice.regData);
+    const videosIds = useAppSelector((state) => state.regSlice.regData.videosIds);
 
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        const getUserData = async () => {
-            try {
-                const ref = await doc(DB, 'users', selector.email);
-                const userData = await getDoc(ref);
-                const filteredData = userData.data()?.videos;
-
-                setVideosArr(filteredData ? filteredData : []);
-                setFilteredVideosArr(filteredData ? filteredData : []);
-
-                dispatch(
-                    setRegData({
-                        videos: filteredData,
-                    }),
-                );
-
-                return filteredData;
-            } catch (e) {
-                console.error(e);
+    const getVideoData = () => {
+        try {
+            const filteredData: any[] = [];
+            if (videosIds && videosIds?.length > 0) {
+                console.log(videosIds);
+                videosIds.map(async (el) => {
+                    const docRef = await doc(DB, 'videos', el);
+                    const getVideo = await getDoc(docRef);
+                    filteredData.push(getVideo.data());
+                    setVideosArr(filteredData);
+                    setFilteredVideosArr(filteredData);
+                    setIsLoaded(true);
+                });
             }
-        };
-        getUserData();
+            setIsLoaded(true);
+
+            // dispatch(
+            //     setRegData({
+            //         videos: filteredData,
+            //     }),
+            // );
+
+            return filteredData;
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    useEffect(() => {
+        dispatch(getUsers());
+        getVideoData();
     }, []);
+
+    useEffect(() => {
+        getVideoData();
+    }, [videosIds]);
 
     const filterByType = (type: string) => {
         if (type === 'All') {
@@ -72,7 +89,8 @@ const CrHome: FC = () => {
     };
 
     const navigate = useNavigate();
-    if (!videosArr) {
+
+    if (!isLoaded) {
         return <Loading />;
     }
     return (

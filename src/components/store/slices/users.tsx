@@ -19,6 +19,7 @@ interface IUser {
         birthday?: string | number;
         gender?: string;
         videos?: IVideo[];
+        videosIds?: string[];
         viewLater?: IShuffledVideo[];
         playlists?: IPlaylist[];
         date?: string;

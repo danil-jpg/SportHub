@@ -15,6 +15,7 @@ interface IReg {
         photoUrl?: string;
         birthday?: string | number;
         gender?: string;
+        videosIds?: string[];
         videos?: IVideo[];
         viewLater?: IShuffledVideo[];
         playlists?: IPlaylist[];
@@ -39,6 +40,7 @@ const initialState: IReg = {
         photoUrl: '',
         date: '',
         videos: [],
+        videosIds: [],
         playlists: [],
         twitter: '',
         facebook: '',

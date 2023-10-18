@@ -7,14 +7,15 @@ import Playlist from './Playlist/Playlist';
 import { DB } from '../../../../config/firebase-config';
 import { getDoc } from 'firebase/firestore';
 import { doc } from 'firebase/firestore';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { IVideo } from '../Home/CrHome';
 import { v1 } from 'uuid';
 
 interface IPlaylist {
     title: string;
     description?: string;
-    videos: IVideo[];
+    videos?: string[];
+    videosObj: IVideo[];
     index?: number;
     type?: string;
 }
@@ -23,13 +24,31 @@ const HomePlay = () => {
     const [playlistData, setPlayListData] = useState<IPlaylist[]>([]);
 
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const selector = useAppSelector((state) => state.regSlice.regData);
+    // const selectorCurrUser
 
     const getData = async () => {
         try {
             const data = await getDoc(doc(DB, 'users', selector.email)).then((res) => res.data()?.playlists);
-            setPlayListData(data);
+
+            if (data && data?.length > 0) {
+                console.log(data);
+                data.map(async (el: IPlaylist) => {
+                    console.log(el);
+                    // el.videos.map(async (el) => await console.log(el));
+                    el.videos.map(async (innerEl) => {
+                        if (typeof innerEl === 'string') {
+                            const docRef = await doc(DB, 'videos', innerEl);
+                            const getVideo = await getDoc(docRef);
+                            console.log(getVideo.data());
+                            setPlayListData((prev: any) => [...prev, { title: el.title, description: el.description, type: el.type, videosObj: [getVideo.data()] }]);
+                        }
+                    });
+                    // videosObj.push(getVideo.data());
+                });
+            }
         } catch (e) {
             console.error(e);
         }
@@ -37,6 +56,7 @@ const HomePlay = () => {
 
     useEffect(() => {
         getData();
+        console.log(playlistData);
     }, []);
 
     return (
@@ -53,9 +73,9 @@ const HomePlay = () => {
                     Create new playlist
                 </Button>
             </div>
-            {playlistData.map((el, index) => (
-                <Playlist index={index} videos={el.videos} key={v1()} title={el.title}></Playlist>
-            ))}
+            {/* {playlistData.map((el, index) => (
+                <Playlist index={index} videosObj={el.videos} key={v1()} title={el.title}></Playlist>
+            ))} */}
         </div>
     );
 };

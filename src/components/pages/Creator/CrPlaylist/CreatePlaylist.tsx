@@ -16,6 +16,7 @@ import { updateDoc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
 import { doc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../../common/Loading/Loading';
 
 const CreatePlaylist: FC = () => {
     const [burgerMenu, setBurgerMenu] = useState<boolean>(false);
@@ -28,8 +29,24 @@ const CreatePlaylist: FC = () => {
     const [saveBtnState, setSaveBtnState] = useState<boolean>(false);
 
     const selector = useAppSelector((state) => state.regSlice.regData);
-    const filteredVideos: IVideo[] | undefined = selector.videos;
-    const [selectedArrState, setSelectedArrState] = useState<[boolean[], IVideo[] | any]>([Array(filteredVideos?.length).fill(false), Array(filteredVideos?.length).fill({})]);
+    const videosIds = useAppSelector((state) => state.regSlice.regData.videosIds);
+    const selectorUsers = useAppSelector((state) => state.usersSlice);
+
+    const [videoData, setVideoData]: any[] = useState([]);
+
+    useEffect(() => {
+        if (videosIds && videosIds?.length > 0) {
+            videosIds.map(async (el) => {
+                const docRef = await doc(DB, 'videos', el);
+                const getVideo = await getDoc(docRef);
+                if (getVideo.data()) {
+                    setVideoData((prev: any) => [...prev, getVideo.data()]);
+                }
+            });
+        }
+    }, []);
+
+    const [selectedArrState, setSelectedArrState] = useState<[boolean[], string[] | any]>([Array(videoData?.length).fill(false), Array(videoData?.length).fill({})]);
 
     const countNumberOfVideos = (): number => {
         let num = 0;
@@ -46,9 +63,9 @@ const CreatePlaylist: FC = () => {
     const navigate = useNavigate();
 
     const filterVideosArrFunc = (): ReactNode[] | undefined => {
-        const res = filteredVideos
-            ?.filter((el) => el.title.toUpperCase().includes(searchInput.toUpperCase()))
-            .map((el, index) => {
+        const res = videoData
+            .filter((el: any) => el.title.toUpperCase().includes(searchInput.toUpperCase()))
+            .map((el: any, index: any) => {
                 return (
                     <div
                         key={v1()}
@@ -67,6 +84,7 @@ const CreatePlaylist: FC = () => {
                             });
                         }}
                     >
+                        {/*  */}
                         <Video
                             className={`${selectedArrState[0][index] ? 'video-active' : ''} video-cr-playlist`}
                             previewUrl={el.previewUrl}
@@ -92,7 +110,7 @@ const CreatePlaylist: FC = () => {
             <>
                 <p className='cr-playlist__selected'>Selected</p>{' '}
                 <ul className='cr-playlist__chosen-ul'>
-                    {selectedArrState[1].map((el, index) =>
+                    {selectedArrState[1].map((el: any, index: any) =>
                         el.title ? (
                             <li key={v1()} className='cr-playlist__chosen-li'>
                                 {el.title}
@@ -137,7 +155,7 @@ const CreatePlaylist: FC = () => {
                             title: titleInput,
                             description: textAreaInput,
                             type: selectState,
-                            videos: selectedArrState[1].filter((el: IVideo) => el.title),
+                            videos: selectedArrState[1].filter((el: any) => el.title).map((el: any, index: any) => (videosIds ? videosIds[index] : '')),
                         },
                     ],
                 })
@@ -150,7 +168,7 @@ const CreatePlaylist: FC = () => {
                             title: titleInput,
                             description: textAreaInput,
                             type: selectState,
-                            videos: selectedArrState[1].filter((el: IVideo) => el.title),
+                            videos: selectedArrState[1].filter((el: any) => el.title).map((el: any, index: any) => (videosIds ? videosIds[index] : '')),
                         },
                     ],
                 })
@@ -163,8 +181,8 @@ const CreatePlaylist: FC = () => {
     };
 
     useEffect(() => {
-        setSelectedArrState([Array(filteredVideos?.length).fill(false), Array(filteredVideos?.length).fill({})]);
-    }, [filteredVideos]);
+        setSelectedArrState([Array(videoData?.length).fill(false), Array(videoData?.length).fill({})]);
+    }, [videoData]);
 
     useEffect(() => {
         if (selectState && selectState !== 'Select category' && titleInput && textAreaInput && numOfVideos > 1) {

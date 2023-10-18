@@ -14,6 +14,8 @@ import pngPicW from '../../../../assets/img/addvideo/addvideo-white.png?as=webp'
 import swal from 'sweetalert';
 import { v1 } from 'uuid';
 import TextareaContainer from '../../../ui/Forms/TextareaContainer/TextareaContainer';
+import { getUsers } from '../../../store/slices/users';
+import { setRegData } from '../../../store/slices/registration';
 
 const AddVideo1: FC = () => {
     const [video, setVideo] = useState<File | null>(null);
@@ -36,6 +38,10 @@ const AddVideo1: FC = () => {
     const allowedTypesVideo = ['video/mp4', 'video/*', 'video/x-m4v'];
 
     const navigate = useNavigate();
+
+    const selectorUsers = useAppSelector((state) => state.usersSlice.data);
+
+    const dispatch = useAppDispatch();
 
     const handleDragEvent = (e: React.DragEvent) => {
         e.preventDefault();
@@ -134,6 +140,10 @@ const AddVideo1: FC = () => {
         }
     }, [preview, videoTitle, videoType, videoDescr, video]);
 
+    useEffect(() => {
+        dispatch(getUsers());
+    }, []);
+
     return (
         <div className='addvideo'>
             <div className='addvideo__top'>
@@ -144,21 +154,11 @@ const AddVideo1: FC = () => {
                         if (preview && video && videoTitle && videoType && videoType !== 'Select category' && videoDescr) {
                             try {
                                 await uploadVideo();
-                                // const oldData = await getDoc(doc(DB, 'users', selector.regData.email)).then((res) => res.data()?.videos);
                                 const videoUrl = await getDownloadURL(ref(storage, `videos/${selector.regData.email}/${videoTitle}${uniqueId}`));
                                 const previewUrl = await getDownloadURL(ref(storage, `previews/${selector.regData.email}/${videoTitle}${uniqueId}`));
 
-                                console.log(videoUrl, previewUrl);
-                                // if (oldData) {
-                                //     await updateDoc(doc(DB, 'videos', selector.regData.email), {
-                                //         uniqueId: [
-                                //             ...oldData,
-                                //             { title: videoTitle, descr: videoDescr, category: videoType, shopify, videoUrl, previewUrl, date: new Date().toString() },
-                                //         ],
-                                //     });
-                                // } else {
+                                const currentUser = selectorUsers.filter((el) => el.email === selector.regData.email);
 
-                                // console.log(objToLoad.get(v1()));
                                 await addDoc(collection(DB, 'videos'), {
                                     title: videoTitle,
                                     descr: videoDescr,
@@ -168,8 +168,23 @@ const AddVideo1: FC = () => {
                                     previewUrl,
                                     date: new Date().toString(),
                                     email: selector.regData.email,
+                                }).then((res) => {
+                                    if (currentUser[0].videosIds && currentUser[0].videosIds?.length > 0) {
+                                        updateDoc(doc(DB, 'users', selector.regData.email), {
+                                            videosIds: [...currentUser[0].videosIds, res.id],
+                                        });
+                                        dispatch(
+                                            setRegData({
+                                                videosIds: [...currentUser[0].videosIds, res.id],
+                                            }),
+                                        );
+                                    } else {
+                                        updateDoc(doc(DB, 'users', selector.regData.email), {
+                                            videosIds: [res.id],
+                                        });
+                                    }
                                 });
-                                // }
+
                                 swal('Your video is successfully published').then(() => {
                                     navigate('../home');
                                 });
