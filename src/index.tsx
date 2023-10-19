@@ -10,13 +10,11 @@ import Loading from './components/common/Loading/Loading';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <PersistGate persistor={persistor} loading={<Loading />}>
-                <HashRouter>
-                    <App />
-                </HashRouter>
-            </PersistGate>
-        </Provider>
-    </React.StrictMode>,
+    <Provider store={store}>
+        <PersistGate persistor={persistor} loading={<Loading />}>
+            <HashRouter>
+                <App />
+            </HashRouter>
+        </PersistGate>
+    </Provider>,
 );

@@ -34,13 +34,33 @@ const EditPlaylist: FC = () => {
     const [saveBtnState, setSaveBtnState] = useState<boolean>(true);
 
     const selector = useAppSelector((state) => state.regSlice.regData);
-    const filteredVideos: IVideo[] | undefined = selector.videos;
+    const videosIds = useAppSelector((state) => state.regSlice.regData.videosIds);
+
+    const [playlistVideoObj, setPlaylistVideoObj] = useState<IVideo[]>([]);
+    const [allVideos, setAllVideos] = useState<IVideo[]>([]);
+    const filteredVideos: IVideo[] | undefined = allVideos;
     const [selectedArrState, setSelectedArrState] = useState<[boolean[], IVideo[] | any]>([Array(filteredVideos?.length).fill(false), Array(filteredVideos?.length).fill({})]);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const index: string | null = searchParams.get('playlist-index');
 
     const navigation = useNavigate();
+
+    // useEffect(() => {
+    //     console.log(selectedArrState);
+    // }, [selectedArrState]);
+
+    useEffect(() => {
+        if (videosIds && videosIds?.length > 0) {
+            videosIds.map(async (el) => {
+                const docRef = await doc(DB, 'videos', el);
+                const getVideo = await getDoc(docRef);
+                if (getVideo.data()) {
+                    setAllVideos((prev: any) => [...prev, getVideo.data()]);
+                }
+            });
+        }
+    }, []);
 
     const getPlaylist = async () => {
         try {
@@ -51,12 +71,17 @@ const EditPlaylist: FC = () => {
             setTitleInput(concretePlaylist?.title);
             setTextAreaInput(concretePlaylist?.description);
             setSelectState(concretePlaylist?.type);
-            setSelectedArrState([
-                concretePlaylist?.videos.map(() => {
-                    return true;
-                }),
-                concretePlaylist?.videos,
-            ]);
+            //
+
+            if (index && data.data()?.playlists[+index].videos) {
+                data.data()?.playlists[+index].videos.map(async (innerEl: any) => {
+                    const docRef = await doc(DB, 'videos', innerEl);
+                    const getVideoItem = (await getDoc(docRef)).data();
+
+                    setPlaylistVideoObj((prev: any) => [...prev, { ...getVideoItem, vidId: innerEl }]);
+                });
+            }
+
             setIsLoaded(true);
 
             setNumOfVideos(concretePlaylist?.videos.length);
@@ -65,6 +90,38 @@ const EditPlaylist: FC = () => {
             console.error(e);
         }
     };
+
+    useEffect(() => {
+        setSelectedArrState((prev) => [
+            prev[0].map((el) => {
+                playlistVideoObj.map((innerEl: any) => {
+                    videosIds ? (prev[0][videosIds.indexOf(innerEl.vidId)] = true) : '';
+                    return true;
+                });
+                if (el === true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }),
+            prev[1].map((el: any, index: number) => {
+                playlistVideoObj.map((innerEl: any) => {
+                    videosIds ? (prev[0][videosIds.indexOf(innerEl.vidId)] = true) : '';
+
+                    if (videosIds && videosIds.indexOf(innerEl.vidId) === index) {
+                        el[index] = innerEl;
+                        return el[index];
+                    }
+                    return '';
+                });
+                if (el[index]?.title) {
+                    return el[index];
+                } else {
+                    return {};
+                }
+            }),
+        ]);
+    }, [playlistVideoObj]);
 
     const countNumberOfVideos = (): number => {
         let num = 0;
@@ -92,13 +149,18 @@ const EditPlaylist: FC = () => {
                                 if (res[index]) {
                                     vidoesArr[index] = el;
                                 } else {
-                                    vidoesArr[index] = [];
+                                    vidoesArr[index] = {};
                                 }
                                 return [res, vidoesArr];
                             });
                         }}
                     >
-                        <Video className={`${selectedArrState[0][index] ? 'video-active' : ''}`} previewUrl={el.previewUrl} title={el.title} date={getDate(el.date)}></Video>
+                        <Video
+                            className={`${selectedArrState[0][index] ? 'video-active' : ''} video-cr-playlist`}
+                            previewUrl={el.previewUrl}
+                            title={el.title}
+                            date={getDate(el.date)}
+                        ></Video>
                     </div>
                 );
             });
@@ -118,8 +180,8 @@ const EditPlaylist: FC = () => {
             <>
                 <p className='cr-playlist__selected'>Selected</p>{' '}
                 <ul className='cr-playlist__chosen-ul'>
-                    {selectedArrState[1].map((el, index) =>
-                        el.title ? (
+                    {selectedArrState[1].map((el: any, index: any) => {
+                        return el.title ? (
                             <li key={v1()} className='cr-playlist__chosen-li'>
                                 {el.title}
                                 <IconRenderer
@@ -142,8 +204,8 @@ const EditPlaylist: FC = () => {
                             </li>
                         ) : (
                             ''
-                        ),
-                    )}
+                        );
+                    })}
                 </ul>
             </>
         ) : (
@@ -159,7 +221,15 @@ const EditPlaylist: FC = () => {
                 title: titleInput,
                 description: textAreaInput,
                 type: selectState,
-                videos: selectedArrState[1].filter((el: IVideo) => el.title),
+                videos: selectedArrState[0]
+                    .map((el, index) => {
+                        if (el === true) {
+                            return videosIds ? videosIds[index] : '';
+                        }
+                    })
+                    .filter((el) => {
+                        return el !== undefined;
+                    }),
             });
 
             if (oldData) {
@@ -183,7 +253,6 @@ const EditPlaylist: FC = () => {
     }, [filteredVideos]);
 
     useEffect(() => {
-        console.log(numOfVideos);
         if (selectState && selectState !== 'Select category' && titleInput && textAreaInput && countNumberOfVideos() > 1) {
             setSaveBtnState(true);
         } else {

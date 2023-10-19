@@ -5,7 +5,7 @@ import './PlaylistPage.scss';
 import { DB } from '../../../../config/firebase-config';
 import { getDoc } from 'firebase/firestore';
 import { doc } from 'firebase/firestore';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { v1 } from 'uuid';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Loading from '../../../common/Loading/Loading';
@@ -13,10 +13,14 @@ import { IPlaylist } from '../HomePlay/HomePlay';
 import Video from '../Video/Video';
 import getDate from '../../../utils/getDate';
 import { updateDoc } from 'firebase/firestore';
+import { IVideo } from '../Home/CrHome';
+import { setRegData } from '../../../store/slices/registration';
 
 const PlaylistPage: FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const index: string | null = searchParams.get('playlist-index');
+
+    const [playlistVideoObj, setPlaylistVideoObj] = useState<IVideo[]>([]);
 
     const [btnMenu, setBtnMenu] = useState<boolean>(false);
 
@@ -26,14 +30,34 @@ const PlaylistPage: FC = () => {
 
     const navigate = useNavigate();
 
+    const dispatch = useAppDispatch();
+
     const getData = async () => {
         try {
             const data = await getDoc(doc(DB, 'users', selector.email)).then((res) => res.data()?.playlists);
+            console.log(data);
             setPlayListData(data);
+            setPlaylistVideoObj(() => []);
+            if (index && data[+index].videos) {
+                data[+index].videos.map(async (innerEl: any) => {
+                    const docRef = await doc(DB, 'videos', innerEl);
+                    const getVideoItem = (await getDoc(docRef)).data();
+
+                    setPlaylistVideoObj((prev: any) => [...prev, getVideoItem]);
+                });
+            }
         } catch (e) {
             console.error(e);
         }
     };
+
+    useEffect(() => {
+        dispatch(
+            setRegData({
+                playlistVideos: playlistVideoObj,
+            }),
+        );
+    }, [playlistVideoObj]);
 
     useEffect(() => {
         getData();
@@ -71,7 +95,7 @@ const PlaylistPage: FC = () => {
             </div>
             <div className='playlist__selected-videos'>
                 {index
-                    ? playlistData[+index].videos.map((el, index) => {
+                    ? playlistVideoObj.map((el, index) => {
                           return <Video key={v1()} title={el.title} previewUrl={el.previewUrl} date={getDate(el.date)}></Video>;
                       })
                     : ''}

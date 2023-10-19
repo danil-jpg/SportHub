@@ -71,6 +71,7 @@ const CreatePlaylist: FC = () => {
                         key={v1()}
                         onClick={(e) => {
                             setSelectedArrState((prev) => {
+                                console.log(prev);
                                 const res = [...prev[0]];
                                 res[index] = !res[index];
                                 //
@@ -155,7 +156,15 @@ const CreatePlaylist: FC = () => {
                             title: titleInput,
                             description: textAreaInput,
                             type: selectState,
-                            videos: selectedArrState[1].filter((el: any) => el.title).map((el: any, index: any) => (videosIds ? videosIds[index] : '')),
+                            videos: selectedArrState[0]
+                                .map((el, index) => {
+                                    if (el === true) {
+                                        return videosIds ? videosIds[index] : '';
+                                    }
+                                })
+                                .filter((el) => {
+                                    return el !== undefined;
+                                }),
                         },
                     ],
                 })
@@ -168,7 +177,15 @@ const CreatePlaylist: FC = () => {
                             title: titleInput,
                             description: textAreaInput,
                             type: selectState,
-                            videos: selectedArrState[1].filter((el: any) => el.title).map((el: any, index: any) => (videosIds ? videosIds[index] : '')),
+                            videos: selectedArrState[0]
+                                .map((el, index) => {
+                                    if (el === true) {
+                                        return videosIds ? videosIds[index] : '';
+                                    }
+                                })
+                                .filter((el) => {
+                                    return el !== undefined;
+                                }),
                         },
                     ],
                 })
