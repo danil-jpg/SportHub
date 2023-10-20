@@ -7,6 +7,7 @@
     &__top {
         margin-top: 29px;
         display: flex;
+        align-items: center;
 
         &_btn {
             margin-left: auto;
@@ -58,6 +59,7 @@
         width: 920px;
         height: 519.911px;
         flex-shrink: 0;
+        display: block;
         background-color: #222;
         margin-top: 15px;
     }

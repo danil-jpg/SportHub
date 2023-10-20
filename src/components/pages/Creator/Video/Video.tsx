@@ -10,7 +10,7 @@ import defaultUserW from '../../../../assets/img/user/card/default-user.jpg?as=w
 import { IVideo } from '../Home/CrHome';
 import { IShuffledVideo } from '../../User/User';
 import { setRegData } from '../../../store/slices/registration';
-import { setCreatorEmail } from '../../../store/slices/creator';
+import { setCreatorEmail, setCurrentVideo } from '../../../store/slices/creator';
 
 interface IVideoComp {
     title: string;
@@ -98,8 +98,17 @@ const Video: FC<IVideoComp> = ({
         navigate(`../channel/${currentUserEmailFormatted}`);
     };
 
+    const onVideoCompClickHandler = () => {
+        dispatch(
+            setCurrentVideo({
+                videoObj,
+            }),
+        );
+        navigate('../../../video');
+    };
+
     return (
-        <div className={`${className}   creator__video `}>
+        <div className={`${className} creator__video `}>
             <div
                 className='creator__video__edit'
                 onClick={() => {
@@ -113,7 +122,7 @@ const Video: FC<IVideoComp> = ({
                     </p>
                 </div>
             </div>
-            <img className='creator__video__preview' src={previewUrl} />
+            <img className='creator__video__preview' src={previewUrl} onClick={onVideoCompClickHandler} />
             <div className='creator__video__bottom'>
                 <div className='creator__video__bottom_title'>{title}</div>
                 {author ? (

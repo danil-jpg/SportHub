@@ -8,11 +8,17 @@ interface ICreator {
     creatorEmail: {
         email: string;
     };
+    videoData: {
+        videoObj: IShuffledVideo | null;
+    };
 }
 
 const initialState: ICreator = {
     creatorEmail: {
         email: '',
+    },
+    videoData: {
+        videoObj: null,
     },
 };
 
@@ -26,9 +32,12 @@ export const creatorSlice = createSlice({
         setFormattedCreatorEmail: (state, action: PayloadAction<any>) => {
             state.creatorEmail = action.payload;
         },
+        setCurrentVideo: (state, action: PayloadAction<any>) => {
+            state.videoData = action.payload;
+        },
     },
 });
 
 export default creatorSlice.reducer;
-export const { setCreatorEmail, setFormattedCreatorEmail } = creatorSlice.actions;
+export const { setCreatorEmail, setFormattedCreatorEmail, setCurrentVideo } = creatorSlice.actions;
 export type { ICreator };

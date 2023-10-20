@@ -86,14 +86,16 @@ const Header: FC = ({}) => {
                         </ul>
                     </div>
                 </div>
-                <Logo isReg={false} onClickHandler={() => navigate('../../../../')} />
+                <Logo isReg={false} onClickHandler={() => navigate('../../user/home')} />
             </div>
             <div className='header__right'>
                 <IconRenderer id='search' />
                 <IconRenderer id='ring' />
                 {auth ? (
                     <div className='header__authed-block'>
-                        <div className='header__video'>Video</div>
+                        <div className='header__video' onClick={() => navigate('../../creator/home')}>
+                            Video
+                        </div>
                         {/* <div className='header__store'>Store</div> */}
                         <div className='header__profile' onClick={() => setProfileState(!profileState)}>
                             <img className='header__profile_img' src={selector?.photoUrl} />

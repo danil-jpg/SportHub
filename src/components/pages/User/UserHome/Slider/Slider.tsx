@@ -25,12 +25,6 @@ const Slider: FC<ISlider> = ({ className, setVideos }) => {
         return state.regSlice.regData.videos;
     });
 
-    const [isInitialStateInitilised, setIsInitialStateInitilised] = useState(false);
-
-    useEffect(() => {
-        console.log(selector);
-    }, [selector]);
-
     useEffect(() => {
         register();
         const params = {
