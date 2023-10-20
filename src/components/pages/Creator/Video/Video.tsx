@@ -24,12 +24,14 @@ interface IVideoComp {
     authorPicUrl?: string;
     fName?: string;
     lName?: string;
-    videoObj?: IVideo;
+    videoId?: string;
     setVideos?: React.Dispatch<React.SetStateAction<IShuffledVideo[]>>;
     email?: string;
+    videoObj?: IVideo;
 }
 
 const Video: FC<IVideoComp> = ({
+    videoId,
     videoObj,
     author = false,
     authorPicUrl,
@@ -58,24 +60,25 @@ const Video: FC<IVideoComp> = ({
                 let isVidUnique: boolean = true;
 
                 for (let i = 0; i < oldViewLater.length; i++) {
-                    isVidUnique = !(videoObj?.date === oldViewLater[i]?.date);
+                    isVidUnique = !(videoId === oldViewLater[i]);
                     if (!isVidUnique) {
                         break;
                     }
                 }
                 if (isVidUnique) {
                     await updateDoc(ref, {
-                        viewLater: [...oldViewLater, videoObj],
+                        viewLater: [...oldViewLater, videoId],
                     });
-                    dispatch(
-                        setRegData({
-                            viewLater: [...oldViewLater, videoObj],
-                        }),
-                    );
+                    if (selector.viewLater)
+                        dispatch(
+                            setRegData({
+                                viewLater: [...selector.viewLater, videoObj],
+                            }),
+                        );
                 }
             } else {
                 await updateDoc(ref, {
-                    viewLater: [videoObj],
+                    viewLater: [videoId],
                 });
                 dispatch(
                     setRegData({

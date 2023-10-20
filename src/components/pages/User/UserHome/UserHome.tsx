@@ -37,6 +37,7 @@ const UserHome: FC<IUserHome> = ({ videos, setVideos }) => {
                                       author={true}
                                       authorPicUrl={el.authorPicUrl}
                                       videoObj={el}
+                                      videoId={el.videoId}
                                   ></Video>
                               );
                           })

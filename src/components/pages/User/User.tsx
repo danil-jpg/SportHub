@@ -63,7 +63,7 @@ const User: FC = () => {
     const selectorUsers = useAppSelector((state) => state.usersSlice.data);
     const dispatch = useAppDispatch();
 
-    const getAllTheusersVideosAndShuffleIt = (): IShuffledVideo[] => {
+    const defVideosshuffleVideos = (): IShuffledVideo[] => {
         setVideos((prev) => {
             const copyArr = [...prev];
             copyArr.sort(() => Math.random() - 0.5);
@@ -95,12 +95,6 @@ const User: FC = () => {
     };
 
     const onViewLaterClickHandler = () => {
-        // dispatch(
-        //     setRegData({
-        //         viewLater: [],
-        //     }),
-        // );
-        // setVideos([]);
         selector.viewLater ? setVideos(selector?.viewLater) : setVideos([]);
     };
 
@@ -121,12 +115,12 @@ const User: FC = () => {
                             const getVideo = (await getDoc(docRef)).data();
                             setVideos((prev: any) => [
                                 ...prev,
-                                { ...getVideo, fname: usersWithVideos[i].fname, lname: usersWithVideos[i].lname, authorPicUrl: usersWithVideos[i].photoUrl },
+                                { ...getVideo, videoId: el, fname: usersWithVideos[i].fname, lname: usersWithVideos[i].lname, authorPicUrl: usersWithVideos[i].photoUrl },
                             ]);
 
                             setDefaultVideos((prev: any) => [
                                 ...prev,
-                                { ...getVideo, fname: usersWithVideos[i].fname, lname: usersWithVideos[i].lname, authorPicUrl: usersWithVideos[i].photoUrl },
+                                { ...getVideo, videoId: el, fname: usersWithVideos[i].fname, lname: usersWithVideos[i].lname, authorPicUrl: usersWithVideos[i].photoUrl },
                             ]);
                         });
                     }
@@ -138,11 +132,11 @@ const User: FC = () => {
 
         getVideos();
 
-        getAllTheusersVideosAndShuffleIt();
+        defVideosshuffleVideos();
     }, []);
 
     useEffect(() => {
-        getAllTheusersVideosAndShuffleIt();
+        defVideosshuffleVideos();
     }, [usersData]);
 
     useEffect(() => {
