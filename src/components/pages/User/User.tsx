@@ -162,7 +162,7 @@ const User: FC = () => {
         });
     };
 
-    // if (defaultVideos.length < 1) return <Loading />;
+    if (defaultVideos.length < 1) return <Loading />;
     return (
         <>
             <Header></Header>

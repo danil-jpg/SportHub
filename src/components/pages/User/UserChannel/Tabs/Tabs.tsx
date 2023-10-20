@@ -5,17 +5,43 @@ import { useAppSelector } from '../../../../hooks/redux';
 import { v1 } from 'uuid';
 import IconRenderer from '../../../../ui/IconRenderer/IconRenderer';
 import Playlist from '../../../Creator/HomePlay/Playlist/Playlist';
+import { doc, getDoc } from 'firebase/firestore';
+import { DB } from '../../../../../config/firebase-config';
+import { IVideo } from '../../../Creator/Home/CrHome';
 
 const Tabs: FC = ({}) => {
     const [tabs, setTabs] = useState([true, false, false]);
+
+    const [videos, setVideos] = useState<any[]>([]);
 
     const selectorEmail = useAppSelector((state) => state.creatorSlice.creatorEmail.email);
     const selectorUsers = useAppSelector((state) => state.usersSlice.data);
     const [channelData, setChannelData] = useState(selectorUsers.filter((el) => el.email === selectorEmail));
 
-    console.log(channelData[0].playlists);
+    useEffect(() => {
+        const getVideos = async () => {
+            try {
+                const videosIds = channelData[0].videosIds;
+                console.log(videosIds);
+                if (videosIds && videosIds?.length > 0) {
+                    videosIds.map(async (el) => {
+                        const docRef = await doc(DB, 'videos', el);
+                        const getVideo = (await getDoc(docRef)).data();
 
-    useEffect(() => {}, []);
+                        setVideos((prev) => [...prev, getVideo]);
+                    });
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        getVideos();
+    }, []);
+
+    useEffect(() => {
+        console.log(videos);
+    }, [videos]);
 
     return (
         <div className='tabs'>
@@ -32,7 +58,7 @@ const Tabs: FC = ({}) => {
             </div>
             <div className='tabs__content'>
                 <div className={`${tabs[0] ? 'active' : ''} tabs__videos`}>
-                    {channelData[0].videos ? channelData[0].videos.map((el) => <Video key={v1()} title={el.title} previewUrl={el.previewUrl}></Video>) : ''}
+                    {videos ? videos.map((el) => <Video key={v1()} title={el.title} previewUrl={el.previewUrl}></Video>) : ''}
                 </div>
 
                 <div className={`${tabs[1] ? 'active' : ''} tabs__bio`}>
@@ -76,7 +102,7 @@ const Tabs: FC = ({}) => {
                 </div>
                 <div className={`${tabs[2] ? 'active' : ''} tabs__playlists`}>
                     {channelData[0].playlists?.map((el, index) => {
-                        return <Playlist type='channel' index={index} title={el.title} videos={el.videos} description={el.description}></Playlist>;
+                        return <Playlist key={index} index={index} playlist={el} type='channel'></Playlist>;
                     })}
                 </div>
             </div>

@@ -25,7 +25,6 @@ const Slider: FC<ISlider> = ({ className, setVideos }) => {
         return state.regSlice.regData.videos;
     });
 
-    const [initialVideosArr, setInitialVideosArr] = useState<IShuffledVideo[]>(selector);
     const [isInitialStateInitilised, setIsInitialStateInitilised] = useState(false);
 
     useEffect(() => {
@@ -61,7 +60,7 @@ const Slider: FC<ISlider> = ({ className, setVideos }) => {
                     className='slider__item'
                     onClick={() => {
                         setVideos((prev) => {
-                            prev = initialVideosArr;
+                            prev = selector;
                             return (prev = prev.filter((el) => el.category === 'Mind'));
                         });
                     }}
@@ -77,7 +76,7 @@ const Slider: FC<ISlider> = ({ className, setVideos }) => {
                     className='slider__item'
                     onClick={() => {
                         setVideos((prev) => {
-                            prev = initialVideosArr;
+                            prev = selector;
                             return (prev = prev.filter((el) => el.category === 'Body'));
                         });
                     }}
@@ -92,7 +91,7 @@ const Slider: FC<ISlider> = ({ className, setVideos }) => {
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
                     setVideos((prev) => {
-                        prev = initialVideosArr;
+                        prev = selector;
                         return (prev = prev.filter((el) => el.category === 'Soul'));
                     });
                 }}

@@ -78,7 +78,9 @@ const Banner: FC = () => {
                             <div className=' banner__data'>
                                 <IconRenderer id='camera' />
                                 <div className=' banner__inner-data-wr'>
-                                    <p className=' banner__data-num'>{`${channelData[0].videos?.length ? channelData[0].videos?.length : 0}`}</p>
+                                    <p className=' banner__data-num'>{`${
+                                        channelData[0].videosIds?.length && channelData[0].videosIds?.length > 0 ? channelData[0].videosIds?.length : 0
+                                    }`}</p>
                                     <p className=' banner__data-text'>Videos</p>
                                 </div>
                             </div>
@@ -126,7 +128,7 @@ const Banner: FC = () => {
                                 </div>
                             </div>
                         </div>
-                        {getCurrentUser[0].email === selectorUserEmail ? '' : <Button className=' banner__subs-btn'>Subscribe</Button>}
+                        <Button className=' banner__subs-btn'>Subscribe</Button>
                     </div>
                 </div>
             )}

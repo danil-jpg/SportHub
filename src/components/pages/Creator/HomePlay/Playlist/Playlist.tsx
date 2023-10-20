@@ -14,9 +14,10 @@ import Loading from '../../../../common/Loading/Loading';
 interface IPlaylistComp {
     playlist: IPlaylist;
     index: number;
+    type?: 'channel' | string;
 }
 
-const Playlist: FC<IPlaylistComp> = ({ playlist, index }) => {
+const Playlist: FC<IPlaylistComp> = ({ playlist, index, type }) => {
     const [showAll, setShowAll] = useState(false);
     const [hasLoaded, setHasLoaded] = useState(false);
 
@@ -48,7 +49,7 @@ const Playlist: FC<IPlaylistComp> = ({ playlist, index }) => {
         <div className='playlist'>
             <div className='creator__playlist-line'>
                 <div className='creator__playlist_title'>
-                    {playlist.type === 'channel' ? <a>{playlist.title}</a> : <Link to={`../playlist?playlist-index=${index}`}>{playlist.title}</Link>}
+                    {type === 'channel' ? <a>{playlist.title}</a> : <Link to={`../playlist?playlist-index=${index}`}>{playlist.title}</Link>}
                 </div>
                 <div className={`${showAll ? 'active' : ''} creator__playlist_view-more`} ref={inputRef} onClick={() => setShowAll(!showAll)}>
                     View all

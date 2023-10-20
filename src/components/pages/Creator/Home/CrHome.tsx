@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { v1 } from 'uuid';
 import swal from 'sweetalert';
-import { setRegData } from '../../../store/slices/registration';
 import getDate from '../../../utils/getDate';
 import Loading from '../../../common/Loading/Loading';
 import { getUsers } from '../../../store/slices/users';
-import { DocumentData, doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
+import { IShuffledVideo } from '../../User/User';
 // import { getVideo } from '../../../store/slices/videos';
 
 interface IVideo {
@@ -33,33 +33,26 @@ const CrHome: FC = () => {
 
     const [activeButtonArr, setActiveButtonArr] = useState<boolean[]>([true, false, false, false]);
 
-    const videosIds = useAppSelector((state) => state.regSlice.regData.videosIds);
+    let videosIds: string[] = [];
 
     const dispatch = useAppDispatch();
 
-    const getVideoData = () => {
+    const selector = useAppSelector((state) => state.regSlice.regData);
+
+    const getVideoData = async () => {
         try {
-            const filteredData: any[] = [];
+            videosIds = await getDoc(doc(DB, 'users', selector.email)).then((res) => res.data()?.videosIds);
+
             if (videosIds && videosIds?.length > 0) {
-                console.log(videosIds);
                 videosIds.map(async (el) => {
                     const docRef = await doc(DB, 'videos', el);
-                    const getVideo = await getDoc(docRef);
-                    filteredData.push(getVideo.data());
-                    setVideosArr(filteredData);
-                    setFilteredVideosArr(filteredData);
+                    const getVideo: any = (await getDoc(docRef)).data();
+                    setVideosArr((prev) => [...prev, getVideo]);
+                    setFilteredVideosArr((prev) => [...prev, getVideo]);
                     setIsLoaded(true);
                 });
             }
             setIsLoaded(true);
-
-            // dispatch(
-            //     setRegData({
-            //         videos: filteredData,
-            //     }),
-            // );
-
-            return filteredData;
         } catch (e) {
             console.error(e);
         }
@@ -71,8 +64,12 @@ const CrHome: FC = () => {
     }, []);
 
     useEffect(() => {
-        getVideoData();
+        // getVideoData();
     }, [videosIds]);
+
+    useEffect(() => {
+        // console.log(videosArr);
+    }, [videosArr]);
 
     const filterByType = (type: string) => {
         if (type === 'All') {
