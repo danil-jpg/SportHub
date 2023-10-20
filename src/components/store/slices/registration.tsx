@@ -16,7 +16,7 @@ interface IReg {
         birthday?: string | number;
         gender?: string;
         videosIds?: string[];
-        videos?: IVideo[];
+        videos?: IVideo[] | IShuffledVideo[];
         viewLater?: IShuffledVideo[];
         playlists?: IPlaylist[];
         date?: string;

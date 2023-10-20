@@ -19,7 +19,7 @@ interface IUserHome {
 const UserHome: FC<IUserHome> = ({ videos, setVideos }) => {
     return (
         <div className='user-home__right'>
-            <Slider className='user-home__slider' videosArr={videos} setVideos={setVideos} />
+            <Slider className='user-home__slider' setVideos={setVideos} />
             <div className='user-home__videos-section'>
                 <p className='user-home__videos_text'>Video List</p>
                 <div className='user-home__videos-wr'>

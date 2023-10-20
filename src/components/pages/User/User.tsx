@@ -12,6 +12,9 @@ import { getUsers } from '../../store/slices/users';
 import UserItem from './UserItem/UserItem';
 import { v1 } from 'uuid';
 import UserPlayer from './UserPlayer';
+import { doc, getDoc } from 'firebase/firestore';
+import { DB } from '../../../config/firebase-config';
+import { setRegData } from '../../store/slices/registration';
 
 interface IUserData {
     videos: IVideo[];
@@ -61,18 +64,6 @@ const User: FC = () => {
     const dispatch = useAppDispatch();
 
     const getAllTheusersVideosAndShuffleIt = (): IShuffledVideo[] => {
-        for (let i = 0; i < usersData.length; i++) {
-            for (let j = 0; j < usersData[i].videos.length; j++) {
-                setVideos((prev) => [
-                    ...prev,
-                    { ...usersData[i].videos[j], fname: usersData[i].fname, lname: usersData[i].lname, authorPicUrl: usersData[i].photoUrl, email: usersData[i].email },
-                ]);
-                setDefaultVideos((prev) => [
-                    ...prev,
-                    { ...usersData[i].videos[j], fname: usersData[i].fname, lname: usersData[i].lname, authorPicUrl: usersData[i].photoUrl, email: usersData[i].email },
-                ]);
-            }
-        }
         setVideos((prev) => {
             const copyArr = [...prev];
             copyArr.sort(() => Math.random() - 0.5);
@@ -115,7 +106,37 @@ const User: FC = () => {
 
     useEffect(() => {
         dispatch(getUsers());
-        setUsersData(selectorUsers.filter((el) => el.videos));
+
+        const getVideos = async () => {
+            try {
+                const usersWithVideos = selectorUsers.filter((el) => el.videosIds);
+                const filteredData: any[] = [];
+
+                for (let i = 0; i < usersWithVideos.length; i++) {
+                    const videosIds = usersWithVideos[i].videosIds;
+
+                    if (videosIds && videosIds?.length > 0) {
+                        videosIds.map(async (el) => {
+                            const docRef = await doc(DB, 'videos', el);
+                            const getVideo = (await getDoc(docRef)).data();
+                            setVideos((prev: any) => [
+                                ...prev,
+                                { ...getVideo, fname: usersWithVideos[i].fname, lname: usersWithVideos[i].lname, authorPicUrl: usersWithVideos[i].photoUrl },
+                            ]);
+
+                            setDefaultVideos((prev: any) => [
+                                ...prev,
+                                { ...getVideo, fname: usersWithVideos[i].fname, lname: usersWithVideos[i].lname, authorPicUrl: usersWithVideos[i].photoUrl },
+                            ]);
+                        });
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        getVideos();
 
         getAllTheusersVideosAndShuffleIt();
     }, []);
@@ -124,7 +145,13 @@ const User: FC = () => {
         getAllTheusersVideosAndShuffleIt();
     }, [usersData]);
 
-    const subscrObj = [{}];
+    useEffect(() => {
+        dispatch(
+            setRegData({
+                videos: defaultVideos,
+            }),
+        );
+    }, [defaultVideos]);
 
     const Subscribers = (): JSX.Element[] | undefined => {
         const currentUser = selectorUsers.filter((el) => el.email === selector.email)[0];
@@ -141,7 +168,7 @@ const User: FC = () => {
         });
     };
 
-    if (defaultVideos.length < 1) return <Loading />;
+    // if (defaultVideos.length < 1) return <Loading />;
     return (
         <>
             <Header></Header>

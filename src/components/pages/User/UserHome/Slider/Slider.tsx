@@ -10,21 +10,27 @@ import soulImg from '../../../../../assets/img/user/card/soul.jpg';
 import soulImgW from '../../../../../assets/img/user/card/soul.jpg?as=webp';
 import './Slider.scss';
 import { IShuffledVideo } from '../../User';
+import { useAppSelector } from '../../../../hooks/redux';
+import { IVideo } from '../../../Creator/Home/CrHome';
 
 interface ISlider {
     className: string;
-    videosArr: IShuffledVideo[];
     setVideos: React.Dispatch<React.SetStateAction<IShuffledVideo[]>>;
 }
 
-const Slider: FC<ISlider> = ({ className, videosArr, setVideos }) => {
+const Slider: FC<ISlider> = ({ className, setVideos }) => {
     const swiperRef = useRef<any>(null);
 
-    const [initialVideosArr, setInitialVideosArr] = useState(videosArr);
+    const selector = useAppSelector((state) => {
+        return state.regSlice.regData.videos;
+    });
+
+    const [initialVideosArr, setInitialVideosArr] = useState<IShuffledVideo[]>(selector);
+    const [isInitialStateInitilised, setIsInitialStateInitilised] = useState(false);
 
     useEffect(() => {
-        // setVideos(initialVideosArr);
-    }, []);
+        console.log(selector);
+    }, [selector]);
 
     useEffect(() => {
         register();
@@ -46,8 +52,6 @@ const Slider: FC<ISlider> = ({ className, videosArr, setVideos }) => {
         if (!swiperRef.current) return;
         Object.assign(swiperRef.current, params);
         swiperRef.current.initialize();
-
-        console.log(initialVideosArr);
     }, []);
 
     return (

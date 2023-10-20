@@ -23,7 +23,6 @@ const Banner: FC = () => {
     const onSubscribeBtnClickHandler = async () => {
         const docRef = doc(DB, 'users', selectorUserEmail);
         const docRefCreator = doc(DB, 'users', selectorCreatorEmail);
-        alert('del');
         if (getCurrentUser[0].subscriptions && getCurrentUser[0].subscriptions.includes(selectorCreatorEmail)) {
             const userUpdate = await updateDoc(docRef, {
                 subscriptions: arrayRemove(selectorCreatorEmail),
@@ -41,7 +40,6 @@ const Banner: FC = () => {
             const creatorUpdate = await updateDoc(docRefCreator, {
                 subscribers: arrayUnion(selectorUserEmail),
             });
-            alert('add');
 
             dispatch(getUsers());
             setSbsBtn(true);
@@ -80,7 +78,7 @@ const Banner: FC = () => {
                             <div className=' banner__data'>
                                 <IconRenderer id='camera' />
                                 <div className=' banner__inner-data-wr'>
-                                    <p className=' banner__data-num'>{`${channelData[0].videos?.length}`}</p>
+                                    <p className=' banner__data-num'>{`${channelData[0].videos?.length ? channelData[0].videos?.length : 0}`}</p>
                                     <p className=' banner__data-text'>Videos</p>
                                 </div>
                             </div>
