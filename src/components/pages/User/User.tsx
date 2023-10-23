@@ -51,9 +51,9 @@ interface IShuffledVideo {
     lname: string;
     authorPicUrl?: string;
     email?: string;
-    likes?: string[];
-    disLikes?: string[];
-    videoId?: string;
+    likes: string[];
+    disLikes: string[];
+    videoId: string;
 }
 
 const User: FC = () => {
