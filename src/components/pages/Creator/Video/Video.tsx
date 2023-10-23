@@ -104,7 +104,7 @@ const Video: FC<IVideoComp> = ({
                 videoObj,
             }),
         );
-        navigate('../../../video');
+        navigate(`../../../video/${videoId}`);
     };
 
     return (

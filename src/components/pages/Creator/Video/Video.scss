@@ -14,6 +14,7 @@
                 border-radius: 0 0 7.212px 7.212px;
             }
             &::after {
+                pointer-events: none;
                 content: '';
                 background-image: url('../../../../assets/img/addvideo/play-btn.png');
                 background-repeat: no-repeat;

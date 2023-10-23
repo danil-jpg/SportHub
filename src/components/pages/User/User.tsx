@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, ReactNode } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import UserHome from './UserHome/UserHome';
 import Header from '../../common/Header/Header';
@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getUsers } from '../../store/slices/users';
 import UserItem from './UserItem/UserItem';
 import { v1 } from 'uuid';
-import UserPlayer from './UserPlayer';
 import { doc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../config/firebase-config';
 import { setRegData } from '../../store/slices/registration';
@@ -36,6 +35,8 @@ interface IUserData {
     twitter?: string;
     facebook?: string;
     shopify?: string;
+    subscribers?: string[];
+    subscriptions?: string[];
 }
 
 interface IShuffledVideo {
@@ -50,6 +51,9 @@ interface IShuffledVideo {
     lname: string;
     authorPicUrl?: string;
     email?: string;
+    likes?: string[];
+    disLikes?: string[];
+    videoId?: string;
 }
 
 const User: FC = () => {

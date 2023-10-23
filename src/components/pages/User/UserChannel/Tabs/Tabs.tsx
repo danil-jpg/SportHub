@@ -7,7 +7,6 @@ import IconRenderer from '../../../../ui/IconRenderer/IconRenderer';
 import Playlist from '../../../Creator/HomePlay/Playlist/Playlist';
 import { doc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../../../config/firebase-config';
-import { IVideo } from '../../../Creator/Home/CrHome';
 
 const Tabs: FC = ({}) => {
     const [tabs, setTabs] = useState([true, false, false]);
@@ -28,7 +27,7 @@ const Tabs: FC = ({}) => {
                         const docRef = await doc(DB, 'videos', el);
                         const getVideo = (await getDoc(docRef)).data();
 
-                        setVideos((prev) => [...prev, getVideo]);
+                        setVideos((prev) => [...prev, { ...getVideo, videoId: el }]);
                     });
                 }
             } catch (e) {
@@ -38,10 +37,6 @@ const Tabs: FC = ({}) => {
 
         getVideos();
     }, []);
-
-    useEffect(() => {
-        console.log(videos);
-    }, [videos]);
 
     return (
         <div className='tabs'>
@@ -58,7 +53,22 @@ const Tabs: FC = ({}) => {
             </div>
             <div className='tabs__content'>
                 <div className={`${tabs[0] ? 'active' : ''} tabs__videos`}>
-                    {videos ? videos.map((el) => <Video key={v1()} title={el.title} previewUrl={el.previewUrl}></Video>) : ''}
+                    {videos
+                        ? videos.map((el) => (
+                              <Video
+                                  key={v1()}
+                                  email={el.email}
+                                  title={el.title}
+                                  previewUrl={el.previewUrl}
+                                  fName={el.fname}
+                                  lName={el.lname}
+                                  author={true}
+                                  authorPicUrl={el.authorPicUrl}
+                                  videoObj={el}
+                                  videoId={el.videoId}
+                              ></Video>
+                          ))
+                        : ''}
                 </div>
 
                 <div className={`${tabs[1] ? 'active' : ''} tabs__bio`}>
