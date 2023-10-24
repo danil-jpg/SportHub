@@ -157,5 +157,49 @@
         max-width: 1440px;
         width: 100%;
         margin: 0 auto;
+        // display: none;
+    }
+}
+
+@media screen and (max-width: 996px) {
+    .player {
+        padding: 0 16px;
+        &__player {
+            height: auto;
+            width: 98%;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .player {
+        padding: 0 16px;
+        &__top {
+            display: block;
+        }
+        &__return-btn {
+            display: none;
+        }
+        &__player {
+            height: auto;
+            width: 98%;
+        }
+        &__info-center {
+            display: block;
+        }
+        &__author {
+            margin-bottom: 15px;
+            margin-left: 0;
+        }
+        &__num-info {
+            margin: 10px 0;
+        }
+        .creator__video {
+            width: 100%;
+        }
+    }
+    .banner__subs-btn {
+        width: 100%;
+        display: block;
     }
 }

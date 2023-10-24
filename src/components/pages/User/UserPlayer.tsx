@@ -74,15 +74,18 @@ const UserPlayer = () => {
             slidesPerView: 3.5,
             spaceBetween: 24,
             breakpoints: {
-                768: {
+                1200: {
                     slidesPerView: 3.5,
                 },
+                768: {
+                    slidesPerView: 2,
+                },
                 576: {
-                    slidesPerView: 2.5,
+                    slidesPerView: 1.5,
                 },
                 320: {
                     direction: 'vertical',
-                    slidesPerView: 1,
+                    slidesPerView: 100,
                 },
             },
         };
