@@ -28,6 +28,7 @@ interface IVideoComp {
     setVideos?: React.Dispatch<React.SetStateAction<IShuffledVideo[]>>;
     email?: string;
     videoObj?: IVideo;
+    isClickAble?: boolean;
 }
 
 const Video: FC<IVideoComp> = ({
@@ -41,6 +42,7 @@ const Video: FC<IVideoComp> = ({
     date = 'Long ago',
     previewUrl = '',
     className = '',
+    isClickAble = true,
     email,
 }) => {
     const [videoMenu, setVideoMenu] = useState(false);
@@ -104,7 +106,7 @@ const Video: FC<IVideoComp> = ({
                 videoObj,
             }),
         );
-        navigate(`../../../video/${videoId}`);
+        isClickAble ? navigate(`../../../video/${videoId}`) : '';
     };
 
     return (

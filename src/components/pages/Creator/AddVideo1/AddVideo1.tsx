@@ -124,8 +124,8 @@ const AddVideo1: FC = () => {
         const previewsFolderRef = ref(storage, `previews/${selector.regData.email}/${videoTitle}${uniqueId}`);
 
         try {
-            const videoRes = await uploadBytes(filesFolderRef, video);
-            const previewRes = await uploadBytes(previewsFolderRef, preview);
+            await uploadBytes(filesFolderRef, video);
+            await uploadBytes(previewsFolderRef, preview);
         } catch (e) {
             let message = 'Unknown Error';
             if (e instanceof Error) message = e.message;
@@ -168,6 +168,8 @@ const AddVideo1: FC = () => {
                                     previewUrl,
                                     date: new Date().toString(),
                                     email: selector.regData.email,
+                                    likes: [],
+                                    dislikes: [],
                                 }).then((res) => {
                                     if (currentUser[0].videosIds && currentUser[0].videosIds?.length > 0) {
                                         updateDoc(doc(DB, 'users', selector.regData.email), {

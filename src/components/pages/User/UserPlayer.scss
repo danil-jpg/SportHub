@@ -109,6 +109,13 @@
         border-radius: 8px;
         background: var(--9, #222);
         padding: 8px 20px;
+        width: 100%;
+        &.active {
+            // background-color: red;
+            svg {
+                fill: #ad7955;
+            }
+        }
     }
 
     &__reaction {

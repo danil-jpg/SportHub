@@ -22,9 +22,6 @@ const UserPlayer = () => {
     const [currVideoData, setCurrVideoData] = useState<IShuffledVideo | null>(null);
     const [channelUserData, setchannelUserData] = useState<IUserData | null>(null);
 
-    const [likes, setLikes] = useState<string[]>(currVideoData ? currVideoData?.likes : []);
-    const [dislikes, setDislikes] = useState<string[]>(currVideoData ? currVideoData?.dislikes : []);
-
     const currentUserEmail = useAppSelector((state) => state.regSlice.regData.email);
     const selectorCurrentVideoId = useAppSelector((state) => state.creatorSlice.videoData.videoObj?.videoId);
 
@@ -103,8 +100,6 @@ const UserPlayer = () => {
 
             let getCurrentVideo = (await getDoc(docRef)).data();
 
-            setDislikes(getCurrentVideo ? getCurrentVideo?.dislikes : ['test']);
-
             setCurrVideoData(getCurrentVideo ? getCurrentVideo : null);
 
             return getCurrentVideo;
@@ -167,7 +162,7 @@ const UserPlayer = () => {
 
             if (currVideoData?.likes?.includes(currentUserEmail)) {
                 setCurrVideoData((prev) => {
-                    return prev ? { ...prev, likes: prev?.likes.filter((el) => el !== currentUserEmail), dislikes: prev?.dislikes.filter((el) => el !== currentUserEmail) } : null;
+                    return prev ? { ...prev, likes: prev?.likes.filter((el) => el !== currentUserEmail), dislikes: prev?.dislikes.filter((el) => el !== currentUserEmail) } : prev;
                 });
 
                 await updateDoc(docRef, {
@@ -176,7 +171,7 @@ const UserPlayer = () => {
                 getCurrentUserData();
             } else {
                 setCurrVideoData((prev) => {
-                    return prev ? { ...prev, likes: [...prev?.likes, currentUserEmail], dislikes: prev?.likes.filter((el) => el !== currentUserEmail) } : null;
+                    return prev ? { ...prev, likes: [...prev?.likes, currentUserEmail], dislikes: prev?.likes.filter((el) => el !== currentUserEmail) } : prev;
                 });
 
                 await updateDoc(docRef, {
@@ -195,7 +190,7 @@ const UserPlayer = () => {
 
             if (currVideoData?.dislikes?.includes(currentUserEmail)) {
                 setCurrVideoData((prev) => {
-                    return prev ? { ...prev, dislikes: prev?.dislikes.filter((el) => el !== currentUserEmail), likes: prev?.likes.filter((el) => el !== currentUserEmail) } : null;
+                    return prev ? { ...prev, dislikes: prev?.dislikes.filter((el) => el !== currentUserEmail), likes: prev?.likes.filter((el) => el !== currentUserEmail) } : prev;
                 });
 
                 await updateDoc(docRef, {
@@ -203,7 +198,7 @@ const UserPlayer = () => {
                 });
             } else {
                 setCurrVideoData((prev) => {
-                    return prev ? { ...prev, dislikes: [...prev?.dislikes, currentUserEmail], likes: prev?.likes.filter((el) => el !== currentUserEmail) } : null;
+                    return prev && prev.dislikes ? { ...prev, dislikes: [...prev?.dislikes, currentUserEmail], likes: prev?.likes.filter((el) => el !== currentUserEmail) } : prev;
                 });
 
                 await updateDoc(docRef, {
@@ -215,10 +210,6 @@ const UserPlayer = () => {
             console.error(e);
         }
     };
-
-    useEffect(() => {
-        console.log(dislikes);
-    }, [dislikes]);
 
     if (!channelUserData?.email) return <Loading />;
     return (
@@ -262,11 +253,14 @@ const UserPlayer = () => {
                                 <div className='player__info-center'>
                                     <div className='player__icons-section'>
                                         <div className='player__reaction-wr'>
-                                            <div className='player__like-wr' onClick={onLikeClickHandler}>
+                                            <div className={`player__like-wr ${currVideoData?.likes?.includes(currentUserEmail) ? 'active' : ''}`} onClick={onLikeClickHandler}>
                                                 <IconRenderer id='like' />
                                                 <p className='player__reaction_text'>{currVideoData?.likes?.length}</p>
                                             </div>
-                                            <div className='player__like-wr' onClick={onDisLikeClickHandler}>
+                                            <div
+                                                className={`player__like-wr ${currVideoData?.dislikes?.includes(currentUserEmail) ? 'active' : ''}`}
+                                                onClick={onDisLikeClickHandler}
+                                            >
                                                 <IconRenderer id='dislike' />
                                                 <p className='player__reaction_text'>{currVideoData?.dislikes?.length}</p>
                                             </div>

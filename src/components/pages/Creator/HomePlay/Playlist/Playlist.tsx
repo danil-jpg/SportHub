@@ -32,7 +32,7 @@ const Playlist: FC<IPlaylistComp> = ({ playlist, index, type }) => {
                 const docRef = await doc(DB, 'videos', innerEl);
                 const getVideoItem = (await getDoc(docRef)).data();
 
-                setPlaylistVideoObj((prev: any) => [...prev, getVideoItem]);
+                setPlaylistVideoObj((prev: any) => [...prev, { ...getVideoItem, videoId: innerEl }]);
             });
         } catch (e) {
             console.error(e);
@@ -58,9 +58,33 @@ const Playlist: FC<IPlaylistComp> = ({ playlist, index, type }) => {
             <div className='playlist__videos'>
                 {playlistVideoObj.map((el: any, index) => {
                     return showAll ? (
-                        <Video key={v1()} title={el.title} previewUrl={el.previewUrl} date={getDate(el.date)}></Video>
+                        <Video
+                            key={v1()}
+                            email={el.email}
+                            title={el.title}
+                            previewUrl={el.previewUrl}
+                            fName={el.fname}
+                            lName={el.lname}
+                            date={getDate(el.date)}
+                            author={false}
+                            authorPicUrl={el.authorPicUrl}
+                            videoObj={el}
+                            videoId={el.videoId}
+                        ></Video>
                     ) : index < 4 ? (
-                        <Video key={v1()} title={el.title} previewUrl={el.previewUrl} date={getDate(el.date)}></Video>
+                        <Video
+                            key={v1()}
+                            email={el.email}
+                            title={el.title}
+                            previewUrl={el.previewUrl}
+                            fName={el.fname}
+                            lName={el.lname}
+                            date={getDate(el.date)}
+                            author={false}
+                            authorPicUrl={el.authorPicUrl}
+                            videoObj={el}
+                            videoId={el.videoId}
+                        ></Video>
                     ) : (
                         ''
                     );

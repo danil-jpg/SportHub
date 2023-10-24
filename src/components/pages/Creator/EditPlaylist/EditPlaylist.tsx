@@ -160,6 +160,7 @@ const EditPlaylist: FC = () => {
                             previewUrl={el.previewUrl}
                             title={el.title}
                             date={getDate(el.date)}
+                            isClickAble={false}
                         ></Video>
                     </div>
                 );

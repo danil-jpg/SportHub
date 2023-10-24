@@ -43,7 +43,7 @@ const PlaylistPage: FC = () => {
                     const docRef = await doc(DB, 'videos', innerEl);
                     const getVideoItem = (await getDoc(docRef)).data();
 
-                    setPlaylistVideoObj((prev: any) => [...prev, getVideoItem]);
+                    setPlaylistVideoObj((prev: any) => [...prev, { ...getVideoItem, videoId: innerEl }]);
                 });
             }
         } catch (e) {
@@ -95,8 +95,19 @@ const PlaylistPage: FC = () => {
             </div>
             <div className='playlist__selected-videos'>
                 {index
-                    ? playlistVideoObj.map((el, index) => {
-                          return <Video key={v1()} title={el.title} previewUrl={el.previewUrl} date={getDate(el.date)}></Video>;
+                    ? playlistVideoObj.map((el) => {
+                          return (
+                              <Video
+                                  key={v1()}
+                                  email={el.email}
+                                  title={el.title}
+                                  previewUrl={el.previewUrl}
+                                  date={getDate(el.date)}
+                                  author={false}
+                                  videoObj={el}
+                                  videoId={el.videoId}
+                              ></Video>
+                          );
                       })
                     : ''}
             </div>

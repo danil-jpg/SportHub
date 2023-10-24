@@ -7,6 +7,7 @@ import IconRenderer from '../../../../ui/IconRenderer/IconRenderer';
 import Playlist from '../../../Creator/HomePlay/Playlist/Playlist';
 import { doc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../../../config/firebase-config';
+import getDate from '../../../../utils/getDate';
 
 const Tabs: FC = ({}) => {
     const [tabs, setTabs] = useState([true, false, false]);
@@ -62,7 +63,8 @@ const Tabs: FC = ({}) => {
                                   previewUrl={el.previewUrl}
                                   fName={el.fname}
                                   lName={el.lname}
-                                  author={true}
+                                  date={getDate(el.date)}
+                                  author={false}
                                   authorPicUrl={el.authorPicUrl}
                                   videoObj={el}
                                   videoId={el.videoId}

@@ -90,6 +90,7 @@ const CreatePlaylist: FC = () => {
                             className={`${selectedArrState[0][index] ? 'video-active' : ''} video-cr-playlist`}
                             previewUrl={el.previewUrl}
                             title={el.title}
+                            isClickAble={false}
                             date={getDate(el.date)}
                         ></Video>
                     </div>

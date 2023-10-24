@@ -13,7 +13,6 @@ import { getUsers } from '../../../store/slices/users';
 import { doc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
 import { IShuffledVideo } from '../../User/User';
-// import { getVideo } from '../../../store/slices/videos';
 
 interface IVideo {
     category: string;
@@ -24,14 +23,19 @@ interface IVideo {
     videoUrl: string;
     date?: any;
     email?: string;
+    videoId: string;
 }
 
 const CrHome: FC = () => {
-    const [videosArr, setVideosArr] = useState<IVideo[] | any[]>([]);
-    const [filteredVideosArr, setFilteredVideosArr] = useState<IVideo[]>([]);
+    const [videosArr, setVideosArr] = useState<IShuffledVideo[] | any[]>([]);
+    const [filteredVideosArr, setFilteredVideosArr] = useState<IShuffledVideo[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
     const [activeButtonArr, setActiveButtonArr] = useState<boolean[]>([true, false, false, false]);
+
+    // const selectorEmail = useAppSelector((state) => state.creatorSlice.creatorEmail.email);
+    // const selectorUsers = useAppSelector((state) => state.usersSlice.data);
+    // const [channelData, setChannelData] = useState(selectorUsers.filter((el) => el.email === selectorEmail));
 
     let videosIds: string[] = [];
 
@@ -47,8 +51,9 @@ const CrHome: FC = () => {
                 videosIds.map(async (el) => {
                     const docRef = await doc(DB, 'videos', el);
                     const getVideo: any = (await getDoc(docRef)).data();
-                    setVideosArr((prev) => [...prev, getVideo]);
-                    setFilteredVideosArr((prev) => [...prev, getVideo]);
+                    setVideosArr((prev) => [...prev, { ...getVideo, videoId: el }]);
+                    setFilteredVideosArr((prev) => [...prev, { ...getVideo, videoId: el }]);
+
                     setIsLoaded(true);
                 });
             }
@@ -62,14 +67,6 @@ const CrHome: FC = () => {
         dispatch(getUsers());
         getVideoData();
     }, []);
-
-    useEffect(() => {
-        // getVideoData();
-    }, [videosIds]);
-
-    useEffect(() => {
-        // console.log(videosArr);
-    }, [videosArr]);
 
     const filterByType = (type: string) => {
         if (type === 'All') {
@@ -149,8 +146,22 @@ const CrHome: FC = () => {
             </div>
             <div className='creator__videos'>
                 {filteredVideosArr
-                    ? filteredVideosArr.map((el, index) => {
-                          return <Video title={el.title} date={getDate(el.date)} previewUrl={el.previewUrl} key={v1()}></Video>;
+                    ? filteredVideosArr.map((el) => {
+                          return (
+                              <Video
+                                  key={v1()}
+                                  email={el.email}
+                                  title={el.title}
+                                  previewUrl={el.previewUrl}
+                                  fName={el.fname}
+                                  lName={el.lname}
+                                  date={getDate(el.date)}
+                                  author={false}
+                                  authorPicUrl={el.authorPicUrl}
+                                  videoObj={el}
+                                  videoId={el.videoId}
+                              ></Video>
+                          );
                       })
                     : ''}
             </div>
