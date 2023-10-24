@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 // import { DB } from '../../../config/firebase-config';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setInitialUserState, setRegData } from '../../store/slices/registration';
+import { Link } from 'react-router-dom';
 
 const Header: FC = ({}) => {
     const [menuState, setMenuState] = useState<boolean>(false);
@@ -75,28 +76,26 @@ const Header: FC = ({}) => {
                         <ul className='header__menu_ul'>
                             {auth ? (
                                 <>
-                                    <li className='header__menu_li'>video</li>
+                                    <li className='header__menu_li' onClick={() => navigate('../../creator/home')}>
+                                        My videos
+                                    </li>
+
                                     {/* <li className='header__menu_li'>store</li> */}
                                 </>
                             ) : (
                                 ''
                             )}
-                            <li className='header__menu_li'>item1</li>
-                            <li className='header__menu_li'>item2</li>
                         </ul>
                     </div>
                 </div>
                 <Logo isReg={false} onClickHandler={() => navigate('../../user/home')} />
             </div>
             <div className='header__right'>
-                <IconRenderer id='search' />
-                <IconRenderer id='ring' />
                 {auth ? (
                     <div className='header__authed-block'>
                         <div className='header__video' onClick={() => navigate('../../creator/home')}>
                             Video
                         </div>
-                        {/* <div className='header__store'>Store</div> */}
                         <div className='header__profile' onClick={() => setProfileState(!profileState)}>
                             <img className='header__profile_img' src={selector?.photoUrl} />
                             <p className='profile__text'>Profile</p>
