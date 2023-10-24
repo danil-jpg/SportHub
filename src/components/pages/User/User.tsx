@@ -52,7 +52,7 @@ interface IShuffledVideo {
     authorPicUrl?: string;
     email?: string;
     likes: string[];
-    disLikes: string[];
+    dislikes: string[];
     videoId: string;
 }
 

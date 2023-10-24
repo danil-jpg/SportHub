@@ -22,9 +22,8 @@ const UserPlayer = () => {
     const [currVideoData, setCurrVideoData] = useState<IShuffledVideo | null>(null);
     const [channelUserData, setchannelUserData] = useState<IUserData | null>(null);
 
-    const [likes, setLikes] = useState<number>(1111111);
-    const [disLikes, setDisLikes] = useState<number>(1111111);
-    let copyOfVideo: any = {};
+    const [likes, setLikes] = useState<string[]>(currVideoData ? currVideoData?.likes : []);
+    const [dislikes, setDislikes] = useState<string[]>(currVideoData ? currVideoData?.dislikes : []);
 
     const currentUserEmail = useAppSelector((state) => state.regSlice.regData.email);
     const selectorCurrentVideoId = useAppSelector((state) => state.creatorSlice.videoData.videoObj?.videoId);
@@ -72,57 +71,49 @@ const UserPlayer = () => {
         }
     };
 
-    useEffect(() => {
-        register();
-        const params = {
-            slidesPerView: 3.5,
-            spaceBetween: 24,
-            breakpoints: {
-                768: {
-                    slidesPerView: 3,
-                },
-                576: {
-                    slidesPerView: 2.5,
-                },
-                320: {
-                    direction: 'vertical',
-                    slidesPerView: 1,
-                },
-            },
-        };
-        if (!swiperRef.current) return;
-        Object.assign(swiperRef.current, params);
-        swiperRef.current.initialize();
-    }, []);
+    // useEffect(() => {
+    //     register();
+    //     const params = {
+    //         slidesPerView: 3.5,
+    //         spaceBetween: 24,
+    //         breakpoints: {
+    //             768: {
+    //                 slidesPerView: 3,
+    //             },
+    //             576: {
+    //                 slidesPerView: 2.5,
+    //             },
+    //             320: {
+    //                 direction: 'vertical',
+    //                 slidesPerView: 1,
+    //             },
+    //         },
+    //     };
+    //     if (!swiperRef.current) return;
+    //     Object.assign(swiperRef.current, params);
+    //     swiperRef.current.initialize();
+    // }, []);
+    const getCurrentVideoData = async () => {
+        try {
+            const converter = {
+                toFirestore: (data: IShuffledVideo) => data,
+                fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as IShuffledVideo,
+            };
+            const docRef = await doc(DB, 'videos', hashOfVideo ? hashOfVideo[1] : '').withConverter(converter);
+
+            let getCurrentVideo = (await getDoc(docRef)).data();
+
+            setDislikes(getCurrentVideo ? getCurrentVideo?.dislikes : ['test']);
+
+            setCurrVideoData(getCurrentVideo ? getCurrentVideo : null);
+
+            return getCurrentVideo;
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     useEffect(() => {
-        const getCurrentVideoData = async () => {
-            try {
-                const converter = {
-                    toFirestore: (data: IShuffledVideo) => data,
-                    fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as IShuffledVideo,
-                };
-                const docRef = doc(DB, 'videos', hashOfVideo ? hashOfVideo[1] : '').withConverter(converter);
-
-                let getCurrentVideo = await getDoc(docRef).then((res) => {
-                    let obj: any = {
-                        ...res.data(),
-                    };
-                    for (let key in obj) {
-                        copyOfVideo[key] = obj[key];
-                    }
-                    return res.data();
-                });
-
-                setDisLikes(copyOfVideo.dislikes ? copyOfVideo.dislikes.length : 0);
-                setLikes(copyOfVideo.likes ? copyOfVideo.likes.length : 0);
-
-                setCurrVideoData(getCurrentVideo ? getCurrentVideo : null);
-            } catch (e) {
-                console.error(e);
-            }
-        };
-
         getCurrentVideoData();
     }, []);
 
@@ -131,10 +122,6 @@ const UserPlayer = () => {
             getCurrentUserData();
         }
     }, [currVideoData?.email]);
-
-    useEffect(() => {
-        // console.log(currVideoData);
-    }, [currVideoData]);
 
     useEffect(() => {
         setSbsBtn(channelUserData && channelUserData.subscribers ? channelUserData.subscribers.includes(currentUserEmail) : false);
@@ -179,16 +166,23 @@ const UserPlayer = () => {
             const docRef = doc(DB, 'videos', videoUUID ? videoUUID : '');
 
             if (currVideoData?.likes?.includes(currentUserEmail)) {
+                setCurrVideoData((prev) => {
+                    return prev ? { ...prev, likes: prev?.likes.filter((el) => el !== currentUserEmail), dislikes: prev?.dislikes.filter((el) => el !== currentUserEmail) } : null;
+                });
+
                 await updateDoc(docRef, {
                     likes: arrayRemove(currentUserEmail),
-                    dislikes: arrayRemove(currentUserEmail),
                 });
                 getCurrentUserData();
             } else {
+                setCurrVideoData((prev) => {
+                    return prev ? { ...prev, likes: [...prev?.likes, currentUserEmail], dislikes: prev?.likes.filter((el) => el !== currentUserEmail) } : null;
+                });
+
                 await updateDoc(docRef, {
                     likes: arrayUnion(currentUserEmail),
+                    dislikes: arrayRemove(currentUserEmail),
                 });
-                getCurrentUserData();
             }
         } catch (e) {
             console.error(e);
@@ -198,35 +192,33 @@ const UserPlayer = () => {
     const onDisLikeClickHandler = async () => {
         try {
             const docRef = doc(DB, 'videos', videoUUID ? videoUUID : '');
-            const dislikesObj: any = {};
 
-            for (let key in currVideoData) {
-                if (key === 'dislikes') {
-                    dislikesObj[key] = currVideoData[key];
-                }
-            }
-            console.log(dislikesObj, currentUserEmail);
+            if (currVideoData?.dislikes?.includes(currentUserEmail)) {
+                setCurrVideoData((prev) => {
+                    return prev ? { ...prev, dislikes: prev?.dislikes.filter((el) => el !== currentUserEmail), likes: prev?.likes.filter((el) => el !== currentUserEmail) } : null;
+                });
 
-            if (dislikesObj?.includes(currentUserEmail)) {
                 await updateDoc(docRef, {
                     dislikes: arrayRemove(currentUserEmail),
-                    like: arrayRemove(currentUserEmail),
                 });
-                console.log(1);
-                setDisLikes(() => dislikesObj.length);
-                getCurrentUserData();
             } else {
+                setCurrVideoData((prev) => {
+                    return prev ? { ...prev, dislikes: [...prev?.dislikes, currentUserEmail], likes: prev?.likes.filter((el) => el !== currentUserEmail) } : null;
+                });
+
                 await updateDoc(docRef, {
                     dislikes: arrayUnion(currentUserEmail),
+                    likes: arrayRemove(currentUserEmail),
                 });
-                console.log(2);
-                setDisLikes(() => (dislikesObj?.length ? dislikesObj?.length - 1 : 0));
-                getCurrentUserData();
             }
         } catch (e) {
             console.error(e);
         }
     };
+
+    useEffect(() => {
+        console.log(dislikes);
+    }, [dislikes]);
 
     if (!channelUserData?.email) return <Loading />;
     return (
@@ -272,11 +264,11 @@ const UserPlayer = () => {
                                         <div className='player__reaction-wr'>
                                             <div className='player__like-wr' onClick={onLikeClickHandler}>
                                                 <IconRenderer id='like' />
-                                                <p className='player__reaction_text'>{likes}</p>
+                                                <p className='player__reaction_text'>{currVideoData?.likes?.length}</p>
                                             </div>
                                             <div className='player__like-wr' onClick={onDisLikeClickHandler}>
                                                 <IconRenderer id='dislike' />
-                                                <p className='player__reaction_text'>{disLikes}</p>
+                                                <p className='player__reaction_text'>{currVideoData?.dislikes?.length}</p>
                                             </div>
                                         </div>
                                         <div className='player__icon-comment'>
