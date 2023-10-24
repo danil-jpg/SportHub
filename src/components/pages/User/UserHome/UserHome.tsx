@@ -24,7 +24,7 @@ const UserHome: FC<IUserHome> = ({ videos, setVideos }) => {
                 <p className='user-home__videos_text'>Video List</p>
                 <div className='user-home__videos-wr'>
                     {videos
-                        ? videos.map((el, index) => {
+                        ? videos.map((el) => {
                               return (
                                   <Video
                                       key={v1()}

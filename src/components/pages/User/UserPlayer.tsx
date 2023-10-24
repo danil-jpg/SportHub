@@ -15,6 +15,7 @@ import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, getD
 import { DB } from '../../../config/firebase-config';
 import { getUsers } from '../../store/slices/users';
 import { IShuffledVideo, IUserData } from './User';
+import { Player } from 'video-react';
 import { setCurrentVideo } from '../../store/slices/creator';
 
 const UserPlayer = () => {
@@ -35,11 +36,10 @@ const UserPlayer = () => {
     const swiperRef = useRef<any>(null);
 
     const dispatch = useAppDispatch();
-
+    // w
     const getVideos = async () => {
         // try {
-        //     const videosIds = selectorChannelUser[0].videosIds;
-        //     console.log(videosIds);
+        //     const videosIds = currentUserEmail;
         //     if (videosIds && videosIds?.length > 0) {
         //         videosIds.map(async (el) => {
         //             const docRef = await doc(DB, 'videos', el);
@@ -67,29 +67,30 @@ const UserPlayer = () => {
             console.error(e);
         }
     };
+    //
+    useEffect(() => {
+        register();
+        const params = {
+            slidesPerView: 3.5,
+            spaceBetween: 24,
+            breakpoints: {
+                768: {
+                    slidesPerView: 3.5,
+                },
+                576: {
+                    slidesPerView: 2.5,
+                },
+                320: {
+                    direction: 'vertical',
+                    slidesPerView: 1,
+                },
+            },
+        };
+        if (!swiperRef.current) return console.log('Not true');
+        Object.assign(swiperRef.current, params);
+        swiperRef.current.initialize();
+    }, [swiperRef.current]);
 
-    // useEffect(() => {
-    //     register();
-    //     const params = {
-    //         slidesPerView: 3.5,
-    //         spaceBetween: 24,
-    //         breakpoints: {
-    //             768: {
-    //                 slidesPerView: 3,
-    //             },
-    //             576: {
-    //                 slidesPerView: 2.5,
-    //             },
-    //             320: {
-    //                 direction: 'vertical',
-    //                 slidesPerView: 1,
-    //             },
-    //         },
-    //     };
-    //     if (!swiperRef.current) return;
-    //     Object.assign(swiperRef.current, params);
-    //     swiperRef.current.initialize();
-    // }, []);
     const getCurrentVideoData = async () => {
         try {
             const converter = {
@@ -110,6 +111,7 @@ const UserPlayer = () => {
 
     useEffect(() => {
         getCurrentVideoData();
+        getVideos();
     }, []);
 
     useEffect(() => {
@@ -271,23 +273,32 @@ const UserPlayer = () => {
                                         </div>
                                     </div>
                                     <div className='player__num-info'>
-                                        <p className='player__num-info_text'>145.3K views</p>
                                         <p className='player__num-info_text'>{getDate(currVideoData?.date)} days ago</p>
                                     </div>
                                 </div>
                                 <p className='player__descr'>{currVideoData?.descr}</p>
                             </div>
                             <div className='player__another-videos'>
-                                {/* <p className='player__another-videos_text'>Video List Name</p>
-                    <swiper-container init={false} ref={swiperRef} style={{}}>
-                        {selector?.map((el) => {
-                            return (
-                                <swiper-slide>
-                                    <Video title={el.title} previewUrl={el.previewUrl} />
-                                </swiper-slide>
-                            );
-                        })}
-                    </swiper-container> */}
+                                <swiper-container init={false} ref={swiperRef} style={{}}>
+                                    <swiper-slide>
+                                        <Video title={'el.title'} previewUrl={'el.previewUrl'} />
+                                    </swiper-slide>
+                                    <swiper-slide>
+                                        <Video title={'el.title'} previewUrl={'el.previewUrl'} />
+                                    </swiper-slide>
+                                    <swiper-slide>
+                                        <Video title={'el.title'} previewUrl={'el.previewUrl'} />
+                                    </swiper-slide>
+                                    <swiper-slide>
+                                        <Video title={'el.title'} previewUrl={'el.previewUrl'} />
+                                    </swiper-slide>
+                                    <swiper-slide>
+                                        <Video title={'el.title'} previewUrl={'el.previewUrl'} />
+                                    </swiper-slide>
+                                    <swiper-slide>
+                                        <Video title={'el.title'} previewUrl={'el.previewUrl'} />
+                                    </swiper-slide>
+                                </swiper-container>
                             </div>
                         </div>
                     </>
