@@ -4,30 +4,24 @@ import IconRenderer from '../../ui/IconRenderer/IconRenderer';
 import defaultUser from '../../../assets/img/user/test-user.png';
 import Button from '../../ui/Button/Button';
 import Header from '../../common/Header/Header';
-import Slider from './UserHome/Slider/Slider';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import Video from '../Creator/Video/Video';
-import { register } from 'swiper/element';
-import { Link, Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../../common/Loading/Loading';
 import getDate from '../../utils/getDate';
-import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
+import { QueryDocumentSnapshot, arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 import { DB } from '../../../config/firebase-config';
-import { getUsers } from '../../store/slices/users';
 import { IShuffledVideo, IUserData } from './User';
-import { Player } from 'video-react';
-import { setCurrentVideo } from '../../store/slices/creator';
-import { IVideo } from '../Creator/Home/CrHome';
-import { v1 } from 'uuid';
 import UserSlider from '../../common/UserSlider/UserSlider';
+import { setCreatorEmail } from '../../store/slices/creator';
 
 const UserPlayer = () => {
-    const [videos, setVideos] = useState<IVideo[]>([]);
+    const [videos, setVideos] = useState<IShuffledVideo[]>([]);
     const [currVideoData, setCurrVideoData] = useState<IShuffledVideo | null>(null);
     const [channelUserData, setchannelUserData] = useState<IUserData | null>(null);
 
     const currentUserEmail = useAppSelector((state) => state.regSlice.regData.email);
     const selectorCurrentVideoId = useAppSelector((state) => state.creatorSlice.videoData.videoObj?.videoId);
+    const selectorUsers = useAppSelector((state) => state.usersSlice.data);
 
     const [sbsBtn, setSbsBtn] = useState<boolean>(channelUserData && channelUserData.subscribers ? channelUserData.subscribers.includes(currentUserEmail) : false);
     const hashOfVideo = window.location.href.match(/video\/([^/]+)/);
@@ -37,11 +31,13 @@ const UserPlayer = () => {
 
     const navigate = useNavigate();
 
+    const dispatch = useAppDispatch();
+
     const getVideos = async () => {
         try {
             const converter = {
-                toFirestore: (data: IVideo) => data,
-                fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as IVideo,
+                toFirestore: (data: IShuffledVideo) => data,
+                fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as IShuffledVideo,
             };
 
             const collRef = collection(DB, 'videos').withConverter(converter);
@@ -49,7 +45,14 @@ const UserPlayer = () => {
             const getVideos = (await getDocs(collRef)).docs.map((el) => {
                 return { ...el.data(), videoId: el.id };
             });
-            setVideos(getVideos);
+
+            const res: any[] = getVideos.map((el) => {
+                const videoAuthor = selectorUsers.filter((innerEl) => innerEl.email === el.email)[0];
+                return { ...el, fname: videoAuthor.fname, lname: videoAuthor.lname, authorPicUrl: videoAuthor.photoUrl };
+            });
+
+            setVideos(res);
+            console.log(res);
         } catch (e) {
             console.error(e);
         }
@@ -206,7 +209,13 @@ const UserPlayer = () => {
                         <IconRenderer id='return-arrow' />
                     </div>
 
-                    <div className='player__author'>
+                    <div
+                        className='player__author'
+                        onClick={() => {
+                            dispatch(setCreatorEmail({ email: currVideoData.email }));
+                            navigate(`../../../user/channel/${currVideoData && currVideoData.email ? currVideoData.email.replace(/\./g, '') : ''}`);
+                        }}
+                    >
                         {currVideoData ? (
                             <img src={channelUserData?.photoUrl} alt='logo' className='player__author_img' />
                         ) : (

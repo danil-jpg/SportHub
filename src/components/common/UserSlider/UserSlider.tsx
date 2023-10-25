@@ -1,20 +1,17 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { IVideo } from '../../pages/Creator/Home/CrHome';
-// import { register } from 'swiper/element';
 import getDate from '../../utils/getDate';
 import Video from '../../pages/Creator/Video/Video';
 import { v1 } from 'uuid';
-import Loading from '../Loading/Loading';
-// import { Swiper } from 'swiper/types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './UserSlider.scss';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { IShuffledVideo } from '../../pages/User/User';
 
 interface IUserSlider {
-    videos: IVideo[];
+    videos: IShuffledVideo[];
 }
 
 const UserSlider: FC<IUserSlider> = ({ videos }) => {
@@ -34,7 +31,7 @@ const UserSlider: FC<IUserSlider> = ({ videos }) => {
                         direction: 'horizontal',
                     },
                     320: {
-                        height: '300',
+                        height: 300,
                         direction: 'vertical',
                     },
                 }}
@@ -46,11 +43,11 @@ const UserSlider: FC<IUserSlider> = ({ videos }) => {
                                 email={el.email}
                                 title={el.title}
                                 previewUrl={el.previewUrl}
-                                // fName={el.fname}
-                                // lName={el.lname}
+                                fName={el.fname}
+                                lName={el.lname}
                                 date={getDate(el.date)}
                                 author={true}
-                                // authorPicUrl={el.authorPicUrl}
+                                authorPicUrl={el.authorPicUrl}
                                 videoObj={el}
                                 videoId={el.videoId}
                             />

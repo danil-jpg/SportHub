@@ -97,7 +97,7 @@ const Video: FC<IVideoComp> = ({
 
     const onVideoAuthorClickHandler = () => {
         dispatch(setCreatorEmail({ email }));
-        navigate(`../channel/${currentUserEmailFormatted}`);
+        navigate(`../../../user/channel/${currentUserEmailFormatted}`);
     };
 
     const onVideoCompClickHandler = () => {
@@ -132,7 +132,6 @@ const Video: FC<IVideoComp> = ({
                         <div className='creator__video_author'>
                             {authorPicUrl ? (
                                 <picture>
-                                    <source src={''}></source>
                                     <img className='creator__video_author_img' alt='author img' src={authorPicUrl} />
                                 </picture>
                             ) : (
