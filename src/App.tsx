@@ -29,7 +29,7 @@ const App: FC = () => {
                 <Route path='/registration/*' element={<Registration />} />
                 <Route path='/creator/*' element={<Creator />} />
                 <Route path='/user/*' element={<User />} />
-                <Route path='/video/*' element={<UserPlayer />} />
+                <Route path='/video/:id' element={<UserPlayer />} />
             </Routes>
         </Suspense>
     );

@@ -1,0 +1,12 @@
+// .swiper-container {
+//     height: 300px;
+// }
+
+@media screen and (max-width: 576px) {
+    .player__another-videos {
+        height: 1000px;
+        .swiper {
+            height: 100%;
+        }
+    }
+}
