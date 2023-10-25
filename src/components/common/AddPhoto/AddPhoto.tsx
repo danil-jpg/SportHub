@@ -5,6 +5,7 @@ import nonDefaultPicW from '../../../assets/img/editProfile/hero banner.png?as=w
 import { useAppDispatch } from '../../hooks/redux';
 import { setRegData } from '../../store/slices/registration';
 import Loading from '../Loading/Loading';
+import swal from 'sweetalert';
 
 interface IAddPhoto {
     classname: string;
@@ -14,6 +15,8 @@ interface IAddPhoto {
 }
 
 const AddPhoto: FC<IAddPhoto> = ({ file, setFile, classname = '', defaultImg = true }) => {
+    const allowedTypesImg = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -42,14 +45,27 @@ const AddPhoto: FC<IAddPhoto> = ({ file, setFile, classname = '', defaultImg = t
         }
     };
 
+    const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files || e.target.files[0].size > 26097152) {
+            swal('File is too big! Max size is 25 mb');
+            e.target.value = '';
+        } else if (!allowedTypesImg.includes(e.target.files[0]?.type)) {
+            swal('File must be jpeg,png,gif or webp format');
+        } else {
+            setFile(e.target.files[0]);
+        }
+    };
+
     return (
         <div className={`${classname} info__img-block`}>
             <input
+                accept='image/*'
                 type='file'
                 className='info__input-file'
                 onChange={(e) => {
                     if (!e.target.files || e.target.files[0] === null) return;
-                    setFile(e.target.files[0]);
+
+                    imageHandler(e);
                 }}
             />
             {imgConditionalRendering()}

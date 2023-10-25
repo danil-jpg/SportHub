@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import './AddVideo.scss';
 import Button from '../../../ui/Button/Button';
 import pngLogoW from '../../../../assets/img/addvideo/addvideo.png?as=webp';
-import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc } from 'firebase/firestore';
 import { DB, storage } from '../../../../config/firebase-config';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useNavigate } from 'react-router-dom';
@@ -34,7 +34,7 @@ const AddVideo1: FC = () => {
 
     const uniqueId: string = v1();
 
-    const allowedTypesImg = ['image/jpeg', 'image/png', 'image/gif'];
+    const allowedTypesImg = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     const allowedTypesVideo = ['video/mp4', 'video/*', 'video/x-m4v'];
 
     const navigate = useNavigate();
@@ -86,7 +86,7 @@ const AddVideo1: FC = () => {
             if (e.dataTransfer.files[0].size > 26097152) {
                 swal('File is too big! Max size is 25 mb');
             } else if (!allowedTypesVideo.includes(e.dataTransfer.files[0]?.type)) {
-                swal('File must be jpeg,png,gif or webp format');
+                swal('File must have video format');
             } else {
                 setVideo(e.dataTransfer.files[0]);
             }
@@ -277,7 +277,7 @@ const AddVideo1: FC = () => {
                     className={`${dragPreviewActive ? 'active' : ''} addvideo__bottom__right`}
                 >
                     <input
-                        accept='image/png, image/gif, image/jpeg , image/webp, image/*'
+                        accept='image/*'
                         onDragEnter={handlePrevewDragEvent}
                         onDragLeave={handlePrevewDragEvent}
                         onDragOver={handlePrevewDragEvent}

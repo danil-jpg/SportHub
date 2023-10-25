@@ -103,15 +103,22 @@ const EditProfile: FC = () => {
 
     const handleOnSaveClick = async () => {
         try {
+            let storageRefAvatar: string = '';
+            let storageRefCover: string = '';
+
             uploadAvatar();
             uploadCover();
-            const storageRefAvatar = await getDownloadURL(ref(storage, `users-avatar/${selector.email}`));
-            const storageRefCover = await getDownloadURL(ref(storage, `users-cover/${selector.email}`));
+            if (profilePhoto) {
+                storageRefAvatar = await getDownloadURL(ref(storage, `users-avatar/${selector.email}`));
+            }
+            if (coverPhoto) {
+                storageRefCover = await getDownloadURL(ref(storage, `users-cover/${selector.email}`));
+            }
 
             const documentRef = await doc(DB, 'users', selector.email);
             const objToChange = {
-                photoUrl: storageRefAvatar,
-                coverPhotoUrl: storageRefCover,
+                photoUrl: storageRefAvatar ? storageRefAvatar : '',
+                coverPhotoUrl: storageRefCover ? storageRefCover : '',
                 fname,
                 lname,
                 birthday: birth,
@@ -124,7 +131,7 @@ const EditProfile: FC = () => {
                 twitter,
                 gender: radio,
             };
-            const res = await updateDoc(documentRef, objToChange)
+            await updateDoc(documentRef, objToChange)
                 .then(() => {
                     swal('Successfully changed');
                     dispatch(
@@ -153,6 +160,7 @@ const EditProfile: FC = () => {
 
     const uploadCover = async () => {
         if (!coverPhoto) {
+            console.log(coverPhoto);
             return;
         }
         const filesFolderRef = ref(storage, `users-cover/${selector.email}`);

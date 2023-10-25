@@ -12,6 +12,7 @@ import { setRegData } from '../../../store/slices/registration';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
 import { DB, storage } from '../../../../config/firebase-config';
+import swal from 'sweetalert';
 
 const PersonalInfo: FC = () => {
     const [file, setFile] = useState<File | null | string>(null);
@@ -64,17 +65,22 @@ const PersonalInfo: FC = () => {
 
     const onButtonSignUpClickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
         try {
-            await uploadFile();
-            const res = await getDownloadURL(ref(storage, `users-avatar/${selector.regData.email}`));
-            setPhotoUrl(res);
-            await setDoc(doc(DB, 'users', selector.regData.email), {
-                ...selector.regData,
-                photoUrl: res,
-                birthday,
-                type,
-                gender: radio,
-            });
-            navigate('../signIn');
+            if (radio && type && birthday && file) {
+                await uploadFile();
+                const res = await getDownloadURL(ref(storage, `users-avatar/${selector.regData.email}`));
+                setPhotoUrl(res);
+                await setDoc(doc(DB, 'users', selector.regData.email), {
+                    ...selector.regData,
+                    photoUrl: res,
+                    birthday,
+                    type,
+                    gender: radio,
+                });
+                navigate('../signIn');
+            } else {
+                swal('Fill up all the fields');
+                console.log(radio, type, birthday, file);
+            }
         } catch (e) {
             alert(e);
         }
