@@ -9,7 +9,7 @@ import Loading from '../../common/Loading/Loading';
 import getDate from '../../utils/getDate';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getUsers } from '../../store/slices/users';
-import UserItem from './UserItem/UserItem';
+import UserItem from './UserCommon/UserItem/UserItem';
 import { v1 } from 'uuid';
 import { doc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../config/firebase-config';

@@ -14,11 +14,13 @@ import { IShuffledVideo, IUserData } from './User';
 import UserSlider from '../../common/UserSlider/UserSlider';
 import { setCreatorEmail } from '../../store/slices/creator';
 import { Subscribers } from './User';
+import UserComment from './UserCommon/UserComment/UserComment';
 
 const UserPlayer = () => {
     const [videos, setVideos] = useState<IShuffledVideo[]>([]);
     const [currVideoData, setCurrVideoData] = useState<IShuffledVideo | null>(null);
     const [channelUserData, setchannelUserData] = useState<IUserData | null>(null);
+    const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
 
     const currentUserEmail = useAppSelector((state) => state.regSlice.regData.email);
     const selectorCurrentVideoId = useAppSelector((state) => state.creatorSlice.videoData.videoObj?.videoId);
@@ -200,6 +202,10 @@ const UserPlayer = () => {
         }
     };
 
+    const onCommentClickHandler = async () => {
+        setIsCommentOpen(!isCommentOpen);
+    };
+
     if (!channelUserData?.email) return <Loading />;
     return (
         <>
@@ -209,11 +215,10 @@ const UserPlayer = () => {
                     <div className='player__return-btn' onClick={onReturnArrowClickHandler}>
                         <IconRenderer id='return-arrow' />
                     </div>
-
                     <div
                         className='player__author'
                         onClick={() => {
-                            dispatch(setCreatorEmail({ email: currVideoData.email }));
+                            dispatch(setCreatorEmail({ email: currVideoData ? currVideoData.email : '' }));
                             navigate(`../../../user/channel/${currVideoData && currVideoData.email ? currVideoData.email.replace(/\./g, '') : ''}`);
                         }}
                     >
@@ -253,7 +258,7 @@ const UserPlayer = () => {
                                     <p className='player__reaction_text'>{currVideoData?.dislikes?.length}</p>
                                 </div>
                             </div>
-                            <div className='player__icon-comment'>
+                            <div className='player__icon-comment' onClick={onCommentClickHandler}>
                                 <IconRenderer id='comments' />
                                 <p className='player__reaction_text'>0</p>
                             </div>
@@ -265,6 +270,7 @@ const UserPlayer = () => {
                     <p className='player__descr'>{currVideoData?.descr}</p>
                 </div>
                 <UserSlider videos={videos} />
+                <UserComment isOpen={isCommentOpen} setIsOpen={setIsCommentOpen} />
             </div>
         </>
     );

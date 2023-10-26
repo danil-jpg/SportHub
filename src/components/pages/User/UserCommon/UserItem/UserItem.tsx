@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import './UserItem.scss';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { setCreatorEmail } from '../../../store/slices/creator';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
+import { setCreatorEmail } from '../../../../store/slices/creator';
 
 interface IUserItem {
     name: string;
