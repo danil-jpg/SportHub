@@ -4,13 +4,14 @@ import IconRenderer from '../../ui/IconRenderer/IconRenderer';
 import Button from '../../ui/Button/Button';
 import './Header.scss';
 import { useNavigate } from 'react-router-dom';
-// import { doc, getDoc } from 'firebase/firestore';
-// import { DB } from '../../../config/firebase-config';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { setInitialUserState, setRegData } from '../../store/slices/registration';
-import { Link } from 'react-router-dom';
+import { setInitialUserState } from '../../store/slices/registration';
 
-const Header: FC = ({}) => {
+interface IHeader {
+    mobChildren?: JSX.Element;
+}
+
+const Header: FC<IHeader> = ({ mobChildren }) => {
     const [menuState, setMenuState] = useState<boolean>(false);
     const [profileState, setProfileState] = useState<boolean>(false);
     const [auth, setAuth] = useState<boolean>(false);
@@ -34,15 +35,12 @@ const Header: FC = ({}) => {
         selector.email ? setAuth(true) : '';
     }, [selector.email]);
 
-    // useEffect(() => {
-
-    // },[selector.photoUrl])
-
     useEffect(() => {
         const onMenuOutMenuClickHandler = (e: MouseEvent) => {
             const { target } = e;
             if (target instanceof Node && !menuRef.current?.contains(target)) {
                 setMenuState(false);
+                document.body.style.overflow = 'auto';
             }
         };
         window.addEventListener('click', onMenuOutMenuClickHandler);
@@ -60,6 +58,7 @@ const Header: FC = ({}) => {
                         <IconRenderer
                             onClick={() => {
                                 setMenuState(!menuState);
+                                document.body.style.overflow = 'auto';
                             }}
                             id='cross'
                         />
@@ -68,6 +67,7 @@ const Header: FC = ({}) => {
                             onClick={() => {
                                 setMenuState(!menuState);
                                 setProfileState(false);
+                                document.body.style.overflow = 'hidden';
                             }}
                             id='burger'
                         />
@@ -79,8 +79,7 @@ const Header: FC = ({}) => {
                                     <li className='header__menu_li' onClick={() => navigate('../../creator/home')}>
                                         My videos
                                     </li>
-
-                                    {/* <li className='header__menu_li'>store</li> */}
+                                    <li className='header__menu_li'>{mobChildren}</li>
                                 </>
                             ) : (
                                 ''

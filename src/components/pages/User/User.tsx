@@ -56,6 +56,30 @@ interface IShuffledVideo {
     videoId: string;
 }
 
+export const Subscribers = (): JSX.Element => {
+    const selectorUsers = useAppSelector((state) => state.usersSlice.data);
+    const selector = useAppSelector((state) => state.regSlice.regData);
+
+    const currentUser = selectorUsers.filter((el) => el.email === selector.email)[0];
+
+    return (
+        <div className='user-home__subscriptions'>
+            <p className='user-home__subscriptions_title'>My subscription</p>
+            {currentUser?.subscriptions?.map((el) => {
+                const currentCreator = selectorUsers.filter((innerEl) => innerEl.email === el);
+                return (
+                    <UserItem
+                        key={v1()}
+                        email={currentCreator[0].email}
+                        name={currentCreator[0].fname ? currentCreator[0].fname : ''}
+                        imgUrl={currentCreator[0].photoUrl ? currentCreator[0].photoUrl : ''}
+                    />
+                );
+            })}
+        </div>
+    );
+};
+
 const User: FC = () => {
     const [usersData, setUsersData] = useState<any[]>([]);
     const [defaultVideos, setDefaultVideos] = useState<IShuffledVideo[]>([]);
@@ -63,7 +87,6 @@ const User: FC = () => {
     const [filterBtn, setFilterBtn] = useState<boolean[]>([true, false, false]);
 
     const selector = useAppSelector((state) => state.regSlice.regData);
-    const selectorCreatorEmail = useAppSelector((state) => state.creatorSlice.creatorEmail.email);
     const selectorUsers = useAppSelector((state) => state.usersSlice.data);
     const dispatch = useAppDispatch();
 
@@ -86,7 +109,7 @@ const User: FC = () => {
         });
         return videos;
     };
-    //
+
     const onLatestFilterClickHandler = () => {
         setVideos((prev) => {
             prev = defaultVideos;
@@ -151,61 +174,49 @@ const User: FC = () => {
         );
     }, [defaultVideos]);
 
-    const Subscribers = (): JSX.Element[] | undefined => {
-        const currentUser = selectorUsers.filter((el) => el.email === selector.email)[0];
-        return currentUser?.subscriptions?.map((el) => {
-            const currentCreator = selectorUsers.filter((innerEl) => innerEl.email === el);
-            return (
-                <UserItem
-                    key={v1()}
-                    email={currentCreator[0].email}
-                    name={currentCreator[0].fname ? currentCreator[0].fname : ''}
-                    imgUrl={currentCreator[0].photoUrl ? currentCreator[0].photoUrl : ''}
-                />
-            );
-        });
+    const LeftSectionFunc = (): JSX.Element => {
+        return (
+            <div className='user-home__left'>
+                <div className='user-home__filters-wr'>
+                    <p
+                        className={`${filterBtn[0] ? ' active' : ''} user-home__filter`}
+                        onClick={() => {
+                            onHomeFilterClickHandler();
+                            setFilterBtn([true, false, false]);
+                        }}
+                    >
+                        Home
+                    </p>
+                    <p
+                        className={`${filterBtn[1] ? ' active' : ''} user-home__filter`}
+                        onClick={() => {
+                            onLatestFilterClickHandler();
+                            setFilterBtn([false, true, false]);
+                        }}
+                    >
+                        Latest
+                    </p>
+                    <p
+                        className={`${filterBtn[2] ? ' active' : ''} user-home__filter`}
+                        onClick={() => {
+                            onViewLaterClickHandler();
+                            setFilterBtn([false, false, true]);
+                        }}
+                    >
+                        View later
+                    </p>
+                </div>
+                {<Subscribers />}
+            </div>
+        );
     };
 
     if (defaultVideos.length < 1) return <Loading />;
     return (
         <>
-            <Header></Header>
+            <Header mobChildren={LeftSectionFunc()}></Header>
             <div className='user-home user-home__container'>
-                <div className='user-home__left'>
-                    <div className='user-home__filters-wr'>
-                        <p
-                            className={`${filterBtn[0] ? ' active' : ''} user-home__filter`}
-                            onClick={() => {
-                                onHomeFilterClickHandler();
-                                setFilterBtn([true, false, false]);
-                            }}
-                        >
-                            Home
-                        </p>
-                        <p
-                            className={`${filterBtn[1] ? ' active' : ''} user-home__filter`}
-                            onClick={() => {
-                                onLatestFilterClickHandler();
-                                setFilterBtn([false, true, false]);
-                            }}
-                        >
-                            Latest
-                        </p>
-                        <p
-                            className={`${filterBtn[2] ? ' active' : ''} user-home__filter`}
-                            onClick={() => {
-                                onViewLaterClickHandler();
-                                setFilterBtn([false, false, true]);
-                            }}
-                        >
-                            View later
-                        </p>
-                    </div>
-                    <div className='user-home__subscriptions'>
-                        <p className='user-home__subscriptions_title'>My subscription</p>
-                        {Subscribers()}
-                    </div>
-                </div>
+                <LeftSectionFunc />
                 <Routes>
                     <Route element={<UserHome videos={videos} setVideos={setVideos} />} index path='home'></Route>
                     <Route element={<UserChannel />} path='channel/*'></Route>

@@ -11,7 +11,6 @@ interface IUserItem {
 }
 
 const UserItem: FC<IUserItem> = ({ email, name, imgUrl }) => {
-    // const use
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -20,7 +19,7 @@ const UserItem: FC<IUserItem> = ({ email, name, imgUrl }) => {
 
     const onUserClickHandler = () => {
         dispatch(setCreatorEmail({ email }));
-        navigate(`./channel/${currentUserEmailFormatted}`);
+        navigate(`../../../user/channel/${currentUserEmailFormatted}`);
     };
     console.log();
     return (

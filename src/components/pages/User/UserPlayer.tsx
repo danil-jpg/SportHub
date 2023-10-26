@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './UserPlayer.scss';
 import IconRenderer from '../../ui/IconRenderer/IconRenderer';
 import defaultUser from '../../../assets/img/user/test-user.png';
@@ -13,6 +13,7 @@ import { DB } from '../../../config/firebase-config';
 import { IShuffledVideo, IUserData } from './User';
 import UserSlider from '../../common/UserSlider/UserSlider';
 import { setCreatorEmail } from '../../store/slices/creator';
+import { Subscribers } from './User';
 
 const UserPlayer = () => {
     const [videos, setVideos] = useState<IShuffledVideo[]>([]);
@@ -202,7 +203,7 @@ const UserPlayer = () => {
     if (!channelUserData?.email) return <Loading />;
     return (
         <>
-            <Header></Header>
+            <Header mobChildren={<Subscribers />}></Header>
             <div className='player'>
                 <div className='player__top player__content-container'>
                     <div className='player__return-btn' onClick={onReturnArrowClickHandler}>
