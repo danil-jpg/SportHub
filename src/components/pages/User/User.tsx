@@ -39,6 +39,12 @@ interface IUserData {
     subscriptions?: string[];
 }
 
+interface IComment {
+    authorPhotoUrl: string;
+    authorName: string;
+    comment: string;
+}
+
 interface IShuffledVideo {
     category: string;
     descr: string;
@@ -54,6 +60,7 @@ interface IShuffledVideo {
     likes: string[];
     dislikes: string[];
     videoId: string;
+    comments?: IComment[];
 }
 
 export const Subscribers = (): JSX.Element => {
@@ -227,4 +234,4 @@ const User: FC = () => {
 };
 
 export default User;
-export type { IShuffledVideo, IUserData };
+export type { IShuffledVideo, IUserData, IComment };

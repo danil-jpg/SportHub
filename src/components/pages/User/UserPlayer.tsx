@@ -55,7 +55,6 @@ const UserPlayer = () => {
             });
 
             setVideos(res);
-            console.log(res);
         } catch (e) {
             console.error(e);
         }
@@ -258,9 +257,9 @@ const UserPlayer = () => {
                                     <p className='player__reaction_text'>{currVideoData?.dislikes?.length}</p>
                                 </div>
                             </div>
-                            <div className='player__icon-comment' onClick={onCommentClickHandler}>
+                            <div className={`${isCommentOpen ? 'active' : ''} player__icon-comment`} onClick={onCommentClickHandler}>
                                 <IconRenderer id='comments' />
-                                <p className='player__reaction_text'>0</p>
+                                <p className='player__reaction_text'>{currVideoData?.comments?.length ? currVideoData?.comments?.length : 0}</p>
                             </div>
                         </div>
                         <div className='player__num-info'>

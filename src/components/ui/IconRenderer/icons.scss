@@ -168,7 +168,9 @@
     width: 18px;
     height: 15px;
     cursor: pointer;
+    stroke: #fff;
     &:hover {
+        stroke: grey;
         // fill: #ad7955;
     }
 }
