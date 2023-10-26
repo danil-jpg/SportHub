@@ -26,6 +26,9 @@ const UserPlayer = () => {
     const selectorCurrentVideoId = useAppSelector((state) => state.creatorSlice.videoData.videoObj?.videoId);
     const selectorUsers = useAppSelector((state) => state.usersSlice.data);
 
+    // тест
+    const currVideoDataSelector = useAppSelector((state) => state.creatorSlice.videoData.videoObj);
+
     const [sbsBtn, setSbsBtn] = useState<boolean>(channelUserData && channelUserData.subscribers ? channelUserData.subscribers.includes(currentUserEmail) : false);
     const hashOfVideo = window.location.href.match(/video\/([^/]+)/);
     const { id } = useParams();
@@ -259,7 +262,7 @@ const UserPlayer = () => {
                             </div>
                             <div className={`${isCommentOpen ? 'active' : ''} player__icon-comment`} onClick={onCommentClickHandler}>
                                 <IconRenderer id='comments' />
-                                <p className='player__reaction_text'>{currVideoData?.comments?.length ? currVideoData?.comments?.length : 0}</p>
+                                <p className='player__reaction_text'>{currVideoDataSelector?.comments?.length ? currVideoDataSelector?.comments?.length : 0}</p>
                             </div>
                         </div>
                         <div className='player__num-info'>
