@@ -24,7 +24,7 @@ const Header: FC<IHeader> = ({ mobChildren }) => {
 
     const profileExitHandler = () => {
         dispatch(setInitialUserState());
-        navigate('../../registration/signIn');
+        navigate('../../');
     };
 
     const profileEditHandler = () => {

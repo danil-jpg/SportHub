@@ -74,7 +74,7 @@ const PersonalInfo: FC = () => {
                     type,
                     gender: radio,
                 });
-                navigate('../signIn');
+                navigate('../../');
             } else {
                 swal('Fill up all the fields');
                 console.log(radio, type, birthday, file);

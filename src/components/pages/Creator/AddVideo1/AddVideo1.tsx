@@ -15,6 +15,7 @@ import { v1 } from 'uuid';
 import TextareaContainer from '../../../ui/Forms/TextareaContainer/TextareaContainer';
 import { getUsers } from '../../../store/slices/users';
 import { setRegData } from '../../../store/slices/registration';
+import Loading from '../../../common/Loading/Loading';
 
 const AddVideo1: FC = () => {
     const [video, setVideo] = useState<File | null>(null);
@@ -24,6 +25,8 @@ const AddVideo1: FC = () => {
     const [shopify, setShopify] = useState<string>('');
     const [preview, setPreview] = useState<File | null>(null);
     const [publishButtonState, setPublishButtonState] = useState<boolean>(false);
+
+    const [spinner, setSpinner] = useState(false);
 
     const [dragActive, setDragActive] = useState<boolean>(false);
 
@@ -67,8 +70,8 @@ const AddVideo1: FC = () => {
         e.stopPropagation();
         setDragPreviewActive(false);
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            if (e.dataTransfer.files[0].size > 26097152) {
-                swal('File is too big! Max size is 25 mb');
+            if (e.dataTransfer.files[0].size > 52097152) {
+                swal('File is too big! Max size is 52 mb');
             } else if (!allowedTypesImg.includes(e.dataTransfer.files[0]?.type)) {
                 swal('File must be jpeg,png,gif or webp format');
             } else {
@@ -82,8 +85,8 @@ const AddVideo1: FC = () => {
         e.stopPropagation();
         setDragActive(false);
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            if (e.dataTransfer.files[0].size > 26097152) {
-                swal('File is too big! Max size is 25 mb');
+            if (e.dataTransfer.files[0].size > 52097152) {
+                swal('File is too big! Max size is 52 mb');
             } else if (!allowedTypesVideo.includes(e.dataTransfer.files[0]?.type)) {
                 swal('File must have video format');
             } else {
@@ -93,8 +96,8 @@ const AddVideo1: FC = () => {
     };
 
     const videoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files || e.target.files[0].size > 26097152) {
-            swal('File is too big! Max size is 25 mb');
+        if (!e.target.files || e.target.files[0].size > 52097152) {
+            swal('File is too big! Max size is 52 mb');
             e.target.value = '';
         } else {
             setVideo(e.target.files[0]);
@@ -102,8 +105,8 @@ const AddVideo1: FC = () => {
     };
 
     const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files || e.target.files[0].size > 26097152) {
-            swal('File is too big! Max size is 25 mb');
+        if (!e.target.files || e.target.files[0].size > 52097152) {
+            swal('File is too big! Max size is 52 mb');
             e.target.value = '';
         } else if (!allowedTypesImg.includes(e.target.files[0]?.type)) {
             swal('File must be jpeg,png,gif or webp format');
@@ -143,6 +146,7 @@ const AddVideo1: FC = () => {
         dispatch(getUsers());
     }, []);
 
+    if (spinner) return <Loading />;
     return (
         <div className='addvideo'>
             <div className='addvideo__top'>
@@ -151,6 +155,7 @@ const AddVideo1: FC = () => {
                     className={`${publishButtonState ? '' : 'btn-innactive'}  addvideo__btn `}
                     onClickHandler={async () => {
                         if (preview && video && videoTitle && videoType && videoType !== 'Select category' && videoDescr) {
+                            setSpinner(true);
                             try {
                                 await uploadVideo();
                                 const videoUrl = await getDownloadURL(ref(storage, `videos/${selector.regData.email}/${videoTitle}${uniqueId}`));
@@ -185,12 +190,13 @@ const AddVideo1: FC = () => {
                                         });
                                     }
                                 });
-
+                                setSpinner(false);
                                 swal('Your video is successfully published').then(() => {
                                     navigate('../home');
                                 });
                             } catch (e) {
                                 console.error(e);
+                                setSpinner(false);
                                 swal('Something went wrong');
                             }
                         } else if (videoType === 'Select category') {

@@ -53,8 +53,16 @@ const UserPlayer = () => {
             });
 
             const res: any[] = getVideos.map((el) => {
-                const videoAuthor = selectorUsers.filter((innerEl) => innerEl.email === el.email)[0];
-                return { ...el, fname: videoAuthor.fname, lname: videoAuthor.lname, authorPicUrl: videoAuthor.photoUrl };
+                const videoAuthor = selectorUsers.filter((innerEl) => {
+                    return innerEl.email === el.email;
+                })[0];
+
+                return {
+                    ...el,
+                    fname: videoAuthor.fname ? videoAuthor.fname : '',
+                    lname: videoAuthor.lname ? videoAuthor.lname : '',
+                    authorPicUrl: videoAuthor.photoUrl ? videoAuthor.photoUrl : '',
+                };
             });
 
             setVideos(res);
@@ -232,7 +240,9 @@ const UserPlayer = () => {
 
                         <div className='player__author_texts'>
                             <p className='player__author_title'>{`${channelUserData?.fname} ${channelUserData?.lname}`}</p>
-                            <p className='player__author_text'>{`${channelUserData?.subscribers?.length}`} subscribers</p>
+                            <p className='player__author_text'>
+                                {channelUserData?.subscribers?.length && channelUserData?.subscribers?.length > 0 ? channelUserData?.subscribers?.length : 0} subscribers
+                            </p>
                         </div>
                     </div>
                     {sbsBtn ? (

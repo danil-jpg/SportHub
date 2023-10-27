@@ -28,7 +28,6 @@ const CreatePlaylist: FC = () => {
 
     const selector = useAppSelector((state) => state.regSlice.regData);
     const videosIds = useAppSelector((state) => state.regSlice.regData.videosIds);
-    const selectorUsers = useAppSelector((state) => state.usersSlice);
 
     const [videoData, setVideoData]: any[] = useState([]);
 
@@ -67,9 +66,8 @@ const CreatePlaylist: FC = () => {
                 return (
                     <div
                         key={v1()}
-                        onClick={(e) => {
+                        onClick={() => {
                             setSelectedArrState((prev) => {
-                                console.log(prev);
                                 const res = [...prev[0]];
                                 res[index] = !res[index];
                                 //

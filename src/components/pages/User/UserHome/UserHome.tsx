@@ -1,14 +1,9 @@
-import React, { FC, Ref, SetStateAction, useEffect, useRef, useState } from 'react';
+import React, { FC } from 'react';
 import './UserHome.scss';
 import { v1 } from 'uuid';
 import Slider from './Slider/Slider';
 import Video from '../../Creator/Video/Video';
-import { getDocs, collection } from 'firebase/firestore';
-import { DB } from '../../../../config/firebase-config';
-import { IVideo } from '../../Creator/Home/CrHome';
-import Loading from '../../../common/Loading/Loading';
 import getDate from '../../../utils/getDate';
-import { IPlaylist } from '../../Creator/HomePlay/HomePlay';
 import { IShuffledVideo } from '../User';
 
 interface IUserHome {

@@ -22,7 +22,6 @@ const Tabs: FC = ({}) => {
         const getVideos = async () => {
             try {
                 const videosIds = channelData[0].videosIds;
-                console.log(videosIds);
                 if (videosIds && videosIds?.length > 0) {
                     videosIds.map(async (el) => {
                         const docRef = await doc(DB, 'videos', el);
