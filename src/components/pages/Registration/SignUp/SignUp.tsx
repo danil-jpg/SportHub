@@ -67,7 +67,7 @@ const SignUp: FC = () => {
                         <div className='form__etc'>
                             Already have an account?
                             <span>
-                                <Link to={'../signIn'}>Sign in</Link>
+                                <Link to={'../'}>Sign in</Link>
                             </span>
                         </div>
                         <div className='form__terms'>

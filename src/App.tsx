@@ -8,6 +8,7 @@ import UserPlayer from './components/pages/User/UserPlayer';
 const Registration = React.lazy(() => import('./components/pages/Registration/Registration'));
 const Creator = React.lazy(() => import('./components/pages/Creator/Creator'));
 const User = React.lazy(() => import('./components/pages/User/User'));
+const AuthorizedUser = React.lazy(() => import('./components/common/RedirectComp/AuthorizedUser'));
 
 const App: FC = () => {
     const LinkList = () => {
@@ -25,11 +26,12 @@ const App: FC = () => {
     return (
         <Suspense fallback={<Loading />}>
             <Routes>
-                <Route element={<LinkList />} index />
-                <Route path='/registration/*' element={<Registration />} />
-                <Route path='/creator/*' element={<Creator />} />
-                <Route path='/user/*' element={<User />} />
-                <Route path='/video/:id' element={<UserPlayer />} />
+                <Route path='*' element={<Registration />} />
+                <Route element={<AuthorizedUser />}>
+                    <Route path='/creator/*' element={<Creator />} />
+                    <Route path='/user/*' element={<User />} />
+                    <Route path='/video/:id' element={<UserPlayer />} />
+                </Route>
             </Routes>
         </Suspense>
     );

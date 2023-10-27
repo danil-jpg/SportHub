@@ -19,19 +19,10 @@ const SignIn: FC = () => {
 
     const [email, setEmail] = useState<string>('' || selector.regData.email);
     const [password, setPassword] = useState<string>('' || selector.regData.password);
-    const [userType, setUserType] = useState<string>('');
 
     const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
-
-    // useEffect(() => {
-    //     dispatch(
-    //         setRegData({
-    //             playlists: [],
-    //         }),
-    //     );
-    // }, []);
 
     const onButtonClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();

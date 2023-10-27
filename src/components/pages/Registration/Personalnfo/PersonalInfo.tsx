@@ -1,6 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import pic from '../../../../assets/img/registration/pic.png';
-import picW from '../../../../assets/img/registration/pic.png?as=webp';
 import InputRadio from '../../../ui/Forms/InputRadio/InputRadio';
 import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import Button from '../../../ui/Button/Button';

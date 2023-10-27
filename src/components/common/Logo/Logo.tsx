@@ -4,7 +4,7 @@ import './Logo.scss';
 
 interface ILogo {
     isReg: boolean;
-    onClickHandler: () => void;
+    onClickHandler?: () => void;
 }
 
 const Logo: FC<ILogo> = ({ isReg = false, onClickHandler }) => {
