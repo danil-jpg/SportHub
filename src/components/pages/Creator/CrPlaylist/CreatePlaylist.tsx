@@ -6,7 +6,6 @@ import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import SelectContainer from '../../../ui/Forms/SelectContainer/SelectContainer';
 import Input from '../../../ui/Forms/Input/Input';
 import { useAppSelector } from '../../../hooks/redux';
-import { IVideo } from '../Home/CrHome';
 import Video from '../Video/Video';
 import getDate from '../../../utils/getDate';
 import { v1 } from 'uuid';
@@ -16,7 +15,6 @@ import { updateDoc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
 import { doc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../../../common/Loading/Loading';
 
 const CreatePlaylist: FC = () => {
     const [burgerMenu, setBurgerMenu] = useState<boolean>(false);

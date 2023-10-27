@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../../ui/Button/Button';
 import IconRenderer from '../../../ui/IconRenderer/IconRenderer';
 import '../CrHome.scss';
@@ -7,10 +7,9 @@ import Playlist from './Playlist/Playlist';
 import { DB } from '../../../../config/firebase-config';
 import { getDoc } from 'firebase/firestore';
 import { doc } from 'firebase/firestore';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { useAppSelector } from '../../../hooks/redux';
 import { IVideo } from '../Home/CrHome';
 import { v1 } from 'uuid';
-import { setRegData } from '../../../store/slices/registration';
 
 interface IPlaylist {
     title: string;

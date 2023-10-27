@@ -33,10 +33,6 @@ const CrHome: FC = () => {
 
     const [activeButtonArr, setActiveButtonArr] = useState<boolean[]>([true, false, false, false]);
 
-    // const selectorEmail = useAppSelector((state) => state.creatorSlice.creatorEmail.email);
-    // const selectorUsers = useAppSelector((state) => state.usersSlice.data);
-    // const [channelData, setChannelData] = useState(selectorUsers.filter((el) => el.email === selectorEmail));
-
     let videosIds: string[] = [];
 
     const dispatch = useAppDispatch();

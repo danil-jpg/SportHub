@@ -1,8 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import UserHome from './UserHome/UserHome';
 import Header from '../../common/Header/Header';
-import UserChannel from './UserChannel/UserChannel';
 import { IPlaylist } from '../Creator/HomePlay/HomePlay';
 import { IVideo } from '../Creator/Home/CrHome';
 import Loading from '../../common/Loading/Loading';
@@ -14,6 +12,9 @@ import { v1 } from 'uuid';
 import { doc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../config/firebase-config';
 import { setRegData } from '../../store/slices/registration';
+
+const UserHome = React.lazy(() => import('./UserHome/UserHome'));
+const UserChannel = React.lazy(() => import('./UserChannel/UserChannel'));
 
 interface IUserData {
     videos: IVideo[];

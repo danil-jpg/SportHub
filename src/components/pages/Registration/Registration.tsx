@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Route, Routes, Navigate, Outlet } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/redux';
 
 const SignUp = React.lazy(() => import('./SignUp/SignUp'));
 const SignIn = React.lazy(() => import('./SignIn/SignIn'));

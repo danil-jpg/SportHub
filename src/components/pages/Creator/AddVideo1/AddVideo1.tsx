@@ -10,7 +10,6 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { updateDoc } from 'firebase/firestore';
 import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import SelectContainer from '../../../ui/Forms/SelectContainer/SelectContainer';
-import pngPicW from '../../../../assets/img/addvideo/addvideo-white.png?as=webp';
 import swal from 'sweetalert';
 import { v1 } from 'uuid';
 import TextareaContainer from '../../../ui/Forms/TextareaContainer/TextareaContainer';

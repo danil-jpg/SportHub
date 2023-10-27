@@ -1,18 +1,16 @@
 import React, { FC } from 'react';
 import Header from '../../common/Header/Header';
 import { Routes, Route } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/redux';
-import AddVideo1 from './AddVideo1/AddVideo1';
-import CrHome from './Home/CrHome';
-import HomePlay from './HomePlay/HomePlay';
-import CreatePlaylist from './CrPlaylist/CreatePlaylist';
-import PlaylistPage from './PlaylistPage/PlaylistPage';
-import EditProfile from './EditProfile/EditProfile';
-import EditPlaylist from './EditPlaylist/EditPlaylist';
+
+const AddVideo1 = React.lazy(() => import('./AddVideo1/AddVideo1'));
+const CrHome = React.lazy(() => import('./Home/CrHome'));
+const HomePlay = React.lazy(() => import('./HomePlay/HomePlay'));
+const CreatePlaylist = React.lazy(() => import('./CrPlaylist/CreatePlaylist'));
+const PlaylistPage = React.lazy(() => import('./PlaylistPage/PlaylistPage'));
+const EditProfile = React.lazy(() => import('./EditProfile/EditProfile'));
+const EditPlaylist = React.lazy(() => import('./EditPlaylist/EditPlaylist'));
 
 const Creator: FC = () => {
-    // const CrHome = React.lazy(() => import('./Home/CrHome'));
-
     return (
         <>
             <Header></Header>

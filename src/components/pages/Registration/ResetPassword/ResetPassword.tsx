@@ -7,7 +7,7 @@ import InputContainer from '../../../ui/Forms/InputContainer/InputContainer';
 import Button from '../../../ui/Button/Button';
 import './ResetPassword.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../../../config/firebase-config';
 import swal from 'sweetalert';
 import { setRegData } from '../../../store/slices/registration';

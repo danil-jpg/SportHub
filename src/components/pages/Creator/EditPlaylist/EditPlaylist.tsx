@@ -17,7 +17,6 @@ import { updateDoc, getDoc } from 'firebase/firestore';
 import { DB } from '../../../../config/firebase-config';
 import { doc } from 'firebase/firestore';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { IPlaylist } from '../HomePlay/HomePlay';
 import Loading from '../../../common/Loading/Loading';
 
 const EditPlaylist: FC = () => {
