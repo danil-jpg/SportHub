@@ -1,28 +1,40 @@
 import * as React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 import Button from './Button';
+import { Description } from '@storybook/blocks';
 
 export default {
     title: 'UI/Buttons/Button',
     component: Button,
+    tags: ['autodocs'],
+    label: 'primary',
+    parametrs: {
+        docs: {
+            description: {
+                component: 'Another description, overriding the comments',
+            },
+        },
+    },
     argTypes: {
-        type: {
-            description: 'Тип кнопки',
-            options: ['def', 'unsubscribe'],
-            control: { type: 'radio' },
-        },
-        children: {
-            type: 'string',
-            name: 'children',
-        },
         className: {
             description: 'Имя класса стилей css',
         },
-        onClick: {
-            description: 'callback',
+        argTypes: { onClick: { action: 'clicked' } },
+        type: {
+            description: 'Тип кнопки',
+            options: ['nonDef', 'def'],
+            control: { type: 'radio' },
+        },
+        children: {
+            description: 'children description',
+
+            name: 'text',
+            // defaultValue: 'Button text', // does not display on preview
         },
     },
 };
 
-export const Primary: StoryFn = (args) => <Button {...args} />;
-Primary.args = {};
+export const Primary: StoryFn = (args) => <Button {...args}></Button>;
+Primary.args = {
+    children: 'testwelsk;j',
+};

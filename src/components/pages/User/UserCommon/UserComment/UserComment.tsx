@@ -27,6 +27,7 @@ const UserComment: FC<IUserComment> = ({ isOpen, setIsOpen }) => {
     const { id } = useParams();
 
     const onSendClickHandler = async () => {
+        setTextAreaValue('');
         try {
             const docRef = doc(DB, 'videos', id ? id : '');
 

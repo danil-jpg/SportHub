@@ -15,9 +15,6 @@ import { setRegData } from '../../store/slices/registration';
 import UserHome from './UserHome/UserHome';
 import UserChannel from './UserChannel/UserChannel';
 
-// const UserHome = React.lazy(() => import('./UserHome/UserHome'));
-// const UserChannel = React.lazy(() => import('./UserChannel/UserChannel'));
-
 interface IUserData {
     videos: IVideo[];
     viewLater?: IVideo[];
