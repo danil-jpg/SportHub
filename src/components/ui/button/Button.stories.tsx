@@ -1,25 +1,26 @@
 import * as React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
+import { Meta, StoryFn, StoryObj } from '@storybook/react';
 import Button from './Button';
-import { Description } from '@storybook/blocks';
 
-export default {
+const meta: Meta<typeof Button> = {
     title: 'UI/Buttons/Button',
     component: Button,
-    tags: ['autodocs'],
-    label: 'primary',
-    parametrs: {
-        docs: {
-            description: {
-                component: 'Another description, overriding the comments',
-            },
-        },
+};
+
+export default meta;
+
+type Story = StoryObj<typeof Button>;
+
+export const Primary: Story = {
+    args: {
+        className: 'test',
+        children: 'def111',
+        type: '',
     },
     argTypes: {
         className: {
             description: 'Имя класса стилей css',
         },
-        argTypes: { onClick: { action: 'clicked' } },
         type: {
             description: 'Тип кнопки',
             options: ['nonDef', 'def'],
@@ -27,14 +28,7 @@ export default {
         },
         children: {
             description: 'children description',
-
             name: 'text',
-            // defaultValue: 'Button text', // does not display on preview
         },
     },
-};
-
-export const Primary: StoryFn = (args) => <Button {...args}></Button>;
-Primary.args = {
-    children: 'testwelsk;j',
 };
