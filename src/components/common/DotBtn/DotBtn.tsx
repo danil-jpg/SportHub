@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import IconRenderer from '../../ui/IconRenderer/IconRenderer';
 import './DotBtn.scss';
 import { Link } from 'react-router-dom';
@@ -6,8 +6,8 @@ import { useSearchParams } from 'react-router-dom';
 
 interface IDotBtnMenu {
     menu: boolean;
-    onClickHandler: () => void;
-    onDeleteHandler: () => Promise<void>;
+    onClickHandler: Dispatch<SetStateAction<boolean>>;
+    onDeleteHandler?: () => Promise<void>;
 }
 
 const DotBtn: FC<IDotBtnMenu> = ({ menu, onClickHandler, onDeleteHandler }) => {
@@ -15,7 +15,7 @@ const DotBtn: FC<IDotBtnMenu> = ({ menu, onClickHandler, onDeleteHandler }) => {
     const index: string | null = searchParams.get('playlist-index');
 
     return (
-        <div className={`dotBtn__wr`} onClick={onClickHandler}>
+        <div className={`dotBtn__wr`} onClick={(e) => onClickHandler(e)}>
             <button className='dotBtn'>{menu ? <IconRenderer id='cross' /> : <IconRenderer id='dotsBig' />}</button>
             <ul className={`${menu ? 'active' : ''} dotBtn__menu`}>
                 <li className='dotBtn__li'>

@@ -5,14 +5,19 @@ import Select from './Select';
 export default {
     title: 'UI/Forms/Input/Select',
     component: Select,
-    argTypes: {
-        className: { type: 'string' },
-        arr: { type: 'Array' },
-        placeholder: {
-            type: 'string',
-        },
-    },
 };
 
-export const Primary: StoryFn = (args) => <Select placeholder='test' arr={['one', 'two', 'three']} {...args} />;
-Primary.args = {};
+interface Props {
+    placeholder: string;
+}
+
+const SelectWithHooks: React.FC<Props> = ({ placeholder }): JSX.Element => {
+    const [state, setState] = React.useState<string>('');
+
+    return <Select placeholder={placeholder} setValue={setState} value={state} arr={['one', 'two', 'three']} />;
+};
+
+export const Primary: StoryFn = (args) => <SelectWithHooks placeholder={args?.placeholder} />;
+Primary.args = {
+    placeholder: 'xxx',
+};

@@ -13,12 +13,7 @@ export default {
         value: {
             type: 'string',
         },
-        type: {
-            options: ['text', 'password'],
-            control: { type: 'radio' },
-        },
     },
 };
 
 export const Primary: StoryFn = (args) => <Input {...args} />;
-Primary.args = {};

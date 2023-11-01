@@ -16,5 +16,31 @@ export default {
     },
 };
 
-export const Primary: StoryFn = (args) => <InputRadio id={'test1'} text='text' checked={true} value='def' onChange={() => {}} {...args} />;
-Primary.args = {};
+const InputRadioWithHooks = () => {
+    const [type, setType] = React.useState<string>('User');
+
+    return (
+        <div style={{ display: 'flex', gap: '10px' }}>
+            <InputRadio
+                checked={type === 'User'}
+                id={'test1'}
+                text='text'
+                value='User'
+                onChange={(e) => {
+                    setType(e.target.value);
+                }}
+            />
+            <InputRadio
+                checked={type === 'Creator'}
+                id={'test2'}
+                text='text2'
+                value='Creator'
+                onChange={(e) => {
+                    setType(e.target.value);
+                }}
+            />
+        </div>
+    );
+};
+
+export const Primary: StoryFn = (args) => <InputRadioWithHooks />;

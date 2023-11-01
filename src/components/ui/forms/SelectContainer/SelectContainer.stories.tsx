@@ -5,17 +5,12 @@ import SelectContainer from './SelectContainer';
 export default {
     title: 'UI/Forms/Input/SelectContainer',
     component: SelectContainer,
-    argTypes: {
-        className: { type: 'string' },
-        arr: { type: 'Array' },
-        placeholder: {
-            type: 'string',
-        },
-        title: {
-            type: 'string',
-        },
-    },
 };
 
-export const Primary: StoryFn = (args) => <SelectContainer title='test' placeholder='test' arr={['one', 'two', 'three']} {...args} />;
-Primary.args = {};
+const SelectContainerWithHooks = (): JSX.Element => {
+    const [state, setState] = React.useState<string>('');
+
+    return <SelectContainer title='' setValue={setState} value={state} placeholder='test' arr={['one', 'two', 'three']} />;
+};
+
+export const Primary: StoryFn = () => <SelectContainerWithHooks />;

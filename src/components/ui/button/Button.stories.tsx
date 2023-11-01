@@ -5,6 +5,13 @@ import Button from './Button';
 const meta: Meta<typeof Button> = {
     title: 'UI/Buttons/Button',
     component: Button,
+    parameters: {
+        docs: {
+            description: {
+                component: 'Another description, overriding the comments',
+            },
+        },
+    },
 };
 
 export default meta;
@@ -22,7 +29,7 @@ export const Primary: Story = {
             description: 'Имя класса стилей css',
         },
         type: {
-            description: 'Тип кнопки',
+            description: 'Overwritten description',
             options: ['nonDef', 'def'],
             control: { type: 'radio' },
         },
