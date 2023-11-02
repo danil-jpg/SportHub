@@ -1,0 +1,206 @@
+.addvideo {
+    max-width: 920px;
+    margin: 0 auto;
+    margin-top: 33px;
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__text {
+        color: #fff;
+        font-size: 24px;
+        font-weight: 500;
+    }
+
+    &__btn {
+    }
+
+    &__dragAndDrop-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 100%;
+
+        flex-direction: column;
+        margin-top: 23px;
+        // padding: 127px 0;
+        position: relative;
+        transition: 0.3s;
+    }
+
+    &__drag-file-element {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 1rem;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+    }
+
+    &__img {
+        width: 51px;
+        height: 51px;
+        margin-bottom: 51px;
+    }
+
+    &__drag-text {
+        color: #fff;
+        font-size: 36px;
+        font-weight: 500;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        cursor: pointer;
+        text-align: center;
+        line-height: 114%;
+        border-radius: 16px;
+        background: #222;
+
+        padding: 127px 0 120px 0px;
+        width: 100%;
+        p {
+            width: 41%;
+        }
+        &.active {
+            opacity: 0.5;
+        }
+        .addvideo__btn-addvideo {
+            margin-top: 45px;
+        }
+    }
+    &__input {
+        display: none;
+    }
+    &__input-preview {
+        // display: none;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 1;
+        position: absolute;
+        &.active {
+            opacity: 0.5;
+        }
+    }
+
+    &__bottom {
+        margin-top: 32px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        &__right {
+            border-radius: 8px;
+            background: #653012;
+            width: 100%;
+            height: 250px;
+            padding: 68px 97px 0;
+            position: relative;
+            transition: 0.3s;
+            &.active {
+                background: #361502;
+            }
+        }
+        &__input {
+            margin-bottom: 32px;
+        }
+    }
+
+    &__right {
+        position: relative;
+        &_text {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 400;
+            text-align: center;
+            width: 71%;
+            margin: 0 auto;
+        }
+        &_descr {
+            color: #eee;
+            font-size: 12px;
+            font-weight: 400;
+            margin-top: 16px;
+            text-align: center;
+        }
+        &_img {
+            width: 38.308px;
+            height: 38.301px;
+            margin: 0 auto;
+            margin-bottom: 25px;
+        }
+    }
+    &__preview {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        top: 0;
+        left: 0;
+        position: absolute;
+    }
+
+    &__video {
+        height: 520px;
+        width: 100%;
+    }
+}
+
+.btn-innactive {
+    background: #777;
+    color: #bbb;
+}
+
+@media screen and (max-width: 996px) {
+    .addvideo__text {
+        font-size: 20px;
+    }
+    .addvideo {
+        padding: 0 15px;
+    }
+    .addvideo__top {
+        // display: none;
+    }
+    .addvideo__dragAndDrop-section {
+        background: none;
+    }
+
+    .addvideo__drag-text {
+        width: 95%;
+    }
+    .addvideo__bottom {
+        grid-template-columns: 1fr;
+    }
+    .addvideo__bottom__right {
+        margin-bottom: 50px;
+        padding: 50px 50px 0;
+    }
+    .addvideo__right_text {
+        width: 95%;
+    }
+    .addvideo__right_descr {
+        width: 95%;
+    }
+    .addvideo__drag-text {
+        background: none;
+        p {
+            width: 95%;
+        }
+
+        .addvideo__btn-addvideo {
+            display: none;
+        }
+    }
+    .addideo__video {
+        height: 200px;
+    }
+}

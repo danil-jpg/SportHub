@@ -1,21 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import './styles/index.scss';
 import { Provider } from 'react-redux';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
-
-// const root = document.getElementById('root');
-
-// ReactDOM.createRoot(root).render(
-//     <HashRouter>
-//         <div>hey</div>
-//     </HashRouter>
-// );
+import { PersistGate } from 'redux-persist/integration/react';
+import App from './App';
+import store, { persistor } from './components/store/store';
+import Loading from './components/common/Loading/Loading';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-    <HashRouter>
-        <div>hey</div>
-    </HashRouter>,
+    <Provider store={store}>
+        <PersistGate persistor={persistor} loading={<Loading />}>
+            <HashRouter>
+                <App />
+            </HashRouter>
+        </PersistGate>
+    </Provider>,
 );

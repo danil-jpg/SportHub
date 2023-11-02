@@ -1,0 +1,124 @@
+.banner {
+    background: grey;
+    width: 100%;
+    height: 480px;
+    display: grid;
+    margin-top: 24px;
+    border-radius: 15px;
+    grid-template-columns: 1fr 41%;
+    background-repeat: no-repeat;
+    // background-size: 100% 100%;
+    background-size: cover;
+    &__left {
+        padding-top: 133px;
+    }
+
+    &__center {
+        display: flex;
+        margin-top: 33px;
+        padding-left: 3px;
+    }
+    &_img {
+    }
+
+    &_avatar-wr {
+        display: flex;
+        align-items: center;
+    }
+
+    &__data {
+        display: flex;
+        margin-right: 29px;
+    }
+
+    &__inner-data-wr {
+        margin-left: 18px;
+        margin-top: 7px;
+
+        display: block;
+    }
+
+    &__data-num {
+        font-size: 18px;
+        font-weight: 700;
+    }
+    &__data-text {
+        font-size: 12px;
+        font-weight: 300;
+    }
+    &__subs-btn {
+        margin-top: 32px;
+    }
+
+    &_avatar {
+        &_img {
+            width: 64px;
+            border-radius: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            margin-right: 8px;
+        }
+        &_text {
+            font-size: 32px;
+            font-weight: 600;
+        }
+    }
+}
+
+@media screen and (max-width: 996px) {
+    .banner_avatar-wr {
+        display: block;
+    }
+    .banner {
+        grid-template-columns: 1fr 1fr;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .banner_avatar-wr {
+        display: block;
+    }
+    .banner {
+        grid-template-columns: 1fr;
+        justify-content: center;
+        height: 155.709px;
+        &_avatar_img {
+            display: block;
+            margin: 0 auto;
+        }
+        &_avatar_text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        &__empty {
+            display: none;
+        }
+        &__left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 120px;
+        }
+        &__center {
+            justify-content: space-around;
+            display: flex;
+            padding: 0;
+            border-radius: 8px;
+            background: var(--9, #222);
+            width: 100%;
+            margin-top: 15px;
+            width: 100%;
+        }
+        &__data {
+            width: fit-content;
+            margin: 0;
+        }
+        .button {
+            margin-top: 15px;
+        }
+    }
+}

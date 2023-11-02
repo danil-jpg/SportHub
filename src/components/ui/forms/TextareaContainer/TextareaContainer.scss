@@ -1,0 +1,22 @@
+.textarea {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 16px;
+    border-radius: 8px;
+    background: #222;
+    transition: 0.3s;
+    color: #999;
+    resize: none;
+    width: 100%;
+
+    &__text {
+        color: var(--3, #fff);
+        font-weight: 400;
+        margin-bottom: 4px;
+    }
+    &:focus {
+        color: #fff;
+    }
+}

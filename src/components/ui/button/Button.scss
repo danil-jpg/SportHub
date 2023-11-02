@@ -1,0 +1,21 @@
+.button {
+    padding: 11.5px 42.5px;
+    border-radius: 8px;
+    background: var(--light, #ad7955);
+    color: var(--3, #fff);
+    font-family: Uto;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    transition: 0.3s;
+    &:hover {
+        background: var(--dark, #ac4002);
+    }
+    &:active {
+        background: var(--dark, #4d2709);
+    }
+}
+
+.button_unsubscribe {
+    background: var(--dark, #653012);
+}

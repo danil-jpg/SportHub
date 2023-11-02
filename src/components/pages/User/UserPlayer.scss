@@ -1,0 +1,217 @@
+.player {
+    position: relative;
+
+    &__content-container {
+        max-width: 920px;
+        width: 100%;
+        margin: 0 auto;
+    }
+    &__top {
+        margin-top: 29px;
+        display: flex;
+        align-items: center;
+
+        &_btn {
+            margin-left: auto;
+        }
+    }
+
+    &__return-btn {
+        display: flex;
+        padding: 8px;
+        align-items: center;
+        border-radius: 8px;
+        background: #222;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    &__author {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        margin-left: 24px;
+
+        &_img {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            margin-right: 9px;
+        }
+
+        &_texts {
+        }
+
+        &_title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        &_text {
+            color: #999;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 14px;
+        }
+    }
+
+    &__player {
+        width: 920px;
+        height: 519.911px;
+        flex-shrink: 0;
+        display: block;
+        background-color: #222;
+        margin-top: 15px;
+    }
+    &__info {
+        margin-top: 21px;
+    }
+
+    &__title {
+        color: #fff;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 20px; /* 100% */
+    }
+
+    &__info-center {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 22px;
+    }
+
+    &__icons-section {
+        display: flex;
+        gap: 16px;
+    }
+
+    &__reaction-wr {
+        display: flex;
+        border-radius: 8px;
+        background: var(--9, #222);
+        position: relative;
+        &::after {
+            content: '';
+            background: #323232;
+            height: 28px;
+            width: 1px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &__like-wr {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 8px;
+        background: var(--9, #222);
+        padding: 8px 20px;
+        width: 100%;
+        &.active {
+            // background-color: red;
+            svg {
+                fill: #ad7955;
+            }
+        }
+    }
+
+    &__reaction {
+        &_text {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+        }
+    }
+
+    &__icon-comment {
+        border-radius: 8px;
+        background: #222;
+        display: flex;
+        height: 44px;
+        padding: 8px 16px;
+        align-items: center;
+        gap: 8px;
+        &.active {
+            svg {
+                stroke: #ad7955;
+            }
+        }
+    }
+
+    &__num-info {
+        gap: 16px;
+        display: flex;
+        align-items: center;
+        &_text {
+            color: #bbb;
+            font-size: 16px;
+            font-weight: 300;
+        }
+    }
+    &__descr {
+        color: #eee;
+        font-size: 14px;
+        font-weight: 400;
+        margin-top: 18px;
+        margin-bottom: 32px;
+    }
+    &__another-videos {
+        max-width: 1440px;
+        width: 100%;
+        margin: 0 auto;
+        // display: none;
+    }
+    .banner__subs-btn {
+        // margin: 0;\
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 996px) {
+    .player {
+        padding: 0 16px;
+        &__player {
+            height: auto;
+            width: 98%;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .player {
+        padding: 0 16px;
+        &__top {
+            display: block;
+        }
+        &__return-btn {
+            display: none;
+        }
+        &__player {
+            height: auto;
+            width: 98%;
+        }
+        &__info-center {
+            display: block;
+        }
+        &__author {
+            margin-bottom: 15px;
+            margin-left: 0;
+        }
+        &__num-info {
+            margin: 10px 0;
+        }
+        .creator__video {
+            width: 100%;
+        }
+    }
+    .banner__subs-btn {
+        width: 100%;
+        display: block;
+    }
+}

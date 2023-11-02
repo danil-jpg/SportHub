@@ -1,7 +1,5 @@
 const path = require('path')
-const CssMin = require('css-minimizer-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 let mode = 'development';
@@ -25,7 +23,7 @@ module.exports = {
     historyApiFallback: true
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.tsx', '.ts', '.js', '.jsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -115,7 +113,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         exclude: /\.module\.scss$/,
         use: [
           'style-loader',
@@ -125,7 +123,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.m?jsx?$/,
+        test: /\.m?jsx?|tsx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',

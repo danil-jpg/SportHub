@@ -1,0 +1,32 @@
+@import './_vars.scss';
+@import './fonts.scss';
+@import './reset.scss';
+
+.registration-container {
+    // padding: 0 48px 0 9.1%;
+    // max-width: 1234px;
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 0px 0 11%;
+
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 1200px) {
+    .registration-container {
+        padding: 25px;
+        margin: 0 auto;
+        .couch {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .registration-container {
+        padding: 0;
+    }
+}

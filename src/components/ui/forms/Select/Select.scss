@@ -1,0 +1,39 @@
+.select {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 16px;
+    border-radius: 8px;
+    background: rgba(34, 34, 34, 1);
+    transition: 0.3s;
+    color: #fff;
+    position: relative;
+    // width: 430px;
+    width: 100%;
+    cursor: pointer;
+
+    &__title__wr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &:focus {
+        color: #fff;
+    }
+    svg {
+        width: 23px;
+        height: 9px;
+    }
+
+    &__li {
+        cursor: pointer;
+        margin: 15px 0;
+    }
+}
+
+.select__title_wr {
+}
+.select__title {
+}
