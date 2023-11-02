@@ -100,14 +100,18 @@ const Header: FC<IHeader> = ({ mobChildren }) => {
                             <p className='profile__text'>Profile</p>
                             {profileState ? (
                                 <div className='profile__popup'>
-                                    <div className='profile__edit' onClick={profileEditHandler}>
-                                        <IconRenderer id='pencil' />
-                                        <p className='profile__edit_text'>Edit profile</p>
-                                    </div>
-                                    <div className='profile__edit' onClick={profileExitHandler}>
-                                        <IconRenderer id='exit' />
-                                        <p className='profile__edit_text'>Log out</p>
-                                    </div>
+                                    <a>
+                                        <div className='profile__edit' onClick={profileEditHandler}>
+                                            <IconRenderer id='pencil' />
+                                            <p className='profile__edit_text'>Edit profile</p>
+                                        </div>
+                                    </a>
+                                    <a>
+                                        <div className='profile__edit' onClick={profileExitHandler}>
+                                            <IconRenderer id='exit' />
+                                            <p className='profile__edit_text'>Log out</p>
+                                        </div>
+                                    </a>
                                 </div>
                             ) : (
                                 ''

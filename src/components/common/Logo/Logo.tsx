@@ -9,10 +9,12 @@ interface ILogo {
 
 const Logo: FC<ILogo> = ({ isReg = false, onClickHandler }) => {
     return (
-        <div className='logo-wr' onClick={onClickHandler}>
-            <IconRenderer id='heart' className='heart' />
-            <p className={`${isReg ? 'logo_text_reg logo_text' : 'logo_text'}`}>sporthub</p>
-        </div>
+        <a>
+            <div className='logo-wr' onClick={onClickHandler}>
+                <IconRenderer id='heart' className='heart' />
+                <p className={`${isReg ? 'logo_text_reg logo_text' : 'logo_text'}`}>sporthub</p>
+            </div>
+        </a>
     );
 };
 

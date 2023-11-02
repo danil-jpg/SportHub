@@ -37,7 +37,7 @@ const UserComment: FC<IUserComment> = ({ isOpen, setIsOpen }) => {
                 comment: textAreaValue,
             };
 
-            if (currVideoDataSelector?.comments?.length && currVideoDataSelector?.comments?.length > 0) {
+            if (currVideoDataSelector?.comments?.length && currVideoDataSelector?.comments?.length > 0 && textAreaValue) {
                 await updateDoc(docRef, {
                     comments: [...currVideoDataSelector?.comments, newComment],
                 });
@@ -47,7 +47,7 @@ const UserComment: FC<IUserComment> = ({ isOpen, setIsOpen }) => {
                         videoObj: { ...currVideoDataSelector, comments: [...currVideoDataSelector?.comments, newComment] },
                     }),
                 );
-            } else {
+            } else if (textAreaValue) {
                 await updateDoc(docRef, {
                     comments: [newComment],
                 });
